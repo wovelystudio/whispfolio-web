@@ -14,10 +14,11 @@ export default function Navbar() {
   }, []);
 
   const links = [
-    { label: "Explore", href: "#explore" },
-    { label: "Features", href: "#features" },
-    { label: "Pricing", href: "#pricing" },
+    { label: "Explore", href: "/#explore" },
+    { label: "Features", href: "/#features" },
+    { label: "Pricing", href: "/#pricing" },
     { label: "About", href: "/about" },
+    { label: "Explore Projects", href: "/feed", special: true },
   ];
 
   return (
@@ -28,10 +29,10 @@ export default function Navbar() {
         left: 0,
         right: 0,
         zIndex: 50,
-        transition: "all 0.2s",
+        transition: "all 0.3s ease",
         background: scrolled ? "rgba(255,255,255,0.95)" : "transparent",
-        backdropFilter: scrolled ? "blur(12px)" : "none",
-        borderBottom: scrolled ? "1px solid #E2E8F0" : "none",
+        backdropFilter: scrolled ? "blur(16px)" : "none",
+        borderBottom: scrolled ? "1px solid #E2E8F0" : "1px solid transparent",
       }}
     >
       <div
@@ -51,7 +52,7 @@ export default function Navbar() {
             style={{
               width: 32,
               height: 32,
-              background: "#2563EB",
+              background: "var(--purple-wisp)",
               borderRadius: 8,
               display: "flex",
               alignItems: "center",
@@ -86,18 +87,27 @@ export default function Navbar() {
                 padding: "8px 16px",
                 borderRadius: 8,
                 fontSize: 14,
-                fontWeight: 500,
-                color: "#475569",
+                fontWeight: l.special ? 600 : 500,
+                color: l.special ? "var(--purple-wisp)" : "#475569",
+                background: l.special ? "var(--purple-soft)" : "transparent",
                 textDecoration: "none",
-                transition: "all 0.15s",
+                transition: "all 0.2s ease",
               }}
               onMouseEnter={(e) => {
-                (e.target as HTMLElement).style.background = "#F1F5F9";
-                (e.target as HTMLElement).style.color = "#0F172A";
+                if (!l.special) {
+                  (e.target as HTMLElement).style.background = "#F1F5F9";
+                  (e.target as HTMLElement).style.color = "#0F172A";
+                } else {
+                  (e.target as HTMLElement).style.background = "rgba(124, 58, 237, 0.15)";
+                }
               }}
               onMouseLeave={(e) => {
-                (e.target as HTMLElement).style.background = "transparent";
-                (e.target as HTMLElement).style.color = "#475569";
+                if (!l.special) {
+                  (e.target as HTMLElement).style.background = "transparent";
+                  (e.target as HTMLElement).style.color = "#475569";
+                } else {
+                  (e.target as HTMLElement).style.background = "var(--purple-soft)";
+                }
               }}
             >
               {l.label}
@@ -113,30 +123,29 @@ export default function Navbar() {
               padding: "8px 16px",
               fontSize: 14,
               fontWeight: 600,
-              color: "#2563EB",
+              color: "#475569",
               textDecoration: "none",
               borderRadius: 8,
-              transition: "background 0.15s",
+              transition: "all 0.2s ease",
             }}
-            onMouseEnter={(e) => ((e.target as HTMLElement).style.background = "#EFF6FF")}
-            onMouseLeave={(e) => ((e.target as HTMLElement).style.background = "transparent")}
+            onMouseEnter={(e) => {
+              (e.target as HTMLElement).style.background = "#F1F5F9";
+              (e.target as HTMLElement).style.color = "#0F172A";
+            }}
+            onMouseLeave={(e) => {
+              (e.target as HTMLElement).style.background = "transparent";
+              (e.target as HTMLElement).style.color = "#475569";
+            }}
           >
             Sign in
           </Link>
           <Link
             href="/auth/signup"
+            className="btn-primary"
             style={{
               padding: "9px 20px",
-              fontSize: 14,
-              fontWeight: 600,
-              color: "white",
-              background: "#2563EB",
-              borderRadius: 8,
               textDecoration: "none",
-              transition: "background 0.15s",
             }}
-            onMouseEnter={(e) => ((e.target as HTMLElement).style.background = "#1D4ED8")}
-            onMouseLeave={(e) => ((e.target as HTMLElement).style.background = "#2563EB")}
           >
             Get started
           </Link>
@@ -166,6 +175,7 @@ export default function Navbar() {
             background: "white",
             borderTop: "1px solid #E2E8F0",
             padding: "12px 24px 20px",
+            animation: "slideup 0.3s ease forwards"
           }}
         >
           {links.map((l) => (
@@ -177,8 +187,8 @@ export default function Navbar() {
                 display: "block",
                 padding: "12px 0",
                 fontSize: 15,
-                fontWeight: 500,
-                color: "#334155",
+                fontWeight: l.special ? 600 : 500,
+                color: l.special ? "var(--purple-wisp)" : "#334155",
                 textDecoration: "none",
                 borderBottom: "1px solid #F1F5F9",
               }}
@@ -187,10 +197,10 @@ export default function Navbar() {
             </Link>
           ))}
           <div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 16 }}>
-            <Link href="/auth/signin" style={{ textAlign: "center", padding: "10px", fontSize: 14, fontWeight: 600, color: "#2563EB", textDecoration: "none", border: "1.5px solid #2563EB", borderRadius: 8 }}>
+            <Link href="/auth/signin" style={{ textAlign: "center", padding: "10px", fontSize: 14, fontWeight: 600, color: "#475569", textDecoration: "none", border: "1.5px solid #E2E8F0", borderRadius: 8 }}>
               Sign in
             </Link>
-            <Link href="/auth/signup" style={{ textAlign: "center", padding: "10px", fontSize: 14, fontWeight: 600, color: "white", background: "#2563EB", textDecoration: "none", borderRadius: 8 }}>
+            <Link href="/auth/signup" className="btn-primary" style={{ textAlign: "center", textDecoration: "none" }}>
               Get started
             </Link>
           </div>
