@@ -33,7 +33,7 @@ export default function AdminUsersPage() {
   }
 
   return (
-    <div style={{ padding: "32px 36px" }}>
+    <div style={{ padding: "32px 36px", color: "white" }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 24, flexWrap: "wrap", gap: 12 }}>
         <div>
           <h1 style={{ fontFamily: "Sora, sans-serif", fontWeight: 800, fontSize: 22, color: "#0F172A", letterSpacing: "-0.02em", marginBottom: 4 }}>Users</h1>
@@ -50,7 +50,7 @@ export default function AdminUsersPage() {
         </div>
       </div>
 
-      <div style={{ background: "white", border: "1px solid #E2E8F0", borderRadius: 14, overflow: "hidden" }}>
+      <div style={{ background: "#1E293B", border: "1px solid #334155", borderRadius: 14, overflow: "hidden" }}>
         <table className="data-table" style={{ width: "100%", borderCollapse: "collapse" }}>
           <thead>
             <tr style={{ background: "#F8FAFF" }}>

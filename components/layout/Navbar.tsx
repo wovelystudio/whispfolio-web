@@ -1,114 +1,60 @@
 "use client";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Menu, X } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { Menu, X, ArrowRight } from "lucide-react";
+
+const LINKS = [
+  { label: "Explore Projects", href: "/explore" },
+  { label: "Features", href: "/#features" },
+  { label: "Pricing", href: "/#pricing" },
+  { label: "About", href: "/about" },
+];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 16);
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
+    const fn = () => setScrolled(window.scrollY > 24);
+    window.addEventListener("scroll", fn, { passive: true });
+    return () => window.removeEventListener("scroll", fn);
   }, []);
 
-  const links = [
-    { label: "Explore", href: "/#explore" },
-    { label: "Features", href: "/#features" },
-    { label: "Pricing", href: "/#pricing" },
-    { label: "About", href: "/about" },
-    { label: "Explore Projects", href: "/feed", special: true },
-  ];
-
   return (
-    <header
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 50,
-        transition: "all 0.3s ease",
-        background: scrolled ? "rgba(255,255,255,0.95)" : "transparent",
-        backdropFilter: scrolled ? "blur(16px)" : "none",
-        borderBottom: scrolled ? "1px solid #E2E8F0" : "1px solid transparent",
-      }}
-    >
-      <div
-        style={{
-          maxWidth: 1200,
-          margin: "0 auto",
-          padding: "0 24px",
-          height: 64,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-      >
+    <header style={{
+      position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
+      transition: "all 0.25s cubic-bezier(0.16,1,0.3,1)",
+      background: scrolled ? "rgba(255,255,255,0.94)" : "transparent",
+      backdropFilter: scrolled ? "blur(16px)" : "none",
+      borderBottom: scrolled ? "1px solid #E2E8F0" : "none",
+    }}>
+      <div style={{ maxWidth: 1160, margin: "0 auto", padding: "0 24px", height: 66, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+
         {/* Logo */}
-        <Link href="/" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }}>
-          <div
-            style={{
-              width: 32,
-              height: 32,
-              background: "var(--purple-wisp)",
-              borderRadius: 8,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-              <path d="M3 9C3 5.686 5.686 3 9 3s6 2.686 6 6-2.686 6-6 6S3 12.314 3 9z" stroke="white" strokeWidth="1.5"/>
-              <path d="M9 6v6M6 9h6" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
+        <Link href="/" style={{ display: "flex", alignItems: "center", gap: 9, textDecoration: "none", flexShrink: 0 }}>
+          <div style={{ width: 34, height: 34, background: "linear-gradient(135deg, #2563EB, #7C3AED)", borderRadius: 9, display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 2px 8px rgba(37,99,235,0.3)" }}>
+            <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
+              <circle cx="10" cy="10" r="3.5" fill="white" opacity="0.9"/>
+              <circle cx="10" cy="10" r="6" stroke="white" strokeWidth="1.2" strokeDasharray="2 2" opacity="0.5"/>
+              <circle cx="10" cy="4" r="1.5" fill="white" opacity="0.7"/>
+              <circle cx="16" cy="13" r="1" fill="white" opacity="0.5"/>
+              <circle cx="4" cy="13" r="1.2" fill="white" opacity="0.6"/>
             </svg>
           </div>
-          <span
-            style={{
-              fontFamily: "Sora, sans-serif",
-              fontWeight: 700,
-              fontSize: 18,
-              color: "#0F172A",
-              letterSpacing: "-0.02em",
-            }}
-          >
+          <span style={{ fontFamily: "Sora, sans-serif", fontWeight: 800, fontSize: 18, color: "#0F172A", letterSpacing: "-0.03em" }}>
             Wispfolio
           </span>
         </Link>
 
-        {/* Desktop Nav */}
-        <nav style={{ display: "flex", alignItems: "center", gap: 4 }} className="hidden-mobile">
-          {links.map((l) => (
+        {/* Desktop nav */}
+        <nav style={{ display: "flex", alignItems: "center", gap: 2 }} className="hide-mobile">
+          {LINKS.map((l) => (
             <Link
               key={l.label}
               href={l.href}
-              style={{
-                padding: "8px 16px",
-                borderRadius: 8,
-                fontSize: 14,
-                fontWeight: l.special ? 600 : 500,
-                color: l.special ? "var(--purple-wisp)" : "#475569",
-                background: l.special ? "var(--purple-soft)" : "transparent",
-                textDecoration: "none",
-                transition: "all 0.2s ease",
-              }}
-              onMouseEnter={(e) => {
-                if (!l.special) {
-                  (e.target as HTMLElement).style.background = "#F1F5F9";
-                  (e.target as HTMLElement).style.color = "#0F172A";
-                } else {
-                  (e.target as HTMLElement).style.background = "rgba(124, 58, 237, 0.15)";
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (!l.special) {
-                  (e.target as HTMLElement).style.background = "transparent";
-                  (e.target as HTMLElement).style.color = "#475569";
-                } else {
-                  (e.target as HTMLElement).style.background = "var(--purple-soft)";
-                }
-              }}
+              className={`nav-link ${pathname === l.href ? "active" : ""}`}
             >
               {l.label}
             </Link>
@@ -116,101 +62,44 @@ export default function Navbar() {
         </nav>
 
         {/* CTA */}
-        <div style={{ display: "flex", alignItems: "center", gap: 8 }} className="hidden-mobile">
-          <Link
-            href="/auth/signin"
-            style={{
-              padding: "8px 16px",
-              fontSize: 14,
-              fontWeight: 600,
-              color: "#475569",
-              textDecoration: "none",
-              borderRadius: 8,
-              transition: "all 0.2s ease",
-            }}
-            onMouseEnter={(e) => {
-              (e.target as HTMLElement).style.background = "#F1F5F9";
-              (e.target as HTMLElement).style.color = "#0F172A";
-            }}
-            onMouseLeave={(e) => {
-              (e.target as HTMLElement).style.background = "transparent";
-              (e.target as HTMLElement).style.color = "#475569";
-            }}
-          >
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }} className="hide-mobile">
+          <Link href="/auth/signin" style={{ padding: "8px 16px", fontSize: 14, fontWeight: 600, color: "#334155", textDecoration: "none", borderRadius: 8, transition: "color 0.15s" }}
+            onMouseEnter={e => (e.currentTarget.style.color = "#2563EB")}
+            onMouseLeave={e => (e.currentTarget.style.color = "#334155")}>
             Sign in
           </Link>
-          <Link
-            href="/auth/signup"
-            className="btn-primary"
-            style={{
-              padding: "9px 20px",
-              textDecoration: "none",
-            }}
-          >
-            Get started
+          <Link href="/auth/signup" className="btn-primary btn-sm" style={{ gap: 6 }}>
+            Get started <ArrowRight size={14} />
           </Link>
         </div>
 
-        {/* Mobile hamburger */}
-        <button
-          onClick={() => setMobileOpen(!mobileOpen)}
-          style={{
-            display: "none",
-            background: "none",
-            border: "none",
-            cursor: "pointer",
-            padding: 4,
-            color: "#0F172A",
-          }}
-          className="show-mobile"
-        >
+        {/* Mobile toggle */}
+        <button onClick={() => setMobileOpen(!mobileOpen)} className="show-mobile"
+          style={{ background: "none", border: "none", cursor: "pointer", padding: 6, color: "#0F172A", display: "none" }}>
           {mobileOpen ? <X size={22} /> : <Menu size={22} />}
         </button>
       </div>
 
-      {/* Mobile menu */}
+      {/* Mobile drawer */}
       {mobileOpen && (
-        <div
-          style={{
-            background: "white",
-            borderTop: "1px solid #E2E8F0",
-            padding: "12px 24px 20px",
-            animation: "slideup 0.3s ease forwards"
-          }}
-        >
-          {links.map((l) => (
-            <Link
-              key={l.label}
-              href={l.href}
-              onClick={() => setMobileOpen(false)}
-              style={{
-                display: "block",
-                padding: "12px 0",
-                fontSize: 15,
-                fontWeight: l.special ? 600 : 500,
-                color: l.special ? "var(--purple-wisp)" : "#334155",
-                textDecoration: "none",
-                borderBottom: "1px solid #F1F5F9",
-              }}
-            >
+        <div style={{ background: "white", borderTop: "1px solid #E2E8F0", padding: "16px 24px 24px" }}>
+          {LINKS.map((l, i) => (
+            <Link key={l.label} href={l.href} onClick={() => setMobileOpen(false)}
+              style={{ display: "block", padding: "13px 0", fontSize: 15, fontWeight: 500, color: "#334155", textDecoration: "none", borderBottom: i < LINKS.length - 1 ? "1px solid #F1F5F9" : "none" }}>
               {l.label}
             </Link>
           ))}
-          <div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 16 }}>
-            <Link href="/auth/signin" style={{ textAlign: "center", padding: "10px", fontSize: 14, fontWeight: 600, color: "#475569", textDecoration: "none", border: "1.5px solid #E2E8F0", borderRadius: 8 }}>
-              Sign in
-            </Link>
-            <Link href="/auth/signup" className="btn-primary" style={{ textAlign: "center", textDecoration: "none" }}>
-              Get started
-            </Link>
+          <div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 20 }}>
+            <Link href="/auth/signin" style={{ textAlign: "center", padding: "11px", fontSize: 14, fontWeight: 600, color: "#2563EB", border: "1.5px solid #BFDBFE", borderRadius: 9, textDecoration: "none" }}>Sign in</Link>
+            <Link href="/auth/signup" style={{ textAlign: "center", padding: "11px", fontSize: 14, fontWeight: 700, color: "white", background: "#2563EB", borderRadius: 9, textDecoration: "none" }}>Get started</Link>
           </div>
         </div>
       )}
 
       <style>{`
         @media (max-width: 768px) {
-          .hidden-mobile { display: none !important; }
-          .show-mobile { display: block !important; }
+          .hide-mobile { display: none !important; }
+          .show-mobile { display: flex !important; }
         }
       `}</style>
     </header>

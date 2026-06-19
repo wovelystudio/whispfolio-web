@@ -2,126 +2,194 @@
 import Link from "next/link";
 import Navbar from "@/components/layout/Navbar";
 import {
-  Lightbulb, TrendingUp, Share2, BookOpen, CheckSquare,
-  HardDrive, Image as ImageIcon, Globe, Star, Zap, Users, ArrowRight, Check, Sparkles
+  Lightbulb, TrendingUp, CheckSquare, HardDrive, Image, Globe,
+  ArrowRight, Check, Sparkles, Layers, BookOpen, Star, Users, Zap,
+  Play
 } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 
-function WispOrb() {
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+/* ─── Mouse-parallax Wisp scene ─── */
+function WispScene() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [mouse, setMouse] = useState({ x: 0.5, y: 0.5 });
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => { setMounted(true); }, []);
+
+  const handleMouse = useCallback((e: MouseEvent) => {
+    if (!containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    setMouse({
+      x: (e.clientX - rect.left) / rect.width,
+      y: (e.clientY - rect.top) / rect.height,
+    });
+  }, []);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    el.addEventListener("mousemove", handleMouse);
+    return () => el.removeEventListener("mousemove", handleMouse);
+  }, [handleMouse]);
+
+  const dx = (mouse.x - 0.5) * 40;
+  const dy = (mouse.y - 0.5) * 30;
+
+  const STAGES = [
+    { label: "Inspiration Hub", icon: "✦", color: "#FEF9C3", tc: "#92400E", bc: "#F59E0B", y: 0 },
+    { label: "Progress Tracker", icon: "◈", color: "#DBEAFE", tc: "#1D4ED8", bc: "#2563EB", y: 1 },
+    { label: "Asset Library", icon: "◆", color: "#EDE9FE", tc: "#6D28D9", bc: "#7C3AED", y: 2 },
+    { label: "Proof Wall", icon: "◉", color: "#FFE4E6", tc: "#9F1239", bc: "#E11D48", y: 3 },
+    { label: "Public Launch", icon: "◎", color: "#DCFCE7", tc: "#166534", bc: "#16A34A", y: 4 },
+  ];
 
   return (
-    <div 
-      style={{ position: "relative", width: 400, height: 400, display: "flex", alignItems: "center", justifyContent: "center" }}
-      onMouseMove={(e) => {
-        const rect = e.currentTarget.getBoundingClientRect();
-        setMousePos({
-          x: (e.clientX - rect.left - 200) / 25,
-          y: (e.clientY - rect.top - 200) / 25
-        });
-      }}
-      onMouseLeave={() => setMousePos({ x: 0, y: 0 })}
-    >
-      {/* Background glow */}
-      <div style={{ position: "absolute", width: 280, height: 280, borderRadius: "50%", background: "radial-gradient(circle, var(--purple-wisp) 0%, transparent 70%)", opacity: 0.15, filter: "blur(40px)", transform: `translate(${mousePos.x * 2}px, ${mousePos.y * 2}px)`, transition: "transform 0.2s ease-out" }} className="animate-wisp-glow" />
-      
-      {/* Center Orb */}
-      <div style={{ position: "relative", zIndex: 3, width: 120, height: 120, borderRadius: "50%", background: "linear-gradient(135deg, #DBEAFE 0%, var(--purple-soft) 100%)", boxShadow: "0 0 40px var(--purple-glow), inset 0 0 20px white", display: "flex", alignItems: "center", justifyContent: "center", transform: `translate(${mousePos.x}px, ${mousePos.y}px)`, transition: "transform 0.1s ease-out" }} className="animate-float">
-        <Sparkles size={40} color="var(--purple-wisp)" strokeWidth={1.5} />
-      </div>
+    <div ref={containerRef} style={{ position: "relative", width: "100%", height: 520, display: "flex", alignItems: "center", justifyContent: "center", cursor: "none" }}>
+      {/* Wisp glows — parallax */}
+      {mounted && <>
+        <div className="wisp-orb animate-wisp" style={{
+          width: 260, height: 260, background: "#2563EB22",
+          top: `calc(50% - 130px + ${dy * 0.4}px)`,
+          left: `calc(50% - 130px + ${dx * 0.4}px)`,
+          zIndex: 0,
+        }} />
+        <div className="wisp-orb animate-wisp2" style={{
+          width: 200, height: 200, background: "#7C3AED18",
+          top: `calc(30% + ${dy * 0.7}px)`,
+          right: `calc(15% - ${dx * 0.6}px)`,
+          zIndex: 0,
+        }} />
+        <div className="wisp-orb" style={{
+          width: 120, height: 120, background: "#DBEAFE60",
+          bottom: "15%",
+          left: `calc(10% + ${dx * 0.3}px)`,
+          zIndex: 0,
+          animation: "wispGlow 4s ease-in-out infinite",
+        }} />
+      </>}
 
-      {/* Orbit trails */}
-      {[
-        { label: "Find Your Spark", color: "rgba(254, 249, 195, 0.4)", tc: "#CA8A04", delay: "0s", top: "15%", left: "15%", rot: -10 },
-        { label: "Shape the Journey", color: "rgba(220, 252, 231, 0.4)", tc: "#16A34A", delay: "2s", top: "70%", left: "10%", rot: 5 },
-        { label: "Let the World Watch", color: "rgba(219, 234, 254, 0.4)", tc: "#2563EB", delay: "4s", top: "40%", left: "75%", rot: 15 },
-      ].map((t, i) => (
-        <div key={t.label} className="animate-trail" style={{ position: "absolute", top: t.top, left: t.left, animationDelay: t.delay, transform: `translate(${mousePos.x * (i % 2 === 0 ? -1.5 : 2)}px, ${mousePos.y * (i % 2 === 0 ? -1.5 : 2)}px) rotate(${t.rot}deg)`, transition: "transform 0.3s ease-out", zIndex: 4 }}>
-          <div style={{ background: "rgba(255,255,255,0.9)", backdropFilter: "blur(8px)", border: "1px solid #E2E8F0", padding: "10px 16px", borderRadius: 12, boxShadow: `0 8px 24px rgba(0,0,0,0.06), 0 0 20px ${t.color}`, display: "flex", alignItems: "center", gap: 8 }}>
-            <div style={{ width: 8, height: 8, borderRadius: "50%", background: t.tc, boxShadow: `0 0 8px ${t.tc}` }} />
-            <span style={{ fontSize: 13, fontWeight: 600, color: "#0F172A", whiteSpace: "nowrap" }}>{t.label}</span>
+      {/* Vertical journey line */}
+      <div style={{ position: "absolute", left: "50%", top: 40, bottom: 40, width: 2, background: "linear-gradient(180deg, transparent, #BFDBFE 20%, #C4B5FD 80%, transparent)", transform: "translateX(-50%)", zIndex: 1 }} />
+
+      {/* Journey nodes */}
+      <div style={{ position: "relative", zIndex: 2, display: "flex", flexDirection: "column", gap: 0, width: "100%", maxWidth: 380 }}>
+        {STAGES.map((s, i) => {
+          const isLeft = i % 2 === 0;
+          const parallaxX = mounted ? (isLeft ? -dx * 0.15 : dx * 0.15) : 0;
+          const parallaxY = mounted ? -dy * 0.05 * (i + 1) : 0;
+          return (
+            <div key={s.label} style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: isLeft ? "flex-start" : "flex-end",
+              padding: "6px 0",
+              transform: `translate(${parallaxX}px, ${parallaxY}px)`,
+              transition: "transform 0.1s ease-out",
+            }}>
+              {/* Card left side */}
+              {isLeft && (
+                <div style={{
+                  background: "white",
+                  border: "1.5px solid #E2E8F0",
+                  borderRadius: 12,
+                  padding: "10px 14px",
+                  boxShadow: "0 4px 16px rgba(0,0,0,0.06)",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 10,
+                  maxWidth: 160,
+                  transition: "all 0.15s",
+                  animation: `fadeUp 0.6s ${i * 0.1 + 0.2}s both`,
+                }}>
+                  <div style={{ width: 30, height: 30, borderRadius: 8, background: s.color, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, flexShrink: 0 }}>{s.icon}</div>
+                  <span style={{ fontSize: 12, fontWeight: 600, color: "#0F172A" }}>{s.label}</span>
+                </div>
+              )}
+
+              {/* Center dot */}
+              <div style={{ flex: 1, display: "flex", justifyContent: "center", position: "relative" }}>
+                <div style={{ width: 14, height: 14, borderRadius: "50%", background: s.bc, border: "3px solid white", boxShadow: `0 0 0 3px ${s.color}, 0 2px 8px ${s.bc}44`, zIndex: 3, position: "relative" }}>
+                  <div style={{ position: "absolute", inset: -6, borderRadius: "50%", border: `1.5px solid ${s.bc}44`, animation: "pulseRing 2.5s ease-out infinite", animationDelay: `${i * 0.5}s` }} />
+                </div>
+              </div>
+
+              {/* Card right side */}
+              {!isLeft && (
+                <div style={{
+                  background: "white",
+                  border: "1.5px solid #E2E8F0",
+                  borderRadius: 12,
+                  padding: "10px 14px",
+                  boxShadow: "0 4px 16px rgba(0,0,0,0.06)",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 10,
+                  maxWidth: 160,
+                  animation: `fadeUp 0.6s ${i * 0.1 + 0.2}s both`,
+                }}>
+                  <div style={{ width: 30, height: 30, borderRadius: 8, background: s.color, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, flexShrink: 0 }}>{s.icon}</div>
+                  <span style={{ fontSize: 12, fontWeight: 600, color: "#0F172A" }}>{s.label}</span>
+                </div>
+              )}
+            </div>
+          );
+        })}
+
+        {/* Launch badge at bottom */}
+        <div style={{ display: "flex", justifyContent: "center", marginTop: 8 }}>
+          <div style={{ background: "linear-gradient(135deg, #2563EB, #7C3AED)", color: "white", padding: "8px 20px", borderRadius: 999, fontSize: 13, fontWeight: 700, display: "flex", alignItems: "center", gap: 6, boxShadow: "0 4px 20px rgba(37,99,235,0.35)", animation: "fadeUp 0.6s 0.7s both" }}>
+            <Sparkles size={13} /> Your story, live
           </div>
         </div>
-      ))}
+      </div>
+
+      {/* Floating mini-cards (parallax) */}
+      {mounted && (<>
+        <div style={{ position: "absolute", top: 60, right: "5%", transform: `translate(${-dx * 0.2}px, ${-dy * 0.2}px)`, transition: "transform 0.12s ease-out", zIndex: 4, animation: "fadeIn 0.8s 0.9s both" }}>
+          <div style={{ background: "white", border: "1px solid #E2E8F0", borderRadius: 10, padding: "8px 12px", boxShadow: "0 4px 14px rgba(0,0,0,0.08)", display: "flex", alignItems: "center", gap: 8 }}>
+            <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#16A34A" }} />
+            <span style={{ fontSize: 12, fontWeight: 600, color: "#0F172A" }}>12 new followers</span>
+          </div>
+        </div>
+        <div style={{ position: "absolute", bottom: 70, left: "4%", transform: `translate(${dx * 0.25}px, ${dy * 0.15}px)`, transition: "transform 0.12s ease-out", zIndex: 4, animation: "fadeIn 0.8s 1.1s both" }}>
+          <div style={{ background: "white", border: "1px solid #E2E8F0", borderRadius: 10, padding: "8px 12px", boxShadow: "0 4px 14px rgba(0,0,0,0.08)", display: "flex", alignItems: "center", gap: 8 }}>
+            <Star size={12} color="#F59E0B" fill="#F59E0B" />
+            <span style={{ fontSize: 12, fontWeight: 600, color: "#0F172A" }}>MVP shipped ✦</span>
+          </div>
+        </div>
+      </>)}
     </div>
   );
 }
 
+/* ─── Features ─── */
 const FEATURES = [
-  {
-    icon: Lightbulb,
-    color: "#FEF9C3",
-    iconColor: "#CA8A04",
-    title: "Find Your Spark",
-    desc: "Every great project starts with a flicker of inspiration. Save your references, designs, and ideas in a dedicated hub.",
-  },
-  {
-    icon: TrendingUp,
-    color: "#DCFCE7",
-    iconColor: "#16A34A",
-    title: "Shape the Journey",
-    desc: "Watch your idea take form. Visualize your growth, track milestones, and keep your momentum alive.",
-  },
-  {
-    icon: CheckSquare,
-    color: "#DBEAFE",
-    iconColor: "#2563EB",
-    title: "Break It Down",
-    desc: "Big dreams need actionable steps. Turn your inspiration into a clear, manageable checklist.",
-  },
-  {
-    icon: HardDrive,
-    color: "#F3E8FF",
-    iconColor: "#9333EA",
-    title: "Your Creative Vault",
-    desc: "All your assets, beautifully organized. Connect your favorite cloud storage to keep files where you need them.",
-  },
-  {
-    icon: ImageIcon,
-    color: "#FFE4E6",
-    iconColor: "#E11D48",
-    title: "The Proof Wall",
-    desc: "Document the messy middle. Save screenshots, code snippets, and tiny wins to look back on how far you've come.",
-  },
-  {
-    icon: Globe,
-    color: "#E0F2FE",
-    iconColor: "#0284C7",
-    title: "Let the World Watch",
-    desc: "Your journey deserves an audience. Share your progress publicly and build a community around your passion.",
-  },
+  { icon: Lightbulb, label: "Inspiration Hub", color: "#FEF9C3", ic: "#92400E", desc: "Collect references, ideas, links, and mood boards from anywhere on the web. Your creative vision, curated." },
+  { icon: TrendingUp, label: "Progress Tracker", color: "#DBEAFE", ic: "#1D4ED8", desc: "Watch your project grow. Timelines, milestones, and visual progress — the whole arc of your journey." },
+  { icon: CheckSquare, label: "Checklist", color: "#EDE9FE", ic: "#7C3AED", desc: "Break the work into tasks you can actually ship. Stay focused without losing the creative thread." },
+  { icon: HardDrive, label: "Asset Library", color: "#F3E8FF", ic: "#9333EA", desc: "Connect Google Drive or OneDrive. All your files, designs, and docs — one place, not five folders." },
+  { icon: Image, label: "Proof Wall", color: "#FFE4E6", ic: "#9F1239", desc: "Screenshots, updates, breakthroughs. Document the messy, real, beautiful process of building." },
+  { icon: Globe, label: "Public Share Page", color: "#DCFCE7", ic: "#166534", desc: "Your project's public face. Let the world follow your journey from idea to launch — and root for you." },
 ];
 
 const PRICING = [
   {
-    name: "Free",
-    price: "$0",
-    period: "forever",
-    desc: "Join the community and find inspiration.",
+    name: "Follower", price: "$0", period: "forever",
+    desc: "Discover and follow creators you love.",
     features: ["Follow up to 20 creators", "Personalized feed", "Like & comment on updates", "Basic profile"],
-    cta: "Get started free",
-    href: "/auth/signup",
-    highlight: false,
+    cta: "Start for free", href: "/auth/signup", highlight: false,
   },
   {
-    name: "Creator",
-    price: "$9",
-    period: "/month",
-    desc: "Everything you need to bring your idea to life.",
-    features: ["All Free features", "Project Passport (up to 5 projects)", "Inspiration Hub", "Progress Tracker + Checklist", "Asset Library (connect 1 cloud)", "Proof Wall", "Public Share Page"],
-    cta: "Start creating",
-    href: "/auth/signup?role=creator",
-    highlight: true,
+    name: "Creator", price: "$9", period: "/month",
+    desc: "Everything you need to build in public.",
+    features: ["All Follower features", "Project Passport (5 projects)", "All 6 Studio tools", "Connect 1 cloud storage", "Public Share Page", "Follower analytics"],
+    cta: "Become a creator", href: "/auth/signup?role=creator", highlight: true,
   },
   {
-    name: "Creator Pro",
-    price: "$24",
-    period: "/month",
-    desc: "For those who never stop building.",
-    features: ["All Creator features", "Unlimited projects", "Connect multiple cloud storages", "Advanced analytics", "Custom domain for share page", "Priority support", "Pro badge"],
-    cta: "Go Pro",
-    href: "/auth/signup?role=creator",
-    highlight: false,
+    name: "Creator Pro", price: "$24", period: "/month",
+    desc: "For serious builders going all-in.",
+    features: ["Everything in Creator", "Unlimited projects", "Multiple cloud storages", "Custom domain", "Priority support", "Pro badge + early access"],
+    cta: "Go Pro", href: "/auth/signup?role=creator", highlight: false,
   },
 ];
 
@@ -130,309 +198,262 @@ export default function LandingPage() {
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    intervalRef.current = setInterval(() => {
-      setActiveFeature((p) => (p + 1) % FEATURES.length);
-    }, 3500);
+    intervalRef.current = setInterval(() => setActiveFeature(p => (p + 1) % FEATURES.length), 3200);
     return () => { if (intervalRef.current) clearInterval(intervalRef.current); };
   }, []);
 
   return (
-    <div style={{ minHeight: "100vh", background: "#FFFFFF" }}>
+    <div style={{ minHeight: "100vh", background: "#FFF" }}>
       <Navbar />
 
-      {/* ─── HERO ─── */}
-      <section
-        style={{
-          paddingTop: 140,
-          paddingBottom: 100,
-          background: "linear-gradient(180deg, #F8FAFF 0%, #FFFFFF 100%)",
-          overflow: "hidden",
-        }}
-      >
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", display: "flex", alignItems: "center", gap: 60, flexWrap: "wrap" }}>
-          {/* Left text */}
-          <div style={{ flex: 1, minWidth: 300 }}>
-            <div
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 8,
-                background: "var(--purple-soft)",
-                border: "1px solid rgba(124, 58, 237, 0.2)",
-                padding: "6px 14px",
-                borderRadius: 999,
-                marginBottom: 24,
-              }}
-              className="animate-fadein"
-            >
-              <Sparkles size={13} color="var(--purple-wisp)" />
-              <span style={{ fontSize: 13, fontWeight: 600, color: "var(--purple-wisp)" }}>Currently in Beta — Join early</span>
+      {/* ══════════════════════════════════
+          HERO
+      ══════════════════════════════════ */}
+      <section style={{ paddingTop: 100, paddingBottom: 0, background: "linear-gradient(180deg, #F8FAFF 0%, #FFFFFF 60%)", overflow: "hidden", position: "relative" }}>
+        {/* Background wisp orbs */}
+        <div style={{ position: "absolute", top: -60, right: "10%", width: 400, height: 400, borderRadius: "50%", background: "radial-gradient(circle, #DBEAFE55, transparent 70%)", pointerEvents: "none" }} />
+        <div style={{ position: "absolute", top: 80, left: "5%", width: 300, height: 300, borderRadius: "50%", background: "radial-gradient(circle, #EDE9FE44, transparent 70%)", pointerEvents: "none" }} />
+
+        <div className="container" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 40, alignItems: "center", padding: "0 24px" }}>
+          {/* Left: copy */}
+          <div style={{ paddingTop: 40, paddingBottom: 60 }}>
+            {/* Beta pill */}
+            <div className="animate-fadeup" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "white", border: "1px solid #E2E8F0", borderRadius: 999, padding: "6px 14px 6px 8px", marginBottom: 32, boxShadow: "0 2px 8px rgba(0,0,0,0.06)" }}>
+              <span style={{ background: "linear-gradient(135deg, #2563EB, #7C3AED)", color: "white", fontSize: 11, fontWeight: 700, padding: "2px 8px", borderRadius: 999 }}>BETA</span>
+              <span style={{ fontSize: 13, color: "#64748B", fontWeight: 500 }}>Now open for creators</span>
             </div>
 
-            <h1
-              className="animate-fadein delay-100"
-              style={{
-                fontFamily: "Sora, sans-serif",
-                fontSize: "clamp(40px, 5vw, 64px)",
-                fontWeight: 800,
-                lineHeight: 1.15,
-                color: "#0F172A",
-                letterSpacing: "-0.03em",
-                marginBottom: 24,
-              }}
-            >
-              Every project has a story.<br/>
-              <span style={{ color: "#2563EB" }}>Make yours visible.</span>
+            <h1 className="animate-fadeup delay-100 font-display" style={{
+              fontSize: "clamp(38px, 5vw, 62px)",
+              fontWeight: 800,
+              lineHeight: 1.08,
+              color: "#0F172A",
+              letterSpacing: "-0.035em",
+              marginBottom: 22,
+            }}>
+              Every project<br />
+              has a story.<br />
+              <span style={{ background: "linear-gradient(135deg, #2563EB, #7C3AED)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
+                Make yours visible.
+              </span>
             </h1>
 
-            <p
-              className="animate-fadein delay-200"
-              style={{ fontSize: 18, color: "#475569", lineHeight: 1.7, marginBottom: 40, maxWidth: 480 }}
-            >
-              Wispfolio brings your scattered ideas, assets, and progress into one living Project Passport. Because your creative journey shouldn't be hidden in folders.
+            <p className="animate-fadeup delay-200" style={{ fontSize: 18, color: "#475569", lineHeight: 1.75, marginBottom: 36, maxWidth: 460 }}>
+              Wispfolio is the creative home for your projects — where ideas become journeys,
+              journeys become stories, and stories build your audience.
             </p>
 
-            <div className="animate-fadein delay-300" style={{ display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
-              <Link
-                href="/auth/signup"
-                className="btn-primary"
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 8,
-                  padding: "14px 30px",
-                  fontSize: 16,
-                  textDecoration: "none",
-                  fontFamily: "Sora, sans-serif",
-                }}
-              >
-                Start your journey
-                <ArrowRight size={18} />
+            <div className="animate-fadeup delay-300" style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 44 }}>
+              <Link href="/auth/signup" className="btn-primary" style={{ fontSize: 16, padding: "14px 28px" }}>
+                Start your journey <ArrowRight size={16} />
               </Link>
-              <Link
-                href="#explore"
-                style={{
-                  padding: "14px 28px",
-                  border: "1.5px solid #E2E8F0",
-                  borderRadius: 8,
-                  fontSize: 15,
-                  fontWeight: 600,
-                  color: "#334155",
-                  textDecoration: "none",
-                  transition: "all 0.2s ease",
-                }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.borderColor = "var(--purple-wisp)";
-                  (e.currentTarget as HTMLElement).style.color = "var(--purple-wisp)";
-                  (e.currentTarget as HTMLElement).style.transform = "translateY(-1px)";
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.borderColor = "#E2E8F0";
-                  (e.currentTarget as HTMLElement).style.color = "#334155";
-                  (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
-                }}
-              >
-                See how it works
+              <Link href="/explore" className="btn-ghost" style={{ fontSize: 15, padding: "14px 24px" }}>
+                <Play size={14} fill="currentColor" /> See creator stories
               </Link>
+            </div>
+
+            {/* Trust row */}
+            <div className="animate-fadeup delay-400" style={{ display: "flex", alignItems: "center", gap: 24, paddingTop: 28, borderTop: "1px solid #F1F5F9", flexWrap: "wrap" }}>
+              <div style={{ display: "flex", gap: -6 }}>
+                {["#2563EB","#7C3AED","#16A34A","#E11D48","#F59E0B"].map((c, i) => (
+                  <div key={i} style={{ width: 28, height: 28, borderRadius: "50%", background: c, border: "2px solid white", marginLeft: i > 0 ? -8 : 0, boxShadow: "0 1px 4px rgba(0,0,0,0.15)" }} />
+                ))}
+              </div>
+              <p style={{ fontSize: 13, color: "#64748B" }}>
+                <strong style={{ color: "#0F172A" }}>Joined by creators</strong> who build in public
+              </p>
             </div>
           </div>
 
-          {/* Right wisp animation */}
-          <div className="animate-scalein delay-200" style={{ flex: 1, minWidth: 340, display: "flex", justifyContent: "center" }}>
-            <WispOrb />
+          {/* Right: Journey scene */}
+          <div className="animate-scalein delay-200">
+            <WispScene />
           </div>
         </div>
       </section>
 
-      {/* ─── EXPLORE ─── */}
-      <section id="explore" style={{ padding: "100px 24px", background: "#FFFFFF" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <div style={{ textAlign: "center", marginBottom: 64 }}>
-            <div style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "var(--purple-soft)", padding: "6px 16px", borderRadius: 999, marginBottom: 18 }}>
-              <Star size={14} color="var(--purple-wisp)" />
-              <span style={{ fontSize: 13, fontWeight: 600, color: "var(--purple-wisp)" }}>Three stages of creation</span>
-            </div>
-            <h2 style={{ fontFamily: "Sora, sans-serif", fontSize: "clamp(32px, 4vw, 46px)", fontWeight: 800, color: "#0F172A", letterSpacing: "-0.02em", marginBottom: 16 }}>
-              Inspiration → Growth → Sharing
-            </h2>
-            <p style={{ fontSize: 18, color: "#64748B", maxWidth: 580, margin: "0 auto", lineHeight: 1.6 }}>
-              Every masterpiece goes through these stages. Wispfolio is designed to guide you through each one softly and seamlessly.
-            </p>
+      {/* ══════════════════════════════════
+          WHAT IS WISPFOLIO
+      ══════════════════════════════════ */}
+      <section id="explore" className="section" style={{ background: "#FFF" }}>
+        <div className="container-sm" style={{ textAlign: "center", padding: "0 24px" }}>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "#EFF6FF", border: "1px solid #BFDBFE", padding: "5px 14px", borderRadius: 999, marginBottom: 20 }}>
+            <Sparkles size={13} color="#2563EB" />
+            <span style={{ fontSize: 13, fontWeight: 600, color: "#2563EB" }}>What's a Wispfolio?</span>
           </div>
+          <h2 className="font-display" style={{ fontSize: "clamp(28px, 4vw, 44px)", fontWeight: 800, color: "#0F172A", letterSpacing: "-0.03em", marginBottom: 20, lineHeight: 1.1 }}>
+            Your project,<br />fully alive.
+          </h2>
+          <p style={{ fontSize: 17, color: "#475569", lineHeight: 1.8, marginBottom: 56 }}>
+            Most projects die scattered — ideas in one app, files in another, progress nowhere.
+            Wispfolio brings it all into one <strong style={{ color: "#0F172A" }}>Project Passport</strong>:
+            a living document of your creative journey that you can share with the world.
+          </p>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 32 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }}>
             {[
-              { icon: Lightbulb, title: "Find Your Spark", color: "#FEF9C3", ic: "#CA8A04", desc: "Gather your references and let your ideas simmer. Curate what excites you before you even write a line of code or draw a sketch." },
-              { icon: TrendingUp, title: "Shape the Journey", color: "#DCFCE7", ic: "#16A34A", desc: "Turn chaos into momentum. Organize your work, track your milestones, and keep your creative flow uninterrupted." },
-              { icon: Share2, title: "Let the World Watch", color: "#DBEAFE", ic: "#2563EB", desc: "Build an audience as you build your product. Showcase your authentic journey and launch to a community that already cares." },
+              { icon: "✦", label: "Inspiration", color: "#FEF9C3", tc: "#92400E", desc: "Collect what moves you. References, ideas, links — your creative fuel in one place." },
+              { icon: "◈", label: "Growth", color: "#DBEAFE", tc: "#1D4ED8", desc: "Track progress, manage tasks, organise assets. The engine room of your project." },
+              { icon: "◎", label: "Sharing", color: "#EDE9FE", tc: "#7C3AED", desc: "Publish your journey. Build an audience before you launch. Let people root for you." },
             ].map((s) => (
-              <div key={s.title} style={{ background: "#F8FAFF", border: "1px solid #E2E8F0", borderRadius: 20, padding: "36px 28px", textAlign: "center", transition: "all 0.3s ease", cursor: "default" }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.boxShadow = "0 12px 40px var(--purple-glow)";
-                  (e.currentTarget as HTMLElement).style.borderColor = "var(--purple-soft)";
-                  (e.currentTarget as HTMLElement).style.transform = "translateY(-4px)";
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.boxShadow = "none";
-                  (e.currentTarget as HTMLElement).style.borderColor = "#E2E8F0";
-                  (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
-                }}
-              >
-                <div style={{ width: 64, height: 64, background: s.color, borderRadius: 18, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 20px" }}>
-                  <s.icon size={28} color={s.ic} />
-                </div>
-                <h3 style={{ fontFamily: "Sora, sans-serif", fontWeight: 700, fontSize: 22, color: "#0F172A", marginBottom: 12 }}>{s.title}</h3>
-                <p style={{ fontSize: 15, color: "#64748B", lineHeight: 1.7 }}>{s.desc}</p>
+              <div key={s.label} className="card" style={{ textAlign: "left", padding: "28px 24px" }}>
+                <div style={{ fontSize: 28, marginBottom: 14 }}>{s.icon}</div>
+                <h3 className="font-display" style={{ fontWeight: 700, fontSize: 18, color: "#0F172A", marginBottom: 8 }}>{s.label}</h3>
+                <p style={{ fontSize: 14, color: "#64748B", lineHeight: 1.65 }}>{s.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ─── FEATURES ─── */}
-      <section id="features" style={{ padding: "100px 24px", background: "#F8FAFF" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <div style={{ textAlign: "center", marginBottom: 64 }}>
-            <h2 style={{ fontFamily: "Sora, sans-serif", fontSize: "clamp(32px, 4vw, 46px)", fontWeight: 800, color: "#0F172A", letterSpacing: "-0.02em", marginBottom: 16 }}>
-              Your entire Project Passport
+      {/* ══════════════════════════════════
+          FEATURES
+      ══════════════════════════════════ */}
+      <section id="features" className="section" style={{ background: "#F8FAFF" }}>
+        <div className="container" style={{ padding: "0 24px" }}>
+          <div style={{ textAlign: "center", marginBottom: 52 }}>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "white", border: "1px solid #E2E8F0", padding: "5px 14px", borderRadius: 999, marginBottom: 20, boxShadow: "0 1px 4px rgba(0,0,0,0.04)" }}>
+              <Layers size={13} color="#7C3AED" />
+              <span style={{ fontSize: 13, fontWeight: 600, color: "#7C3AED" }}>Inside the Project Passport</span>
+            </div>
+            <h2 className="font-display" style={{ fontSize: "clamp(28px, 4vw, 42px)", fontWeight: 800, color: "#0F172A", letterSpacing: "-0.03em", marginBottom: 14 }}>
+              Six tools. One story.
             </h2>
-            <p style={{ fontSize: 18, color: "#64748B" }}>Six gentle tools. One unified creative space.</p>
+            <p style={{ fontSize: 17, color: "#64748B", maxWidth: 480, margin: "0 auto" }}>
+              Everything a creator needs — from the first spark to the public launch.
+            </p>
           </div>
 
-          <div style={{ display: "flex", gap: 48, alignItems: "center", flexWrap: "wrap" }}>
-            {/* Feature list */}
-            <div style={{ flex: 1, minWidth: 300, display: "flex", flexDirection: "column", gap: 8 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "280px 1fr", gap: 24, alignItems: "start" }}>
+            {/* Tab list */}
+            <div style={{ display: "flex", flexDirection: "column", gap: 3 }}>
               {FEATURES.map((f, i) => (
-                <div
-                  key={f.title}
-                  onClick={() => setActiveFeature(i)}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 16,
-                    padding: "16px 20px",
-                    borderRadius: 14,
-                    cursor: "pointer",
+                <button key={f.label} onClick={() => { setActiveFeature(i); if (intervalRef.current) clearInterval(intervalRef.current); }}
+                  style={{ display: "flex", alignItems: "center", gap: 12, padding: "12px 14px", borderRadius: 11, border: "none", cursor: "pointer", textAlign: "left", transition: "all 0.2s",
                     background: activeFeature === i ? "white" : "transparent",
-                    border: activeFeature === i ? "1px solid var(--purple-soft)" : "1px solid transparent",
-                    transition: "all 0.3s ease",
-                    boxShadow: activeFeature === i ? "0 4px 20px var(--purple-glow)" : "none",
-                  }}
-                >
-                  <div style={{ width: 44, height: 44, background: f.color, borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                    <f.icon size={20} color={f.iconColor} />
+                    boxShadow: activeFeature === i ? "0 2px 12px rgba(0,0,0,0.06)" : "none",
+                  }}>
+                  <div style={{ width: 36, height: 36, background: f.color, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, transition: "transform 0.15s" }}>
+                    <f.icon size={17} color={f.ic} />
                   </div>
-                  <div>
-                    <div style={{ fontWeight: 700, fontSize: 16, color: activeFeature === i ? "#0F172A" : "#475569", transition: "color 0.2s ease" }}>{f.title}</div>
-                    <div style={{ fontSize: 13, color: "#64748B", marginTop: 4, display: activeFeature === i ? "block" : "none", lineHeight: 1.5 }} className="animate-fadein">{f.desc}</div>
-                  </div>
-                </div>
+                  <span style={{ fontSize: 14, fontWeight: activeFeature === i ? 700 : 500, color: activeFeature === i ? "#0F172A" : "#64748B" }}>{f.label}</span>
+                  {activeFeature === i && <div style={{ marginLeft: "auto", width: 6, height: 6, borderRadius: "50%", background: "#2563EB", flexShrink: 0 }} />}
+                </button>
               ))}
             </div>
 
-            {/* Feature preview */}
-            <div style={{ flex: 1.2, minWidth: 340, background: "white", border: "1px solid #E2E8F0", borderRadius: 24, padding: 48, boxShadow: "0 20px 60px rgba(0,0,0,0.04)" }}>
-              {(() => {
-                const f = FEATURES[activeFeature];
-                return (
-                  <div key={activeFeature} className="animate-fadein">
-                    <div style={{ width: 64, height: 64, background: f.color, borderRadius: 16, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 24 }}>
-                      <f.icon size={30} color={f.iconColor} />
-                    </div>
-                    <h3 style={{ fontFamily: "Sora, sans-serif", fontWeight: 800, fontSize: 32, color: "#0F172A", marginBottom: 16 }}>{f.title}</h3>
-                    <p style={{ fontSize: 17, color: "#475569", lineHeight: 1.8, marginBottom: 32 }}>{f.desc}</p>
-                    <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-                      {["Creator feature", "Project Passport", "Built for you"].map((tag) => (
-                        <span key={tag} style={{ background: "var(--purple-soft)", color: "var(--purple-wisp)", padding: "6px 14px", borderRadius: 999, fontSize: 13, fontWeight: 600 }}>{tag}</span>
-                      ))}
-                    </div>
-                  </div>
-                );
-              })()}
+            {/* Feature display */}
+            <div key={activeFeature} className="animate-fadein" style={{ background: "white", border: "1px solid #E2E8F0", borderRadius: 20, padding: "40px 36px", boxShadow: "0 4px 24px rgba(0,0,0,0.05)", minHeight: 320 }}>
+              <div style={{ width: 56, height: 56, background: FEATURES[activeFeature].color, borderRadius: 16, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 24 }}>
+                {(() => { const F = FEATURES[activeFeature].icon; return <F size={26} color={FEATURES[activeFeature].ic} />; })()}
+              </div>
+              <h3 className="font-display" style={{ fontWeight: 800, fontSize: 26, color: "#0F172A", marginBottom: 14, letterSpacing: "-0.02em" }}>
+                {FEATURES[activeFeature].label}
+              </h3>
+              <p style={{ fontSize: 16, color: "#64748B", lineHeight: 1.75, marginBottom: 28, maxWidth: 520 }}>
+                {FEATURES[activeFeature].desc}
+              </p>
+              <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                {["Creator Studio", "Project Passport", "Build in public"].map(tag => (
+                  <span key={tag} style={{ background: "#F8FAFF", border: "1px solid #E2E8F0", color: "#64748B", padding: "4px 12px", borderRadius: 999, fontSize: 12, fontWeight: 600 }}>{tag}</span>
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ─── PRICING ─── */}
-      <section id="pricing" style={{ padding: "100px 24px", background: "#FFFFFF" }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <div style={{ textAlign: "center", marginBottom: 64 }}>
-            <h2 style={{ fontFamily: "Sora, sans-serif", fontSize: "clamp(32px, 4vw, 46px)", fontWeight: 800, color: "#0F172A", letterSpacing: "-0.02em", marginBottom: 16 }}>
-              Simple, honest pricing
+      {/* ══════════════════════════════════
+          CREATOR CALL-OUT
+      ══════════════════════════════════ */}
+      <section className="section" style={{ background: "#FFF" }}>
+        <div className="container-md" style={{ padding: "0 24px" }}>
+          <div style={{ background: "linear-gradient(135deg, #0F172A 0%, #1E3A8A 60%, #312E81 100%)", borderRadius: 24, padding: "56px 48px", position: "relative", overflow: "hidden" }}>
+            {/* Wisp glow bg */}
+            <div style={{ position: "absolute", top: -40, right: -40, width: 300, height: 300, borderRadius: "50%", background: "radial-gradient(circle, rgba(124,58,237,0.25), transparent 70%)", pointerEvents: "none" }} />
+            <div style={{ position: "absolute", bottom: -60, left: 0, width: 250, height: 250, borderRadius: "50%", background: "radial-gradient(circle, rgba(37,99,235,0.2), transparent 70%)", pointerEvents: "none" }} />
+
+            <div style={{ position: "relative", display: "grid", gridTemplateColumns: "1fr auto", gap: 40, alignItems: "center" }}>
+              <div>
+                <div style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.15)", padding: "5px 14px", borderRadius: 999, marginBottom: 20 }}>
+                  <Zap size={13} color="#A78BFA" />
+                  <span style={{ fontSize: 13, fontWeight: 600, color: "#A78BFA" }}>Creator Studio</span>
+                </div>
+                <h2 className="font-display" style={{ fontSize: "clamp(24px, 3vw, 38px)", fontWeight: 800, color: "white", letterSpacing: "-0.03em", marginBottom: 14, lineHeight: 1.15 }}>
+                  You're building something.<br />Let the world watch.
+                </h2>
+                <p style={{ fontSize: 16, color: "rgba(255,255,255,0.65)", lineHeight: 1.7, maxWidth: 480 }}>
+                  Creator Studio unlocks every tool — Inspiration Hub, Progress Tracker, Asset Library,
+                  Proof Wall, and your own public share page. Your project, your story, your audience.
+                </p>
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12, flexShrink: 0 }}>
+                <Link href="/auth/signup?role=creator" className="btn-primary" style={{ fontSize: 15, padding: "13px 28px", background: "white", color: "#0F172A" }}>
+                  Become a creator <ArrowRight size={15} />
+                </Link>
+                <Link href="/explore" style={{ fontSize: 14, color: "rgba(255,255,255,0.6)", textDecoration: "none", textAlign: "center", transition: "color 0.15s" }}
+                  onMouseEnter={e => (e.currentTarget.style.color = "white")}
+                  onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.6)")}>
+                  See creator stories →
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════
+          PRICING
+      ══════════════════════════════════ */}
+      <section id="pricing" className="section" style={{ background: "#F8FAFF" }}>
+        <div className="container-md" style={{ padding: "0 24px" }}>
+          <div style={{ textAlign: "center", marginBottom: 52 }}>
+            <h2 className="font-display" style={{ fontSize: "clamp(28px, 4vw, 42px)", fontWeight: 800, color: "#0F172A", letterSpacing: "-0.03em", marginBottom: 12 }}>
+              Simple pricing.<br />Honest forever.
             </h2>
-            <p style={{ fontSize: 18, color: "#64748B" }}>Join as a follower for free. Step into the studio when you're ready.</p>
+            <p style={{ fontSize: 17, color: "#64748B" }}>Follow for free. Create when you're ready.</p>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 32 }}>
-            {PRICING.map((plan) => (
-              <div
-                key={plan.name}
-                style={{
-                  background: plan.highlight ? "#0F172A" : "white",
-                  border: `1px solid ${plan.highlight ? "#0F172A" : "#E2E8F0"}`,
-                  borderRadius: 24,
-                  padding: "40px 32px",
-                  display: "flex",
-                  flexDirection: "column",
-                  position: "relative",
-                  boxShadow: plan.highlight ? "0 24px 60px rgba(15,23,42,0.15)" : "0 4px 12px rgba(0,0,0,0.03)",
-                  transform: plan.highlight ? "translateY(-8px)" : "none",
-                }}
-              >
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }}>
+            {PRICING.map(plan => (
+              <div key={plan.name} style={{
+                background: plan.highlight ? "linear-gradient(135deg, #1E3A8A, #312E81)" : "white",
+                border: `1.5px solid ${plan.highlight ? "transparent" : "#E2E8F0"}`,
+                borderRadius: 18,
+                padding: "32px 26px",
+                display: "flex", flexDirection: "column",
+                position: "relative",
+                boxShadow: plan.highlight ? "0 16px 48px rgba(37,99,235,0.25)" : "0 2px 8px rgba(0,0,0,0.04)",
+              }}>
                 {plan.highlight && (
-                  <div style={{ position: "absolute", top: -14, left: "50%", transform: "translateX(-50%)", background: "var(--purple-wisp)", color: "white", padding: "6px 16px", borderRadius: 999, fontSize: 13, fontWeight: 700, whiteSpace: "nowrap", boxShadow: "0 4px 12px var(--purple-glow)" }}>
-                    Most popular
+                  <div style={{ position: "absolute", top: -13, left: "50%", transform: "translateX(-50%)", background: "linear-gradient(135deg, #2563EB, #7C3AED)", color: "white", padding: "4px 16px", borderRadius: 999, fontSize: 11, fontWeight: 800, whiteSpace: "nowrap", letterSpacing: "0.05em" }}>
+                    MOST POPULAR
                   </div>
                 )}
-                <div style={{ marginBottom: 32 }}>
-                  <div style={{ fontFamily: "Sora, sans-serif", fontWeight: 800, fontSize: 22, color: plan.highlight ? "white" : "#0F172A", marginBottom: 8 }}>{plan.name}</div>
-                  <div style={{ display: "flex", alignItems: "baseline", gap: 6, marginBottom: 12 }}>
-                    <span style={{ fontFamily: "Sora, sans-serif", fontWeight: 800, fontSize: 46, color: plan.highlight ? "white" : "#0F172A" }}>{plan.price}</span>
-                    <span style={{ fontSize: 15, color: plan.highlight ? "#94A3B8" : "#64748B" }}>{plan.period}</span>
+                <div style={{ marginBottom: 24 }}>
+                  <div className="font-display" style={{ fontWeight: 800, fontSize: 16, color: plan.highlight ? "rgba(255,255,255,0.7)" : "#64748B", marginBottom: 6 }}>{plan.name}</div>
+                  <div style={{ display: "flex", alignItems: "baseline", gap: 3, marginBottom: 8 }}>
+                    <span className="font-display" style={{ fontWeight: 900, fontSize: 42, color: plan.highlight ? "white" : "#0F172A", letterSpacing: "-0.04em" }}>{plan.price}</span>
+                    <span style={{ fontSize: 14, color: plan.highlight ? "rgba(255,255,255,0.5)" : "#94A3B8" }}>{plan.period}</span>
                   </div>
-                  <p style={{ fontSize: 15, color: plan.highlight ? "#94A3B8" : "#475569", lineHeight: 1.6 }}>{plan.desc}</p>
+                  <p style={{ fontSize: 13, color: plan.highlight ? "rgba(255,255,255,0.65)" : "#64748B", lineHeight: 1.5 }}>{plan.desc}</p>
                 </div>
-
-                <div style={{ display: "flex", flexDirection: "column", gap: 14, marginBottom: 40, flex: 1 }}>
-                  {plan.features.map((feat) => (
-                    <div key={feat} style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
-                      <div style={{ width: 20, height: 20, borderRadius: "50%", background: plan.highlight ? "rgba(255,255,255,0.1)" : "#EFF6FF", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 2 }}>
-                        <Check size={12} color={plan.highlight ? "white" : "#2563EB"} strokeWidth={3} />
+                <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 28, flex: 1 }}>
+                  {plan.features.map(f => (
+                    <div key={f} style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
+                      <div style={{ width: 18, height: 18, borderRadius: "50%", background: plan.highlight ? "rgba(255,255,255,0.15)" : "#EFF6FF", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1 }}>
+                        <Check size={10} color={plan.highlight ? "white" : "#2563EB"} strokeWidth={3} />
                       </div>
-                      <span style={{ fontSize: 15, color: plan.highlight ? "#F8FAFF" : "#334155" }}>{feat}</span>
+                      <span style={{ fontSize: 13.5, color: plan.highlight ? "rgba(255,255,255,0.85)" : "#475569" }}>{f}</span>
                     </div>
                   ))}
                 </div>
-
-                <Link
-                  href={plan.href}
-                  className={plan.highlight ? "" : "btn-outline"}
-                  style={plan.highlight ? {
-                    display: "block",
-                    textAlign: "center",
-                    padding: "14px 24px",
-                    borderRadius: 12,
-                    fontSize: 15,
-                    fontWeight: 700,
-                    background: "var(--purple-wisp)",
-                    color: "white",
-                    textDecoration: "none",
-                    transition: "all 0.2s ease",
-                  } : { display: "block", textAlign: "center", borderRadius: 12 }}
-                  onMouseEnter={(e) => {
-                    if (plan.highlight) {
-                      (e.currentTarget as HTMLElement).style.background = "#6D28D9";
-                      (e.currentTarget as HTMLElement).style.boxShadow = "0 4px 16px var(--purple-glow)";
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (plan.highlight) {
-                      (e.currentTarget as HTMLElement).style.background = "var(--purple-wisp)";
-                      (e.currentTarget as HTMLElement).style.boxShadow = "none";
-                    }
-                  }}
-                >
+                <Link href={plan.href} className={plan.highlight ? "" : "btn-primary"} style={{
+                  display: "block", textAlign: "center", padding: "12px 24px", borderRadius: 10,
+                  fontSize: 14, fontWeight: 700, textDecoration: "none", transition: "all 0.15s",
+                  background: plan.highlight ? "white" : "#2563EB",
+                  color: plan.highlight ? "#1E3A8A" : "white",
+                }}>
                   {plan.cta}
                 </Link>
               </div>
@@ -441,92 +462,85 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ─── CTA BANNER ─── */}
-      <section style={{ padding: "100px 24px", background: "linear-gradient(180deg, #FFFFFF 0%, #F8FAFF 100%)", borderTop: "1px solid #E2E8F0" }}>
-        <div style={{ maxWidth: 720, margin: "0 auto", textAlign: "center" }}>
-          <div style={{ width: 72, height: 72, background: "var(--purple-soft)", borderRadius: 20, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 24px" }}>
-            <Sparkles size={34} color="var(--purple-wisp)" />
-          </div>
-          <h2 style={{ fontFamily: "Sora, sans-serif", fontWeight: 800, fontSize: "clamp(32px, 4vw, 42px)", color: "#0F172A", letterSpacing: "-0.02em", marginBottom: 20 }}>
-            Let your project shine.
+      {/* ══════════════════════════════════
+          FINAL CTA
+      ══════════════════════════════════ */}
+      <section className="section" style={{ background: "#FFF", textAlign: "center" }}>
+        <div className="container-sm" style={{ padding: "0 24px" }}>
+          <div style={{ fontSize: 48, marginBottom: 20, lineHeight: 1 }}>✦</div>
+          <h2 className="font-display" style={{ fontSize: "clamp(28px, 4vw, 46px)", fontWeight: 800, color: "#0F172A", letterSpacing: "-0.035em", marginBottom: 16, lineHeight: 1.1 }}>
+            Your project is waiting<br />to be seen.
           </h2>
-          <p style={{ fontSize: 18, color: "#475569", marginBottom: 40, lineHeight: 1.7 }}>
-            Join other creators who are moving from scattered notes to a beautifully documented journey. Your Project Passport awaits.
+          <p style={{ fontSize: 17, color: "#64748B", lineHeight: 1.75, marginBottom: 36, maxWidth: 480, margin: "0 auto 36px" }}>
+            Creators who share their journey build audiences, stay motivated, and ship more.
+            Start yours today — it only takes a minute.
           </p>
-          <Link
-            href="/auth/signup"
-            className="btn-primary"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 10,
-              padding: "16px 36px",
-              fontSize: 16,
-              textDecoration: "none",
-              fontFamily: "Sora, sans-serif",
-            }}
-          >
-            Create your account
-            <ArrowRight size={18} />
-          </Link>
+          <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
+            <Link href="/auth/signup" className="btn-primary" style={{ fontSize: 16, padding: "14px 32px" }}>
+              Create your free account <ArrowRight size={16} />
+            </Link>
+            <Link href="/explore" className="btn-ghost" style={{ fontSize: 15, padding: "14px 24px" }}>
+              Explore projects
+            </Link>
+          </div>
         </div>
       </section>
 
-      {/* ─── FOOTER ─── */}
-      <footer style={{ background: "#0F172A", color: "white", padding: "80px 24px 40px" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 48, marginBottom: 64 }}>
-            
-            <div style={{ flex: 2, minWidth: 280 }}>
-              <Link href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", marginBottom: 20 }}>
-                <div style={{ width: 32, height: 32, background: "var(--purple-wisp)", borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                    <path d="M3 9C3 5.686 5.686 3 9 3s6 2.686 6 6-2.686 6-6 6S3 12.314 3 9z" stroke="white" strokeWidth="1.5"/>
-                    <path d="M9 6v6M6 9h6" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
-                  </svg>
+      {/* ══════════════════════════════════
+          FOOTER
+      ══════════════════════════════════ */}
+      <footer style={{ background: "#0F172A", color: "white", paddingTop: 64, paddingBottom: 40 }}>
+        <div className="container" style={{ padding: "0 24px" }}>
+          {/* Top */}
+          <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr 1fr", gap: 40, marginBottom: 56, paddingBottom: 48, borderBottom: "1px solid #1E293B" }}>
+            {/* Brand */}
+            <div>
+              <Link href="/" style={{ display: "flex", alignItems: "center", gap: 9, textDecoration: "none", marginBottom: 16 }}>
+                <div style={{ width: 32, height: 32, background: "linear-gradient(135deg, #2563EB, #7C3AED)", borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="3.5" fill="white" opacity="0.9"/><circle cx="10" cy="10" r="6" stroke="white" strokeWidth="1.2" strokeDasharray="2 2" opacity="0.5"/><circle cx="10" cy="4" r="1.5" fill="white" opacity="0.7"/></svg>
                 </div>
-                <span style={{ fontFamily: "Sora, sans-serif", fontWeight: 700, fontSize: 20, color: "white" }}>Wispfolio</span>
+                <span className="font-display" style={{ fontWeight: 800, fontSize: 17, color: "white" }}>Wispfolio</span>
               </Link>
-              <p style={{ fontSize: 15, color: "#94A3B8", lineHeight: 1.7, maxWidth: 320 }}>
-                A platform that helps creators, artists, and founders grow their projects from idea to launch. Built with ❤️ for creators.
+              <p style={{ fontSize: 13.5, color: "#64748B", lineHeight: 1.7, maxWidth: 240 }}>
+                The creative home for your projects. From idea to launch — share the journey.
               </p>
+              <p style={{ fontSize: 12, color: "#475569", marginTop: 20 }}>© 2026 Wispfolio. All rights reserved.</p>
             </div>
 
-            <div>
-              <h4 style={{ fontFamily: "Sora, sans-serif", fontWeight: 700, fontSize: 16, color: "white", marginBottom: 20 }}>Product</h4>
-              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-                <Link href="#features" style={{ fontSize: 14, color: "#94A3B8", textDecoration: "none", transition: "color 0.2s" }} onMouseEnter={(e)=>(e.currentTarget.style.color="white")} onMouseLeave={(e)=>(e.currentTarget.style.color="#94A3B8")}>Features</Link>
-                <Link href="#pricing" style={{ fontSize: 14, color: "#94A3B8", textDecoration: "none", transition: "color 0.2s" }} onMouseEnter={(e)=>(e.currentTarget.style.color="white")} onMouseLeave={(e)=>(e.currentTarget.style.color="#94A3B8")}>Pricing</Link>
-                <Link href="/feed" style={{ fontSize: 14, color: "#94A3B8", textDecoration: "none", transition: "color 0.2s" }} onMouseEnter={(e)=>(e.currentTarget.style.color="white")} onMouseLeave={(e)=>(e.currentTarget.style.color="#94A3B8")}>Explore Projects</Link>
+            {/* Links */}
+            {[
+              { title: "Product", links: [["Explore Projects", "/explore"], ["Features", "/#features"], ["Pricing", "/#pricing"], ["Creator Studio", "/creator/studio"]] },
+              { title: "Company", links: [["About", "/about"], ["Blog", "/blog"], ["Careers", "/careers"], ["Press", "/press"]] },
+              { title: "Support", links: [["Help Center", "/help"], ["Status", "/status"], ["Contact", "/contact"]] },
+              { title: "Legal", links: [["Privacy Policy", "/privacy"], ["Terms of Service", "/terms"], ["Cookie Policy", "/cookies"]] },
+            ].map(col => (
+              <div key={col.title}>
+                <div className="font-display" style={{ fontWeight: 700, fontSize: 13, color: "white", marginBottom: 14, letterSpacing: "0.02em" }}>{col.title}</div>
+                <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                  {col.links.map(([label, href]) => (
+                    <Link key={label} href={href} style={{ fontSize: 13.5, color: "#64748B", textDecoration: "none", transition: "color 0.15s" }}
+                      onMouseEnter={e => (e.currentTarget.style.color = "white")}
+                      onMouseLeave={e => (e.currentTarget.style.color = "#64748B")}>
+                      {label}
+                    </Link>
+                  ))}
+                </div>
               </div>
-            </div>
-
-            <div>
-              <h4 style={{ fontFamily: "Sora, sans-serif", fontWeight: 700, fontSize: 16, color: "white", marginBottom: 20 }}>Company</h4>
-              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-                <Link href="/about" style={{ fontSize: 14, color: "#94A3B8", textDecoration: "none", transition: "color 0.2s" }} onMouseEnter={(e)=>(e.currentTarget.style.color="white")} onMouseLeave={(e)=>(e.currentTarget.style.color="#94A3B8")}>Our Story</Link>
-                <a href="#" style={{ fontSize: 14, color: "#94A3B8", textDecoration: "none", transition: "color 0.2s" }} onMouseEnter={(e)=>(e.currentTarget.style.color="white")} onMouseLeave={(e)=>(e.currentTarget.style.color="#94A3B8")}>Blog</a>
-                <a href="#" style={{ fontSize: 14, color: "#94A3B8", textDecoration: "none", transition: "color 0.2s" }} onMouseEnter={(e)=>(e.currentTarget.style.color="white")} onMouseLeave={(e)=>(e.currentTarget.style.color="#94A3B8")}>Contact</a>
-              </div>
-            </div>
-
-            <div>
-              <h4 style={{ fontFamily: "Sora, sans-serif", fontWeight: 700, fontSize: 16, color: "white", marginBottom: 20 }}>Legal</h4>
-              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-                <Link href="/privacy" style={{ fontSize: 14, color: "#94A3B8", textDecoration: "none", transition: "color 0.2s" }} onMouseEnter={(e)=>(e.currentTarget.style.color="white")} onMouseLeave={(e)=>(e.currentTarget.style.color="#94A3B8")}>Privacy Policy</Link>
-                <Link href="/terms" style={{ fontSize: 14, color: "#94A3B8", textDecoration: "none", transition: "color 0.2s" }} onMouseEnter={(e)=>(e.currentTarget.style.color="white")} onMouseLeave={(e)=>(e.currentTarget.style.color="#94A3B8")}>Terms of Service</Link>
-              </div>
-            </div>
-
+            ))}
           </div>
 
-          <div style={{ borderTop: "1px solid #1E293B", paddingTop: 32, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
-            <p style={{ fontSize: 14, color: "#64748B" }}>© 2026 Wispfolio. All rights reserved.</p>
+          {/* Bottom */}
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
+            <p style={{ fontSize: 12, color: "#334155" }}>
+              Built for creators, by creators. ✦ 2026
+            </p>
             <div style={{ display: "flex", gap: 16 }}>
-              {["Twitter", "GitHub", "Discord"].map((social) => (
-                <a key={social} href="#" style={{ fontSize: 14, color: "#64748B", textDecoration: "none", transition: "color 0.2s" }} onMouseEnter={(e)=>(e.currentTarget.style.color="white")} onMouseLeave={(e)=>(e.currentTarget.style.color="#64748B")}>
-                  {social}
-                </a>
+              {[["Privacy Policy", "/privacy"], ["Terms", "/terms"], ["Cookies", "/cookies"]].map(([l, h]) => (
+                <Link key={l} href={h} style={{ fontSize: 12, color: "#475569", textDecoration: "none" }}
+                  onMouseEnter={e => (e.currentTarget.style.color = "#94A3B8")}
+                  onMouseLeave={e => (e.currentTarget.style.color = "#475569")}>
+                  {l}
+                </Link>
               ))}
             </div>
           </div>

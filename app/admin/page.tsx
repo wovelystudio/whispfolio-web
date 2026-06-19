@@ -1,106 +1,124 @@
 "use client";
-import { Users, Zap, TrendingUp, Flag, Activity, ArrowUpRight, CheckCircle, XCircle } from "lucide-react";
+import Link from "next/link";
+import { Users, Zap, TrendingUp, Flag, Activity, ArrowUpRight, XCircle, CheckCircle, Shield } from "lucide-react";
 
-const RECENT_ACTIVITY = [
-  { type: "signup", text: "New creator signed up: @sarahbuilds", time: "2m ago", icon: Zap, color: "#DBEAFE", ic: "#2563EB" },
-  { type: "signup", text: "New user registered: @mike_dev", time: "8m ago", icon: Users, color: "#DCFCE7", ic: "#16A34A" },
+const ACTIVITY = [
+  { type: "creator", text: "New creator joined: @sarahbuilds", time: "2m ago", icon: Zap, color: "#DBEAFE", ic: "#2563EB" },
+  { type: "user", text: "New user registered: @mike_dev", time: "8m ago", icon: Users, color: "#DCFCE7", ic: "#16A34A" },
   { type: "report", text: "Content reported on project #142", time: "15m ago", icon: Flag, color: "#FEF9C3", ic: "#CA8A04" },
-  { type: "pro", text: "Pro plan assigned to @priyaux", time: "1h ago", icon: TrendingUp, color: "#F3E8FF", ic: "#9333EA" },
-  { type: "ban", text: "User @spam123 was banned", time: "2h ago", icon: XCircle, color: "#FFE4E6", ic: "#E11D48" },
+  { type: "pro", text: "Pro plan assigned to @priyaux", time: "1h ago", icon: Zap, color: "#EDE9FE", ic: "#7C3AED" },
+  { type: "ban", text: "Account @spam123 was banned", time: "2h ago", icon: XCircle, color: "#FFE4E6", ic: "#E11D48" },
+  { type: "user", text: "New user registered: @anna_f", time: "3h ago", icon: Users, color: "#DCFCE7", ic: "#16A34A" },
 ];
 
 export default function AdminOverviewPage() {
   return (
     <div style={{ padding: "32px 36px" }}>
-      <div style={{ marginBottom: 28 }}>
-        <h1 style={{ fontFamily: "Sora, sans-serif", fontWeight: 800, fontSize: 24, color: "#0F172A", letterSpacing: "-0.02em", marginBottom: 4 }}>Admin Overview</h1>
-        <p style={{ fontSize: 14, color: "#64748B" }}>Platform health and recent activity — June 2025</p>
+      {/* Header */}
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 28, flexWrap: "wrap", gap: 12 }}>
+        <div>
+          <div style={{ display: "flex", alignItems: "center", gap: 7, marginBottom: 8 }}>
+            <Shield size={14} color="#94A3B8" />
+            <span style={{ fontSize: 12, fontWeight: 700, color: "#94A3B8", letterSpacing: "0.06em", textTransform: "uppercase" }}>Admin Panel</span>
+          </div>
+          <h1 style={{ fontFamily: "Sora, sans-serif", fontWeight: 800, fontSize: 24, color: "white", letterSpacing: "-0.02em", marginBottom: 4 }}>Overview</h1>
+          <p style={{ fontSize: 14, color: "#64748B" }}>Platform health — June 2026</p>
+        </div>
+        <div style={{ display: "flex", gap: 8 }}>
+          <Link href="/admin/creators" style={{ padding: "9px 18px", background: "#1E293B", color: "#94A3B8", borderRadius: 8, fontSize: 13, fontWeight: 600, textDecoration: "none", border: "1px solid #334155", transition: "all 0.15s" }}
+            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = "white"; (e.currentTarget as HTMLElement).style.borderColor = "#475569"; }}
+            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = "#94A3B8"; (e.currentTarget as HTMLElement).style.borderColor = "#334155"; }}>
+            Manage creators
+          </Link>
+          <Link href="/admin/users" style={{ padding: "9px 18px", background: "#2563EB", color: "white", borderRadius: 8, fontSize: 13, fontWeight: 600, textDecoration: "none", transition: "background 0.15s" }}
+            onMouseEnter={e => (e.currentTarget.style.background = "#1D4ED8")}
+            onMouseLeave={e => (e.currentTarget.style.background = "#2563EB")}>
+            Manage users
+          </Link>
+        </div>
       </div>
 
       {/* Stats */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 16, marginBottom: 32 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 14, marginBottom: 28 }}>
         {[
           { label: "Total Users", val: "2,481", delta: "+48 this week", icon: Users, color: "#DBEAFE", ic: "#2563EB" },
-          { label: "Total Creators", val: "312", delta: "+12 this week", icon: Zap, color: "#DCFCE7", ic: "#16A34A" },
-          { label: "Pro Creators", val: "64", delta: "+5 this week", icon: TrendingUp, color: "#F3E8FF", ic: "#9333EA" },
-          { label: "Open Reports", val: "7", delta: "3 pending review", icon: Flag, color: "#FEF9C3", ic: "#CA8A04" },
-          { label: "Banned Accounts", val: "18", delta: "2 this week", icon: XCircle, color: "#FFE4E6", ic: "#E11D48" },
-        ].map((s) => (
-          <div key={s.label} style={{ background: "white", border: "1px solid #E2E8F0", borderRadius: 12, padding: "18px 16px" }}>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
-              <div style={{ width: 32, height: 32, background: s.color, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center" }}>
+          { label: "Creators", val: "312", delta: "+12 this week", icon: Zap, color: "#DCFCE7", ic: "#16A34A" },
+          { label: "Pro Creators", val: "64", delta: "+5 this week", icon: TrendingUp, color: "#EDE9FE", ic: "#7C3AED" },
+          { label: "Open Reports", val: "7", delta: "3 need review", icon: Flag, color: "#FEF9C3", ic: "#CA8A04" },
+          { label: "Banned", val: "18", delta: "2 this week", icon: XCircle, color: "#FFE4E6", ic: "#E11D48" },
+        ].map(s => (
+          <div key={s.label} style={{ background: "#1E293B", border: "1px solid #334155", borderRadius: 12, padding: "18px 16px" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
+              <div style={{ width: 32, height: 32, background: s.color + "22", borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <s.icon size={15} color={s.ic} />
               </div>
-              <ArrowUpRight size={14} color="#94A3B8" />
+              <ArrowUpRight size={13} color="#475569" />
             </div>
-            <div style={{ fontFamily: "Sora, sans-serif", fontWeight: 800, fontSize: 26, color: "#0F172A" }}>{s.val}</div>
-            <div style={{ fontSize: 12, fontWeight: 600, color: "#0F172A", marginBottom: 2 }}>{s.label}</div>
-            <div style={{ fontSize: 11, color: "#94A3B8" }}>{s.delta}</div>
+            <div style={{ fontFamily: "Sora, sans-serif", fontWeight: 900, fontSize: 26, color: "white", letterSpacing: "-0.03em", marginBottom: 2 }}>{s.val}</div>
+            <div style={{ fontSize: 12, fontWeight: 600, color: "#94A3B8" }}>{s.label}</div>
+            <div style={{ fontSize: 11, color: "#475569", marginTop: 2 }}>{s.delta}</div>
           </div>
         ))}
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
-        {/* Recent activity */}
-        <div style={{ background: "white", border: "1px solid #E2E8F0", borderRadius: 14, padding: "20px" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
-            <h3 style={{ fontWeight: 700, fontSize: 15, color: "#0F172A" }}>Recent Activity</h3>
-            <span style={{ fontSize: 12, color: "#2563EB", fontWeight: 500 }}>Live</span>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
+        {/* Activity */}
+        <div style={{ background: "#1E293B", border: "1px solid #334155", borderRadius: 14, padding: "22px" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 18 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
+              <Activity size={14} color="#64748B" />
+              <span style={{ fontFamily: "Sora, sans-serif", fontWeight: 700, fontSize: 14, color: "white" }}>Live activity</span>
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
+              <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#16A34A" }} />
+              <span style={{ fontSize: 11, color: "#16A34A", fontWeight: 600 }}>Live</span>
+            </div>
           </div>
-          {RECENT_ACTIVITY.map((a, i) => (
-            <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 12, paddingBottom: 14, marginBottom: 14, borderBottom: i < RECENT_ACTIVITY.length - 1 ? "1px solid #F1F5F9" : "none" }}>
-              <div style={{ width: 30, height: 30, borderRadius: 8, background: a.color, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+          {ACTIVITY.map((a, i) => (
+            <div key={i} style={{ display: "flex", alignItems: "center", gap: 11, paddingBottom: 12, marginBottom: 12, borderBottom: i < ACTIVITY.length - 1 ? "1px solid #0F172A" : "none" }}>
+              <div style={{ width: 30, height: 30, borderRadius: 8, background: a.color + "22", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
                 <a.icon size={13} color={a.ic} />
               </div>
-              <div>
-                <div style={{ fontSize: 13, color: "#334155", fontWeight: 500 }}>{a.text}</div>
-                <div style={{ fontSize: 11, color: "#94A3B8", marginTop: 2 }}>{a.time}</div>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ fontSize: 12.5, color: "#CBD5E1", fontWeight: 500, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{a.text}</div>
+                <div style={{ fontSize: 11, color: "#475569", marginTop: 2 }}>{a.time}</div>
               </div>
             </div>
           ))}
         </div>
 
         {/* Quick actions */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-          <div style={{ background: "white", border: "1px solid #E2E8F0", borderRadius: 14, padding: "20px" }}>
-            <h3 style={{ fontWeight: 700, fontSize: 15, color: "#0F172A", marginBottom: 14 }}>Quick actions</h3>
+        <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+          <div style={{ background: "#1E293B", border: "1px solid #334155", borderRadius: 14, padding: "22px" }}>
+            <h3 style={{ fontFamily: "Sora, sans-serif", fontWeight: 700, fontSize: 14, color: "white", marginBottom: 16 }}>Quick actions</h3>
             {[
-              { label: "View all creators", href: "/admin/creators", color: "#DBEAFE", tc: "#1D4ED8" },
-              { label: "View all users", href: "/admin/users", color: "#DCFCE7", tc: "#16A34A" },
-              { label: "Review reports", href: "/admin/reports", color: "#FEF9C3", tc: "#CA8A04" },
-            ].map((a) => (
-              <a
-                key={a.label}
-                href={a.href}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  padding: "12px 14px",
-                  background: a.color,
-                  borderRadius: 9,
-                  textDecoration: "none",
-                  marginBottom: 8,
-                  color: a.tc,
-                  fontWeight: 600,
-                  fontSize: 14,
-                  transition: "opacity 0.15s",
-                }}
-              >
-                {a.label}
-                <ArrowUpRight size={14} />
-              </a>
+              { label: "Review open reports", href: "/admin/reports", color: "#FEF9C3", tc: "#CA8A04", count: "7 open" },
+              { label: "Manage all creators", href: "/admin/creators", color: "#DBEAFE", tc: "#2563EB", count: "312 total" },
+              { label: "Manage all users", href: "/admin/users", color: "#DCFCE7", tc: "#16A34A", count: "2,481 total" },
+            ].map(a => (
+              <Link key={a.label} href={a.href} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "11px 14px", background: "#0F172A", borderRadius: 9, textDecoration: "none", marginBottom: 8, transition: "background 0.15s", border: "1px solid #1E293B" }}
+                onMouseEnter={e => (e.currentTarget.style.background = "#162032")}
+                onMouseLeave={e => (e.currentTarget.style.background = "#0F172A")}>
+                <span style={{ fontSize: 13.5, fontWeight: 600, color: "#E2E8F0" }}>{a.label}</span>
+                <span style={{ background: a.color + "22", color: a.tc, padding: "2px 10px", borderRadius: 999, fontSize: 11, fontWeight: 700 }}>{a.count}</span>
+              </Link>
             ))}
           </div>
 
-          <div style={{ background: "#0F172A", borderRadius: 14, padding: "20px" }}>
-            <h3 style={{ fontWeight: 700, fontSize: 14, color: "white", marginBottom: 6 }}>Beta testing</h3>
-            <p style={{ fontSize: 13, color: "#94A3B8", marginBottom: 14, lineHeight: 1.5 }}>
-              Manually assign Pro plans to creators during the beta phase.
+          {/* Beta tools */}
+          <div style={{ background: "linear-gradient(135deg, #2563EB22, #7C3AED22)", border: "1px solid #2563EB44", borderRadius: 14, padding: "22px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 7, marginBottom: 10 }}>
+              <Zap size={14} color="#7C3AED" />
+              <span style={{ fontFamily: "Sora, sans-serif", fontWeight: 700, fontSize: 14, color: "white" }}>Beta tools</span>
+            </div>
+            <p style={{ fontSize: 13, color: "#94A3B8", lineHeight: 1.5, marginBottom: 16 }}>
+              Assign Pro plans to selected creators for free during the beta period — no billing required.
             </p>
-            <a href="/admin/creators" style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "8px 16px", background: "#2563EB", color: "white", borderRadius: 8, fontSize: 13, fontWeight: 600, textDecoration: "none" }}>
-              <Zap size={13} /> Assign Pro Plans
-            </a>
+            <Link href="/admin/creators" style={{ display: "inline-flex", alignItems: "center", gap: 7, padding: "9px 18px", background: "#7C3AED", color: "white", borderRadius: 8, fontSize: 13, fontWeight: 700, textDecoration: "none", transition: "background 0.15s" }}
+              onMouseEnter={e => (e.currentTarget.style.background = "#6D28D9")}
+              onMouseLeave={e => (e.currentTarget.style.background = "#7C3AED")}>
+              <Zap size={13} /> Assign Pro plans
+            </Link>
           </div>
         </div>
       </div>
