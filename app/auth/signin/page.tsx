@@ -1,167 +1,70 @@
 "use client";
 import Link from "next/link";
 import { useState } from "react";
-import { Eye, EyeOff, ArrowRight } from "lucide-react";
+import { ArrowRight, CheckCircle2, FolderOpen, Sparkles } from "lucide-react";
 
 export default function SignInPage() {
-  const [showPw, setShowPw] = useState(false);
   const [form, setForm] = useState({ email: "", password: "" });
 
   return (
-    <div style={{ minHeight: "100vh", background: "#F8FAFF", display: "flex", flexDirection: "column" }}>
-      {/* Top bar */}
-      <div style={{ padding: "20px 32px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        <Link href="/" style={{ display: "flex", alignItems: "center", gap: 8, textDecoration: "none" }}>
-          <div style={{ width: 30, height: 30, background: "#2563EB", borderRadius: 7, display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <svg width="16" height="16" viewBox="0 0 18 18" fill="none">
-              <path d="M3 9C3 5.686 5.686 3 9 3s6 2.686 6 6-2.686 6-6 6S3 12.314 3 9z" stroke="white" strokeWidth="1.5"/>
-              <path d="M9 6v6M6 9h6" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
-            </svg>
+    <div style={{ minHeight: "100vh", background: "linear-gradient(180deg, #F8FAFF 0%, #FFFFFF 100%)", display: "grid", gridTemplateColumns: "1fr 1fr" }}>
+      <section style={{ padding: 48, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+        <Link href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
+          <div style={{ width: 36, height: 36, borderRadius: 10, background: "linear-gradient(135deg, #2563EB, #7C3AED)", display: "flex", alignItems: "center", justifyContent: "center", color: "white" }}>
+            <Sparkles size={18} />
           </div>
-          <span style={{ fontFamily: "Sora, sans-serif", fontWeight: 700, fontSize: 17, color: "#0F172A" }}>Wispfolio</span>
+          <span style={{ fontFamily: "Sora, sans-serif", fontWeight: 800, fontSize: 18, color: "#0F172A" }}>Wispfolio</span>
         </Link>
-        <span style={{ fontSize: 14, color: "#64748B" }}>
-          No account?{" "}
-          <Link href="/auth/signup" style={{ color: "#2563EB", fontWeight: 600, textDecoration: "none" }}>Sign up</Link>
-        </span>
-      </div>
 
-      {/* Card */}
-      <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: "24px" }}>
-        <div style={{ background: "white", border: "1px solid #E2E8F0", borderRadius: 20, padding: "40px 36px", width: "100%", maxWidth: 420, boxShadow: "0 4px 24px rgba(0,0,0,0.06)" }}>
-          <h1 style={{ fontFamily: "Sora, sans-serif", fontWeight: 800, fontSize: 26, color: "#0F172A", marginBottom: 6, letterSpacing: "-0.02em" }}>
-            Welcome back
+        <div style={{ maxWidth: 410 }}>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "white", border: "1px solid #DBEAFE", borderRadius: 999, padding: "6px 12px", marginBottom: 24 }}>
+            <FolderOpen size={13} color="#2563EB" />
+            <span style={{ fontSize: 12, fontWeight: 800, color: "#2563EB" }}>Creator workspace</span>
+          </div>
+          <h1 style={{ fontFamily: "Sora, sans-serif", fontWeight: 900, fontSize: 42, lineHeight: 1.08, letterSpacing: "-0.03em", color: "#0F172A", marginBottom: 16 }}>
+            Continue building your project story.
           </h1>
-          <p style={{ fontSize: 14, color: "#64748B", marginBottom: 28 }}>Sign in to your Wispfolio account</p>
+          <p style={{ fontSize: 16, color: "#64748B", lineHeight: 1.7 }}>
+            Sign in to manage projects, track progress, collect inspiration, and publish your journey.
+          </p>
+        </div>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-            <div>
-              <label style={{ display: "block", fontSize: 13, fontWeight: 600, color: "#374151", marginBottom: 6 }}>Email</label>
-              <input
-                type="email"
-                placeholder="you@example.com"
-                value={form.email}
-                onChange={(e) => setForm({ ...form, email: e.target.value })}
-                style={{
-                  width: "100%",
-                  padding: "10px 14px",
-                  border: "1.5px solid #E2E8F0",
-                  borderRadius: 8,
-                  fontSize: 14,
-                  color: "#0F172A",
-                  outline: "none",
-                  transition: "border-color 0.15s",
-                  boxSizing: "border-box",
-                }}
-                onFocus={(e) => (e.target.style.borderColor = "#2563EB")}
-                onBlur={(e) => (e.target.style.borderColor = "#E2E8F0")}
-              />
+        <p style={{ fontSize: 12, color: "#94A3B8" }}>Beta testing - Wispfolio 2026</p>
+      </section>
+
+      <section style={{ padding: 32, display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <div style={{ width: "100%", maxWidth: 440, background: "white", border: "1px solid #E2E8F0", borderRadius: 20, padding: 34, boxShadow: "0 24px 70px rgba(37,99,235,0.12)" }}>
+          <h2 style={{ fontFamily: "Sora, sans-serif", fontWeight: 800, fontSize: 26, color: "#0F172A", marginBottom: 8 }}>Sign in</h2>
+          <p style={{ color: "#64748B", fontSize: 14, marginBottom: 28 }}>Welcome back to your project passport.</p>
+
+          <form onSubmit={(e) => e.preventDefault()}>
+            <label style={{ display: "block", fontSize: 13, fontWeight: 700, color: "#334155", marginBottom: 8 }} htmlFor="signin-email">Email</label>
+            <input id="signin-email" type="email" className="input" placeholder="you@example.com" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} style={{ marginBottom: 18 }} />
+
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+              <label style={{ fontSize: 13, fontWeight: 700, color: "#334155" }} htmlFor="signin-password">Password</label>
+              <Link href="#" style={{ fontSize: 12, color: "#7C3AED", fontWeight: 700, textDecoration: "none" }}>Forgot?</Link>
             </div>
+            <input id="signin-password" type="password" className="input" placeholder="At least 8 characters" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} style={{ marginBottom: 20 }} />
 
-            <div>
-              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
-                <label style={{ fontSize: 13, fontWeight: 600, color: "#374151" }}>Password</label>
-                <Link href="#" style={{ fontSize: 13, color: "#2563EB", textDecoration: "none", fontWeight: 500 }}>Forgot password?</Link>
-              </div>
-              <div style={{ position: "relative" }}>
-                <input
-                  type={showPw ? "text" : "password"}
-                  placeholder="••••••••"
-                  value={form.password}
-                  onChange={(e) => setForm({ ...form, password: e.target.value })}
-                  style={{
-                    width: "100%",
-                    padding: "10px 40px 10px 14px",
-                    border: "1.5px solid #E2E8F0",
-                    borderRadius: 8,
-                    fontSize: 14,
-                    color: "#0F172A",
-                    outline: "none",
-                    transition: "border-color 0.15s",
-                    boxSizing: "border-box",
-                  }}
-                  onFocus={(e) => (e.target.style.borderColor = "#2563EB")}
-                  onBlur={(e) => (e.target.style.borderColor = "#E2E8F0")}
-                />
-                <button
-                  onClick={() => setShowPw(!showPw)}
-                  style={{ position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", color: "#94A3B8", padding: 0 }}
-                >
-                  {showPw ? <EyeOff size={16} /> : <Eye size={16} />}
-                </button>
-              </div>
-            </div>
-
-            <Link
-              href="/feed"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: 8,
-                padding: "12px",
-                background: "#2563EB",
-                color: "white",
-                borderRadius: 9,
-                fontSize: 15,
-                fontWeight: 700,
-                textDecoration: "none",
-                marginTop: 4,
-                transition: "background 0.15s",
-                fontFamily: "Sora, sans-serif",
-              }}
-              onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.background = "#1D4ED8")}
-              onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.background = "#2563EB")}
-            >
-              Sign in <ArrowRight size={15} />
+            <Link href="/feed" className="btn-primary" style={{ width: "100%", justifyContent: "center", textDecoration: "none" }}>
+              Sign in <ArrowRight size={16} />
             </Link>
-          </div>
+          </form>
 
-          <div style={{ margin: "24px 0", display: "flex", alignItems: "center", gap: 12 }}>
-            <div style={{ flex: 1, height: 1, background: "#E2E8F0" }} />
-            <span style={{ fontSize: 13, color: "#94A3B8" }}>or continue with</span>
-            <div style={{ flex: 1, height: 1, background: "#E2E8F0" }} />
-          </div>
-
-          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            {[
-              { label: "Continue with Google", logo: "G" },
-              { label: "Continue with GitHub", logo: "GH" },
-            ].map((opt) => (
-              <button
-                key={opt.label}
-                style={{
-                  width: "100%",
-                  padding: "11px",
-                  border: "1.5px solid #E2E8F0",
-                  borderRadius: 8,
-                  background: "white",
-                  fontSize: 14,
-                  fontWeight: 600,
-                  color: "#334155",
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: 10,
-                  transition: "all 0.15s",
-                }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.borderColor = "#2563EB";
-                  (e.currentTarget as HTMLElement).style.background = "#F8FAFF";
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.borderColor = "#E2E8F0";
-                  (e.currentTarget as HTMLElement).style.background = "white";
-                }}
-              >
-                <span style={{ width: 20, height: 20, background: "#E2E8F0", borderRadius: 4, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 700 }}>{opt.logo}</span>
-                {opt.label}
-              </button>
+          <div style={{ display: "grid", gap: 8, marginTop: 24, padding: 14, background: "#F8FAFF", border: "1px solid #E2E8F0", borderRadius: 12 }}>
+            {["One account for creator and follower mode", "Free users can create one active project"].map(item => (
+              <div key={item} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 12.5, color: "#475569" }}>
+                <CheckCircle2 size={14} color="#2563EB" /> {item}
+              </div>
             ))}
           </div>
+
+          <p style={{ textAlign: "center", marginTop: 24, fontSize: 14, color: "#64748B" }}>
+            New here? <Link href="/auth/signup" style={{ color: "#2563EB", fontWeight: 800, textDecoration: "none" }}>Create an account</Link>
+          </p>
         </div>
-      </div>
+      </section>
     </div>
   );
 }

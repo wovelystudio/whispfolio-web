@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import {
   LayoutDashboard, Lightbulb, TrendingUp, CheckSquare,
   HardDrive, Image, Globe, Settings, ChevronLeft, ChevronRight,
-  Sparkles, FolderOpen,
+  Sparkles, FolderOpen, Plus,
 } from "lucide-react";
 import { useState } from "react";
 
@@ -22,6 +22,7 @@ const NAV = [
 export default function CreatorSidebar() {
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(false);
+  const [project, setProject] = useState("Mobile App MVP");
 
   return (
     <aside
@@ -61,11 +62,25 @@ export default function CreatorSidebar() {
         </button>
       </div>
 
-      {/* Creator badge */}
+      {/* Project selector */}
       {!collapsed && (
-        <div style={{ margin: "12px 10px 4px", background: "#EFF6FF", borderRadius: 8, padding: "8px 10px", display: "flex", alignItems: "center", gap: 8 }}>
-          <Sparkles size={13} color="#2563EB" />
-          <span style={{ fontSize: 12, fontWeight: 600, color: "#2563EB" }}>Creator Studio</span>
+        <div style={{ margin: "12px 10px 8px", background: "linear-gradient(135deg, #EFF6FF, #F5F3FF)", border: "1px solid #DBEAFE", borderRadius: 10, padding: 10 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 7, marginBottom: 8 }}>
+            <Sparkles size={13} color="#2563EB" />
+            <span style={{ fontSize: 11, fontWeight: 800, color: "#2563EB", letterSpacing: "0.04em", textTransform: "uppercase" }}>Active project</span>
+          </div>
+          <select
+            value={project}
+            onChange={(e) => setProject(e.target.value)}
+            style={{ width: "100%", border: "1px solid #BFDBFE", background: "white", color: "#0F172A", borderRadius: 8, padding: "8px 9px", fontSize: 12.5, fontWeight: 700, outline: "none" }}
+          >
+            <option>Mobile App MVP</option>
+            <option>Design System Kit</option>
+            <option>Open Source CLI</option>
+          </select>
+          <Link href="/creator/studio/projects" style={{ display: "flex", alignItems: "center", gap: 5, marginTop: 8, color: "#7C3AED", fontSize: 12, fontWeight: 700, textDecoration: "none" }}>
+            <Plus size={12} /> New project
+          </Link>
         </div>
       )}
 

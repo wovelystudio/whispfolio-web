@@ -3,12 +3,12 @@ import Link from "next/link";
 import { Users, Zap, TrendingUp, Flag, Activity, ArrowUpRight, XCircle, CheckCircle, Shield } from "lucide-react";
 
 const ACTIVITY = [
-  { type: "creator", text: "New creator joined: @sarahbuilds", time: "2m ago", icon: Zap, color: "#DBEAFE", ic: "#2563EB" },
-  { type: "user", text: "New user registered: @mike_dev", time: "8m ago", icon: Users, color: "#DCFCE7", ic: "#16A34A" },
-  { type: "report", text: "Content reported on project #142", time: "15m ago", icon: Flag, color: "#FEF9C3", ic: "#CA8A04" },
-  { type: "pro", text: "Pro plan assigned to @priyaux", time: "1h ago", icon: Zap, color: "#EDE9FE", ic: "#7C3AED" },
-  { type: "ban", text: "Account @spam123 was banned", time: "2h ago", icon: XCircle, color: "#FFE4E6", ic: "#E11D48" },
-  { type: "user", text: "New user registered: @anna_f", time: "3h ago", icon: Users, color: "#DCFCE7", ic: "#16A34A" },
+  { type: "creator", text: "New creator joined: @sarahbuilds", time: "2m ago", icon: Zap, color: "#EDE9FE", ic: "#7C3AED" },
+  { type: "user", text: "New user registered: @mike_dev", time: "8m ago", icon: Users, color: "#DBEAFE", ic: "#2563EB" },
+  { type: "report", text: "Content reported on project #142", time: "15m ago", icon: Flag, color: "#E0E7FF", ic: "#4F46E5" },
+  { type: "pro", text: "Pro plan assigned to @priyaux", time: "1h ago", icon: Zap, color: "#F3E8FF", ic: "#9333EA" },
+  { type: "ban", text: "Account @spam123 was banned", time: "2h ago", icon: XCircle, color: "#DBEAFE", ic: "#1D4ED8" },
+  { type: "user", text: "New user registered: @anna_f", time: "3h ago", icon: Users, color: "#EDE9FE", ic: "#7C3AED" },
 ];
 
 export default function AdminOverviewPage() {
@@ -21,13 +21,13 @@ export default function AdminOverviewPage() {
             <Shield size={14} color="#94A3B8" />
             <span style={{ fontSize: 12, fontWeight: 700, color: "#94A3B8", letterSpacing: "0.06em", textTransform: "uppercase" }}>Admin Panel</span>
           </div>
-          <h1 style={{ fontFamily: "Sora, sans-serif", fontWeight: 800, fontSize: 24, color: "white", letterSpacing: "-0.02em", marginBottom: 4 }}>Overview</h1>
+          <h1 style={{ fontFamily: "Sora, sans-serif", fontWeight: 800, fontSize: 24, color: "#0F172A", letterSpacing: "-0.02em", marginBottom: 4 }}>Overview</h1>
           <p style={{ fontSize: 14, color: "#64748B" }}>Platform health — June 2026</p>
         </div>
         <div style={{ display: "flex", gap: 8 }}>
-          <Link href="/admin/creators" style={{ padding: "9px 18px", background: "#1E293B", color: "#94A3B8", borderRadius: 8, fontSize: 13, fontWeight: 600, textDecoration: "none", border: "1px solid #334155", transition: "all 0.15s" }}
-            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = "white"; (e.currentTarget as HTMLElement).style.borderColor = "#475569"; }}
-            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = "#94A3B8"; (e.currentTarget as HTMLElement).style.borderColor = "#334155"; }}>
+          <Link href="/admin/creators" style={{ padding: "9px 18px", background: "white", color: "#64748B", borderRadius: 8, fontSize: 13, fontWeight: 600, textDecoration: "none", border: "1px solid #E2E8F0", transition: "all 0.15s" }}
+            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = "#0F172A"; (e.currentTarget as HTMLElement).style.borderColor = "#CBD5E1"; }}
+            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = "#64748B"; (e.currentTarget as HTMLElement).style.borderColor = "#E2E8F0"; }}>
             Manage creators
           </Link>
           <Link href="/admin/users" style={{ padding: "9px 18px", background: "#2563EB", color: "white", borderRadius: 8, fontSize: 13, fontWeight: 600, textDecoration: "none", transition: "background 0.15s" }}
@@ -42,32 +42,32 @@ export default function AdminOverviewPage() {
       <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 14, marginBottom: 28 }}>
         {[
           { label: "Total Users", val: "2,481", delta: "+48 this week", icon: Users, color: "#DBEAFE", ic: "#2563EB" },
-          { label: "Creators", val: "312", delta: "+12 this week", icon: Zap, color: "#DCFCE7", ic: "#16A34A" },
-          { label: "Pro Creators", val: "64", delta: "+5 this week", icon: TrendingUp, color: "#EDE9FE", ic: "#7C3AED" },
-          { label: "Open Reports", val: "7", delta: "3 need review", icon: Flag, color: "#FEF9C3", ic: "#CA8A04" },
-          { label: "Banned", val: "18", delta: "2 this week", icon: XCircle, color: "#FFE4E6", ic: "#E11D48" },
+          { label: "Creators", val: "312", delta: "+12 this week", icon: Zap, color: "#EDE9FE", ic: "#7C3AED" },
+          { label: "Pro Creators", val: "64", delta: "+5 this week", icon: TrendingUp, color: "#E0E7FF", ic: "#4F46E5" },
+          { label: "Open Reports", val: "7", delta: "3 need review", icon: Flag, color: "#DBEAFE", ic: "#1D4ED8" },
+          { label: "Banned", val: "18", delta: "2 this week", icon: XCircle, color: "#F3E8FF", ic: "#9333EA" },
         ].map(s => (
-          <div key={s.label} style={{ background: "#1E293B", border: "1px solid #334155", borderRadius: 12, padding: "18px 16px" }}>
+          <div key={s.label} style={{ background: "white", border: "1px solid #E2E8F0", borderRadius: 12, padding: "18px 16px" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
-              <div style={{ width: 32, height: 32, background: s.color + "22", borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <div style={{ width: 32, height: 32, background: s.color, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <s.icon size={15} color={s.ic} />
               </div>
-              <ArrowUpRight size={13} color="#475569" />
+              <ArrowUpRight size={13} color="#94A3B8" />
             </div>
-            <div style={{ fontFamily: "Sora, sans-serif", fontWeight: 900, fontSize: 26, color: "white", letterSpacing: "-0.03em", marginBottom: 2 }}>{s.val}</div>
-            <div style={{ fontSize: 12, fontWeight: 600, color: "#94A3B8" }}>{s.label}</div>
-            <div style={{ fontSize: 11, color: "#475569", marginTop: 2 }}>{s.delta}</div>
+            <div style={{ fontFamily: "Sora, sans-serif", fontWeight: 900, fontSize: 26, color: "#0F172A", letterSpacing: "-0.03em", marginBottom: 2 }}>{s.val}</div>
+            <div style={{ fontSize: 12, fontWeight: 600, color: "#64748B" }}>{s.label}</div>
+            <div style={{ fontSize: 11, color: "#94A3B8", marginTop: 2 }}>{s.delta}</div>
           </div>
         ))}
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
         {/* Activity */}
-        <div style={{ background: "#1E293B", border: "1px solid #334155", borderRadius: 14, padding: "22px" }}>
+        <div style={{ background: "white", border: "1px solid #E2E8F0", borderRadius: 14, padding: "22px" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 18 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
               <Activity size={14} color="#64748B" />
-              <span style={{ fontFamily: "Sora, sans-serif", fontWeight: 700, fontSize: 14, color: "white" }}>Live activity</span>
+              <span style={{ fontFamily: "Sora, sans-serif", fontWeight: 700, fontSize: 14, color: "#0F172A" }}>Live activity</span>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
               <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#16A34A" }} />
@@ -75,13 +75,13 @@ export default function AdminOverviewPage() {
             </div>
           </div>
           {ACTIVITY.map((a, i) => (
-            <div key={i} style={{ display: "flex", alignItems: "center", gap: 11, paddingBottom: 12, marginBottom: 12, borderBottom: i < ACTIVITY.length - 1 ? "1px solid #0F172A" : "none" }}>
-              <div style={{ width: 30, height: 30, borderRadius: 8, background: a.color + "22", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+            <div key={i} style={{ display: "flex", alignItems: "center", gap: 11, paddingBottom: 12, marginBottom: 12, borderBottom: i < ACTIVITY.length - 1 ? "1px solid #F1F5F9" : "none" }}>
+              <div style={{ width: 30, height: 30, borderRadius: 8, background: a.color, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
                 <a.icon size={13} color={a.ic} />
               </div>
               <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ fontSize: 12.5, color: "#CBD5E1", fontWeight: 500, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{a.text}</div>
-                <div style={{ fontSize: 11, color: "#475569", marginTop: 2 }}>{a.time}</div>
+                <div style={{ fontSize: 12.5, color: "#334155", fontWeight: 500, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{a.text}</div>
+                <div style={{ fontSize: 11, color: "#94A3B8", marginTop: 2 }}>{a.time}</div>
               </div>
             </div>
           ))}
@@ -89,29 +89,29 @@ export default function AdminOverviewPage() {
 
         {/* Quick actions */}
         <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-          <div style={{ background: "#1E293B", border: "1px solid #334155", borderRadius: 14, padding: "22px" }}>
-            <h3 style={{ fontFamily: "Sora, sans-serif", fontWeight: 700, fontSize: 14, color: "white", marginBottom: 16 }}>Quick actions</h3>
+          <div style={{ background: "white", border: "1px solid #E2E8F0", borderRadius: 14, padding: "22px" }}>
+            <h3 style={{ fontFamily: "Sora, sans-serif", fontWeight: 700, fontSize: 14, color: "#0F172A", marginBottom: 16 }}>Quick actions</h3>
             {[
-              { label: "Review open reports", href: "/admin/reports", color: "#FEF9C3", tc: "#CA8A04", count: "7 open" },
+              { label: "Review open reports", href: "/admin/reports", color: "#E0E7FF", tc: "#4F46E5", count: "7 open" },
               { label: "Manage all creators", href: "/admin/creators", color: "#DBEAFE", tc: "#2563EB", count: "312 total" },
-              { label: "Manage all users", href: "/admin/users", color: "#DCFCE7", tc: "#16A34A", count: "2,481 total" },
+              { label: "Manage all users", href: "/admin/users", color: "#EDE9FE", tc: "#7C3AED", count: "2,481 total" },
             ].map(a => (
-              <Link key={a.label} href={a.href} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "11px 14px", background: "#0F172A", borderRadius: 9, textDecoration: "none", marginBottom: 8, transition: "background 0.15s", border: "1px solid #1E293B" }}
-                onMouseEnter={e => (e.currentTarget.style.background = "#162032")}
-                onMouseLeave={e => (e.currentTarget.style.background = "#0F172A")}>
-                <span style={{ fontSize: 13.5, fontWeight: 600, color: "#E2E8F0" }}>{a.label}</span>
-                <span style={{ background: a.color + "22", color: a.tc, padding: "2px 10px", borderRadius: 999, fontSize: 11, fontWeight: 700 }}>{a.count}</span>
+              <Link key={a.label} href={a.href} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "11px 14px", background: "#F8FAFF", borderRadius: 9, textDecoration: "none", marginBottom: 8, transition: "background 0.15s", border: "1px solid #E2E8F0" }}
+                onMouseEnter={e => (e.currentTarget.style.background = "#EFF6FF")}
+                onMouseLeave={e => (e.currentTarget.style.background = "#F8FAFF")}>
+                <span style={{ fontSize: 13.5, fontWeight: 600, color: "#334155" }}>{a.label}</span>
+                <span style={{ background: a.color, color: a.tc, padding: "2px 10px", borderRadius: 999, fontSize: 11, fontWeight: 700 }}>{a.count}</span>
               </Link>
             ))}
           </div>
 
           {/* Beta tools */}
-          <div style={{ background: "linear-gradient(135deg, #2563EB22, #7C3AED22)", border: "1px solid #2563EB44", borderRadius: 14, padding: "22px" }}>
+          <div style={{ background: "linear-gradient(135deg, rgba(37,99,235,0.06), rgba(124,58,237,0.06))", border: "1px solid #E2E8F0", borderRadius: 14, padding: "22px" }}>
             <div style={{ display: "flex", alignItems: "center", gap: 7, marginBottom: 10 }}>
               <Zap size={14} color="#7C3AED" />
-              <span style={{ fontFamily: "Sora, sans-serif", fontWeight: 700, fontSize: 14, color: "white" }}>Beta tools</span>
+              <span style={{ fontFamily: "Sora, sans-serif", fontWeight: 700, fontSize: 14, color: "#0F172A" }}>Beta tools</span>
             </div>
-            <p style={{ fontSize: 13, color: "#94A3B8", lineHeight: 1.5, marginBottom: 16 }}>
+            <p style={{ fontSize: 13, color: "#64748B", lineHeight: 1.5, marginBottom: 16 }}>
               Assign Pro plans to selected creators for free during the beta period — no billing required.
             </p>
             <Link href="/admin/creators" style={{ display: "inline-flex", alignItems: "center", gap: 7, padding: "9px 18px", background: "#7C3AED", color: "white", borderRadius: 8, fontSize: 13, fontWeight: 700, textDecoration: "none", transition: "background 0.15s" }}

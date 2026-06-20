@@ -370,16 +370,16 @@ body {
   .animate-glow, .animate-journey { animation: none !important; }
 }
 
-/* ── Dark admin table overrides ── */
+/* ── Admin table refinements ── */
 .admin-main .data-table th {
-  background: #0F172A;
-  color: #475569;
-  border-bottom: 1px solid #334155;
+  background: #F8FAFF;
+  color: #64748B;
+  border-bottom: 1px solid #E2E8F0;
 }
 .admin-main .data-table td {
-  color: #CBD5E1;
-  border-bottom: 1px solid #0F172A;
+  color: #334155;
+  border-bottom: 1px solid #F1F5F9;
 }
 .admin-main .data-table tr:hover td {
-  background: #162032;
+  background: #FAFBFF;
 }

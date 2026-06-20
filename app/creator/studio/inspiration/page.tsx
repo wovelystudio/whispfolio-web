@@ -1,8 +1,10 @@
 "use client";
 import { useState } from "react";
-import { Plus, X, Lightbulb, ExternalLink, Bookmark, Search, Grid, List } from "lucide-react";
+import { Plus, X, Lightbulb, ExternalLink, Bookmark, Search, Grid, List, Upload, ShieldAlert } from "lucide-react";
 
-const INIT = [
+type InspirationItem = { id: number; title: string; url: string; tags: string[]; note: string; color: string; saved: boolean; image?: string };
+
+const INIT: InspirationItem[] = [
   { id: 1, title: "Linear's onboarding design", url: "https://linear.app", tags: ["UX", "Onboarding"], note: "Love how they handle empty states — so intentional.", color: "#DBEAFE", saved: true },
   { id: 2, title: "Stripe's documentation", url: "https://stripe.com/docs", tags: ["Docs", "Design System"], note: "The sidebar nav is perfect. Study this more.", color: "#EDE9FE", saved: false },
   { id: 3, title: "Figma auto-layout deep dive", url: "#", tags: ["Figma", "Layout"], note: "Great techniques for responsive frames", color: "#FEF9C3", saved: true },
@@ -62,6 +64,13 @@ export default function InspirationPage() {
         </button>
       </div>
 
+      <div style={{ display: "flex", gap: 10, alignItems: "flex-start", background: "#EFF6FF", border: "1px solid #BFDBFE", borderRadius: 12, padding: "12px 14px", marginBottom: 18 }}>
+        <ShieldAlert size={16} color="#2563EB" style={{ flexShrink: 0, marginTop: 1 }} />
+        <p style={{ fontSize: 12.5, color: "#1D4ED8", lineHeight: 1.55 }}>
+          Upload only images you own, created, licensed, or have permission to use. Wispfolio does not claim ownership of uploaded images, and copyright disputes are the uploader's responsibility.
+        </p>
+      </div>
+
       {/* Filters */}
       <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 24, flexWrap: "wrap" }}>
         <div style={{ position: "relative", flex: 1, maxWidth: 280 }}>
@@ -80,6 +89,24 @@ export default function InspirationPage() {
             </button>
           ))}
         </div>
+        <label style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "8px 14px", borderRadius: 8, border: "1.5px dashed #93C5FD", color: "#2563EB", background: "white", fontSize: 12, fontWeight: 800, cursor: "pointer" }}>
+          <Upload size={13} /> Image
+          <input type="file" accept="image/*" style={{ display: "none" }} onChange={(e) => {
+            const file = e.target.files?.[0];
+            if (!file) return;
+            const image = URL.createObjectURL(file);
+            setItems(prev => [{
+              id: Date.now(),
+              title: file.name.replace(/\.[^/.]+$/, ""),
+              url: "",
+              tags: ["Image"],
+              note: "Uploaded inspiration image. Rights remain with the uploader.",
+              color: "#DBEAFE",
+              saved: true,
+              image,
+            }, ...prev]);
+          }} />
+        </label>
         <div style={{ display: "flex", gap: 4, background: "#F1F5F9", borderRadius: 8, padding: 3, marginLeft: "auto" }}>
           {[["grid", Grid], ["list", List]].map(([v, Icon]) => (
             <button key={v as string} onClick={() => setView(v as "grid" | "list")} style={{ padding: "5px 8px", borderRadius: 6, border: "none", cursor: "pointer", background: view === v ? "white" : "transparent", color: view === v ? "#0F172A" : "#94A3B8", boxShadow: view === v ? "0 1px 4px rgba(0,0,0,0.08)" : "none", transition: "all 0.15s" }}>
@@ -105,6 +132,9 @@ export default function InspirationPage() {
                     <Bookmark size={14} fill={item.saved ? "#2563EB" : "none"} />
                   </button>
                 </div>
+                {item.image && (
+                  <img src={item.image} alt="" style={{ width: "100%", height: 120, objectFit: "cover", borderRadius: 10, border: "1px solid #E2E8F0", marginBottom: 10 }} />
+                )}
                 {item.note && <p style={{ fontSize: 12, color: "#64748B", marginBottom: 10, lineHeight: 1.55, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>{item.note}</p>}
                 <div style={{ display: "flex", gap: 4, flexWrap: "wrap", marginBottom: item.url ? 10 : 0 }}>
                   {item.tags.map(t => (

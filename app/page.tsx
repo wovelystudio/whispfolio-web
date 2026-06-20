@@ -4,7 +4,7 @@ import Navbar from "@/components/layout/Navbar";
 import {
   Lightbulb, TrendingUp, CheckSquare, HardDrive, Image, Globe,
   ArrowRight, Check, Sparkles, Layers, BookOpen, Star, Users, Zap,
-  Play
+  Play, X, Clock
 } from "lucide-react";
 import { useEffect, useRef, useState, useCallback } from "react";
 
@@ -36,21 +36,26 @@ function WispScene() {
   const dy = (mouse.y - 0.5) * 30;
 
   const STAGES = [
-    { label: "Inspiration Hub", icon: "✦", color: "#FEF9C3", tc: "#92400E", bc: "#F59E0B", y: 0 },
-    { label: "Progress Tracker", icon: "◈", color: "#DBEAFE", tc: "#1D4ED8", bc: "#2563EB", y: 1 },
-    { label: "Asset Library", icon: "◆", color: "#EDE9FE", tc: "#6D28D9", bc: "#7C3AED", y: 2 },
-    { label: "Proof Wall", icon: "◉", color: "#FFE4E6", tc: "#9F1239", bc: "#E11D48", y: 3 },
-    { label: "Public Launch", icon: "◎", color: "#DCFCE7", tc: "#166534", bc: "#16A34A", y: 4 },
+    { label: "Inspiration Hub", icon: "01", color: "#DBEAFE", tc: "#1D4ED8", bc: "#2563EB", y: 0 },
+    { label: "Progress Tracker", icon: "02", color: "#EDE9FE", tc: "#6D28D9", bc: "#7C3AED", y: 1 },
+    { label: "Asset Library", icon: "03", color: "#E0E7FF", tc: "#4F46E5", bc: "#4F46E5", y: 2 },
+    { label: "Proof Wall", icon: "04", color: "#F3E8FF", tc: "#9333EA", bc: "#9333EA", y: 3 },
+    { label: "Public Launch", icon: "05", color: "#EFF6FF", tc: "#1D4ED8", bc: "#2563EB", y: 4 },
   ];
 
   return (
-    <div ref={containerRef} style={{ position: "relative", width: "100%", height: 520, display: "flex", alignItems: "center", justifyContent: "center", cursor: "none" }}>
+    <div ref={containerRef} style={{ position: "relative", width: "100%", height: 560, display: "flex", alignItems: "center", justifyContent: "center", cursor: "none", borderRadius: 28, background: "linear-gradient(180deg, rgba(255,255,255,0.75), rgba(239,246,255,0.72))", border: "1px solid #E2E8F0", boxShadow: "0 28px 80px rgba(37,99,235,0.12)", overflow: "hidden" }}>
+      <div style={{ position: "absolute", inset: 0, backgroundImage: "linear-gradient(#DBEAFE 1px, transparent 1px), linear-gradient(90deg, #DBEAFE 1px, transparent 1px)", backgroundSize: "44px 44px", opacity: 0.32 }} />
+      <div style={{ position: "absolute", top: 20, left: 24, right: 24, display: "flex", alignItems: "center", justifyContent: "space-between", zIndex: 5 }}>
+        <span style={{ fontSize: 12, fontWeight: 800, color: "#2563EB", background: "white", border: "1px solid #DBEAFE", borderRadius: 999, padding: "6px 12px" }}>Project Passport</span>
+        <span style={{ fontSize: 12, fontWeight: 700, color: "#7C3AED", background: "#F5F3FF", border: "1px solid #DDD6FE", borderRadius: 999, padding: "6px 12px" }}>Live journey</span>
+      </div>
       {/* Wisp glows — parallax */}
       {mounted && <>
         <div className="wisp-orb animate-wisp" style={{
-          width: 260, height: 260, background: "#2563EB22",
-          top: `calc(50% - 130px + ${dy * 0.4}px)`,
-          left: `calc(50% - 130px + ${dx * 0.4}px)`,
+          width: 320, height: 320, background: "#2563EB2A",
+          top: `calc(50% - 160px + ${dy * 0.4}px)`,
+          left: `calc(50% - 160px + ${dx * 0.4}px)`,
           zIndex: 0,
         }} />
         <div className="wisp-orb animate-wisp2" style={{
@@ -70,6 +75,17 @@ function WispScene() {
 
       {/* Vertical journey line */}
       <div style={{ position: "absolute", left: "50%", top: 40, bottom: 40, width: 2, background: "linear-gradient(180deg, transparent, #BFDBFE 20%, #C4B5FD 80%, transparent)", transform: "translateX(-50%)", zIndex: 1 }} />
+      {/* Glowing overlay line */}
+      <div style={{ position: "absolute", left: "50%", top: 40, bottom: 40, width: 6, background: "linear-gradient(180deg, transparent, rgba(37,99,235,0.25) 20%, rgba(124,58,237,0.25) 80%, transparent)", transform: "translateX(-50%)", zIndex: 1, borderRadius: 3, filter: "blur(2px)", animation: "wispGlow 3s ease-in-out infinite" }} />
+
+      {/* Floating particles along journey line */}
+      {mounted && <>
+        <div style={{ position: "absolute", left: "calc(50% - 2px)", top: "15%", width: 4, height: 4, borderRadius: "50%", background: "rgba(37,99,235,0.35)", zIndex: 2, animation: "floatY 5s ease-in-out infinite", animationDelay: "0s" }} />
+        <div style={{ position: "absolute", left: "calc(50% + 3px)", top: "30%", width: 4, height: 4, borderRadius: "50%", background: "rgba(124,58,237,0.3)", zIndex: 2, animation: "floatY 5s ease-in-out infinite", animationDelay: "1s" }} />
+        <div style={{ position: "absolute", left: "calc(50% - 4px)", top: "50%", width: 4, height: 4, borderRadius: "50%", background: "rgba(37,99,235,0.3)", zIndex: 2, animation: "floatY 5s ease-in-out infinite", animationDelay: "2s" }} />
+        <div style={{ position: "absolute", left: "calc(50% + 1px)", top: "68%", width: 4, height: 4, borderRadius: "50%", background: "rgba(124,58,237,0.35)", zIndex: 2, animation: "floatY 5s ease-in-out infinite", animationDelay: "3s" }} />
+        <div style={{ position: "absolute", left: "calc(50% - 3px)", top: "82%", width: 4, height: 4, borderRadius: "50%", background: "rgba(79,70,229,0.3)", zIndex: 2, animation: "floatY 5s ease-in-out infinite", animationDelay: "4s" }} />
+      </>}
 
       {/* Journey nodes */}
       <div style={{ position: "relative", zIndex: 2, display: "flex", flexDirection: "column", gap: 0, width: "100%", maxWidth: 380 }}>
@@ -109,7 +125,7 @@ function WispScene() {
               {/* Center dot */}
               <div style={{ flex: 1, display: "flex", justifyContent: "center", position: "relative" }}>
                 <div style={{ width: 14, height: 14, borderRadius: "50%", background: s.bc, border: "3px solid white", boxShadow: `0 0 0 3px ${s.color}, 0 2px 8px ${s.bc}44`, zIndex: 3, position: "relative" }}>
-                  <div style={{ position: "absolute", inset: -6, borderRadius: "50%", border: `1.5px solid ${s.bc}44`, animation: "pulseRing 2.5s ease-out infinite", animationDelay: `${i * 0.5}s` }} />
+                  <div style={{ position: "absolute", inset: -10, borderRadius: "50%", border: `1.5px solid ${s.bc}33`, animation: "pulseRing 2.5s ease-out infinite", animationDelay: `${i * 0.5}s` }} />
                 </div>
               </div>
 
@@ -135,25 +151,48 @@ function WispScene() {
           );
         })}
 
-        {/* Launch badge at bottom */}
+        {/* Launch badge at bottom with shimmer */}
         <div style={{ display: "flex", justifyContent: "center", marginTop: 8 }}>
-          <div style={{ background: "linear-gradient(135deg, #2563EB, #7C3AED)", color: "white", padding: "8px 20px", borderRadius: 999, fontSize: 13, fontWeight: 700, display: "flex", alignItems: "center", gap: 6, boxShadow: "0 4px 20px rgba(37,99,235,0.35)", animation: "fadeUp 0.6s 0.7s both" }}>
+          <div style={{
+            background: "linear-gradient(135deg, #2563EB, #7C3AED)",
+            color: "white",
+            padding: "8px 20px",
+            borderRadius: 999,
+            fontSize: 13,
+            fontWeight: 700,
+            display: "flex",
+            alignItems: "center",
+            gap: 6,
+            boxShadow: "0 4px 20px rgba(37,99,235,0.35)",
+            animation: "fadeUp 0.6s 0.7s both",
+            position: "relative",
+            overflow: "hidden",
+          }}>
+            <div style={{
+              position: "absolute",
+              top: 0,
+              left: "-100%",
+              width: "100%",
+              height: "100%",
+              background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent)",
+              animation: "shimmer 3s ease-in-out infinite",
+            }} />
             <Sparkles size={13} /> Your story, live
           </div>
         </div>
       </div>
 
-      {/* Floating mini-cards (parallax) */}
+      {/* Floating mini-cards (parallax) — continuous float after entrance */}
       {mounted && (<>
         <div style={{ position: "absolute", top: 60, right: "5%", transform: `translate(${-dx * 0.2}px, ${-dy * 0.2}px)`, transition: "transform 0.12s ease-out", zIndex: 4, animation: "fadeIn 0.8s 0.9s both" }}>
-          <div style={{ background: "white", border: "1px solid #E2E8F0", borderRadius: 10, padding: "8px 12px", boxShadow: "0 4px 14px rgba(0,0,0,0.08)", display: "flex", alignItems: "center", gap: 8 }}>
-            <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#16A34A" }} />
+          <div style={{ background: "white", border: "1px solid #E2E8F0", borderRadius: 10, padding: "8px 12px", boxShadow: "0 4px 14px rgba(0,0,0,0.08)", display: "flex", alignItems: "center", gap: 8, animation: "floatY 4s ease-in-out 1.7s infinite" }}>
+            <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#2563EB" }} />
             <span style={{ fontSize: 12, fontWeight: 600, color: "#0F172A" }}>12 new followers</span>
           </div>
         </div>
         <div style={{ position: "absolute", bottom: 70, left: "4%", transform: `translate(${dx * 0.25}px, ${dy * 0.15}px)`, transition: "transform 0.12s ease-out", zIndex: 4, animation: "fadeIn 0.8s 1.1s both" }}>
-          <div style={{ background: "white", border: "1px solid #E2E8F0", borderRadius: 10, padding: "8px 12px", boxShadow: "0 4px 14px rgba(0,0,0,0.08)", display: "flex", alignItems: "center", gap: 8 }}>
-            <Star size={12} color="#F59E0B" fill="#F59E0B" />
+          <div style={{ background: "white", border: "1px solid #E2E8F0", borderRadius: 10, padding: "8px 12px", boxShadow: "0 4px 14px rgba(0,0,0,0.08)", display: "flex", alignItems: "center", gap: 8, animation: "floatY 4.5s ease-in-out 1.9s infinite" }}>
+            <Star size={12} color="#7C3AED" fill="#7C3AED" />
             <span style={{ fontSize: 12, fontWeight: 600, color: "#0F172A" }}>MVP shipped ✦</span>
           </div>
         </div>
@@ -164,32 +203,38 @@ function WispScene() {
 
 /* ─── Features ─── */
 const FEATURES = [
-  { icon: Lightbulb, label: "Inspiration Hub", color: "#FEF9C3", ic: "#92400E", desc: "Collect references, ideas, links, and mood boards from anywhere on the web. Your creative vision, curated." },
-  { icon: TrendingUp, label: "Progress Tracker", color: "#DBEAFE", ic: "#1D4ED8", desc: "Watch your project grow. Timelines, milestones, and visual progress — the whole arc of your journey." },
-  { icon: CheckSquare, label: "Checklist", color: "#EDE9FE", ic: "#7C3AED", desc: "Break the work into tasks you can actually ship. Stay focused without losing the creative thread." },
+  { icon: Lightbulb, label: "Inspiration Hub", color: "#DBEAFE", ic: "#1D4ED8", desc: "Collect references, ideas, links, and mood boards from anywhere on the web. Your creative vision, curated." },
+  { icon: TrendingUp, label: "Progress Tracker", color: "#EDE9FE", ic: "#7C3AED", desc: "Watch your project grow. Timelines, milestones, and visual progress — the whole arc of your journey." },
+  { icon: CheckSquare, label: "Checklist", color: "#E0E7FF", ic: "#4F46E5", desc: "Break the work into tasks you can actually ship. Stay focused without losing the creative thread." },
   { icon: HardDrive, label: "Asset Library", color: "#F3E8FF", ic: "#9333EA", desc: "Connect Google Drive or OneDrive. All your files, designs, and docs — one place, not five folders." },
-  { icon: Image, label: "Proof Wall", color: "#FFE4E6", ic: "#9F1239", desc: "Screenshots, updates, breakthroughs. Document the messy, real, beautiful process of building." },
-  { icon: Globe, label: "Public Share Page", color: "#DCFCE7", ic: "#166534", desc: "Your project's public face. Let the world follow your journey from idea to launch — and root for you." },
+  { icon: Image, label: "Proof Wall", color: "#EFF6FF", ic: "#2563EB", desc: "Screenshots, updates, breakthroughs. Document the messy, real, beautiful process of building." },
+  { icon: Globe, label: "Public Share Page", color: "#DBEAFE", ic: "#1D4ED8", desc: "Your project's public face. Let the world follow your journey from idea to launch — and root for you." },
 ];
 
 const PRICING = [
   {
-    name: "Follower", price: "$0", period: "forever",
-    desc: "Discover and follow creators you love.",
-    features: ["Follow up to 20 creators", "Personalized feed", "Like & comment on updates", "Basic profile"],
+    name: "Free", price: "$0", period: "/month",
+    desc: "Get started and share your first project.",
+    includes: ["1 Active Project", "Progress Tracker", "Checklist", "Basic Proof Wall", "Public Share Page", "Google Drive Connection"],
+    notIncluded: ["Inspiration Hub", "Asset Library", "Analytics", "Custom Branding"],
+    comingLater: [] as string[],
     cta: "Start for free", href: "/auth/signup", highlight: false,
   },
   {
-    name: "Creator", price: "$9", period: "/month",
-    desc: "Everything you need to build in public.",
-    features: ["All Follower features", "Project Passport (5 projects)", "All 6 Studio tools", "Connect 1 cloud storage", "Public Share Page", "Follower analytics"],
-    cta: "Become a creator", href: "/auth/signup?role=creator", highlight: true,
+    name: "Creator", price: "$5", period: "/month",
+    desc: "For creators building multiple projects.",
+    includes: ["Everything in Free", "Up to 10 Active Projects", "Inspiration Hub", "Asset Library", "Unlimited Proof Wall Updates", "Custom Project Banner", "Project Analytics"],
+    notIncluded: [] as string[],
+    comingLater: ["Inspiration Collections", "Project Templates", "Launch Countdown", "Milestone Celebrations"],
+    cta: "Unlock Creator tools", href: "/auth/signup?plan=creator", highlight: true,
   },
   {
-    name: "Creator Pro", price: "$24", period: "/month",
-    desc: "For serious builders going all-in.",
-    features: ["Everything in Creator", "Unlimited projects", "Multiple cloud storages", "Custom domain", "Priority support", "Pro badge + early access"],
-    cta: "Go Pro", href: "/auth/signup?role=creator", highlight: false,
+    name: "Studio", price: "$12", period: "/month",
+    desc: "For serious creators and startups.",
+    includes: ["Everything in Creator", "Unlimited Projects", "Advanced Analytics", "Private Projects", "Custom Domain", "Remove Wispfolio Branding", "Early Access Features"],
+    notIncluded: [] as string[],
+    comingLater: ["Team Members", "Team Roles & Permissions", "Shared Asset Libraries", "Shared Inspiration Boards", "Collaboration Workspace"],
+    cta: "Go Studio", href: "/auth/signup?plan=studio", highlight: false,
   },
 ];
 
@@ -220,7 +265,7 @@ export default function LandingPage() {
             {/* Beta pill */}
             <div className="animate-fadeup" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "white", border: "1px solid #E2E8F0", borderRadius: 999, padding: "6px 14px 6px 8px", marginBottom: 32, boxShadow: "0 2px 8px rgba(0,0,0,0.06)" }}>
               <span style={{ background: "linear-gradient(135deg, #2563EB, #7C3AED)", color: "white", fontSize: 11, fontWeight: 700, padding: "2px 8px", borderRadius: 999 }}>BETA</span>
-              <span style={{ fontSize: 13, color: "#64748B", fontWeight: 500 }}>Now open for creators</span>
+              <span style={{ fontSize: 13, color: "#64748B", fontWeight: 500 }}>Everyone can create free</span>
             </div>
 
             <h1 className="animate-fadeup delay-100 font-display" style={{
@@ -255,7 +300,7 @@ export default function LandingPage() {
             {/* Trust row */}
             <div className="animate-fadeup delay-400" style={{ display: "flex", alignItems: "center", gap: 24, paddingTop: 28, borderTop: "1px solid #F1F5F9", flexWrap: "wrap" }}>
               <div style={{ display: "flex", gap: -6 }}>
-                {["#2563EB","#7C3AED","#16A34A","#E11D48","#F59E0B"].map((c, i) => (
+                {["#2563EB","#7C3AED","#4F46E5","#6D28D9","#1D4ED8"].map((c, i) => (
                   <div key={i} style={{ width: 28, height: 28, borderRadius: "50%", background: c, border: "2px solid white", marginLeft: i > 0 ? -8 : 0, boxShadow: "0 1px 4px rgba(0,0,0,0.15)" }} />
                 ))}
               </div>
@@ -292,9 +337,9 @@ export default function LandingPage() {
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }}>
             {[
-              { icon: "✦", label: "Inspiration", color: "#FEF9C3", tc: "#92400E", desc: "Collect what moves you. References, ideas, links — your creative fuel in one place." },
-              { icon: "◈", label: "Growth", color: "#DBEAFE", tc: "#1D4ED8", desc: "Track progress, manage tasks, organise assets. The engine room of your project." },
-              { icon: "◎", label: "Sharing", color: "#EDE9FE", tc: "#7C3AED", desc: "Publish your journey. Build an audience before you launch. Let people root for you." },
+              { icon: "✦", label: "Inspiration", color: "#DBEAFE", tc: "#1D4ED8", desc: "Collect what moves you. References, ideas, links — your creative fuel in one place." },
+              { icon: "◈", label: "Growth", color: "#EDE9FE", tc: "#7C3AED", desc: "Track progress, manage tasks, organise assets. The engine room of your project." },
+              { icon: "◎", label: "Sharing", color: "#E0E7FF", tc: "#4F46E5", desc: "Publish your journey. Build an audience before you launch. Let people root for you." },
             ].map((s) => (
               <div key={s.label} className="card" style={{ textAlign: "left", padding: "28px 24px" }}>
                 <div style={{ fontSize: 28, marginBottom: 14 }}>{s.icon}</div>
@@ -380,16 +425,17 @@ export default function LandingPage() {
                   <span style={{ fontSize: 13, fontWeight: 600, color: "#A78BFA" }}>Creator Studio</span>
                 </div>
                 <h2 className="font-display" style={{ fontSize: "clamp(24px, 3vw, 38px)", fontWeight: 800, color: "white", letterSpacing: "-0.03em", marginBottom: 14, lineHeight: 1.15 }}>
-                  You're building something.<br />Let the world watch.
+                  Everyone can create.<br />Start free, grow at your pace.
                 </h2>
                 <p style={{ fontSize: 16, color: "rgba(255,255,255,0.65)", lineHeight: 1.7, maxWidth: 480 }}>
-                  Creator Studio unlocks every tool — Inspiration Hub, Progress Tracker, Asset Library,
-                  Proof Wall, and your own public share page. Your project, your story, your audience.
+                  Every account can become a creator and start sharing a project for free.
+                  When you&apos;re ready for more, unlock the Inspiration Hub, Asset Library, Analytics,
+                  and advanced features that power the most ambitious builders.
                 </p>
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: 12, flexShrink: 0 }}>
-                <Link href="/auth/signup?role=creator" className="btn-primary" style={{ fontSize: 15, padding: "13px 28px", background: "white", color: "#0F172A" }}>
-                  Become a creator <ArrowRight size={15} />
+                <Link href="/auth/signup" className="btn-primary" style={{ fontSize: 15, padding: "13px 28px", background: "white", color: "#0F172A" }}>
+                  Start creating <ArrowRight size={15} />
                 </Link>
                 <Link href="/explore" style={{ fontSize: 14, color: "rgba(255,255,255,0.6)", textDecoration: "none", textAlign: "center", transition: "color 0.15s" }}
                   onMouseEnter={e => (e.currentTarget.style.color = "white")}
@@ -411,7 +457,7 @@ export default function LandingPage() {
             <h2 className="font-display" style={{ fontSize: "clamp(28px, 4vw, 42px)", fontWeight: 800, color: "#0F172A", letterSpacing: "-0.03em", marginBottom: 12 }}>
               Simple pricing.<br />Honest forever.
             </h2>
-            <p style={{ fontSize: 17, color: "#64748B" }}>Follow for free. Create when you're ready.</p>
+            <p style={{ fontSize: 17, color: "#64748B" }}>Start free. Upgrade when you&apos;re ready.</p>
           </div>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }}>
@@ -439,12 +485,31 @@ export default function LandingPage() {
                   <p style={{ fontSize: 13, color: plan.highlight ? "rgba(255,255,255,0.65)" : "#64748B", lineHeight: 1.5 }}>{plan.desc}</p>
                 </div>
                 <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 28, flex: 1 }}>
-                  {plan.features.map(f => (
+                  {/* Included items */}
+                  {plan.includes.map(f => (
                     <div key={f} style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
                       <div style={{ width: 18, height: 18, borderRadius: "50%", background: plan.highlight ? "rgba(255,255,255,0.15)" : "#EFF6FF", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1 }}>
                         <Check size={10} color={plan.highlight ? "white" : "#2563EB"} strokeWidth={3} />
                       </div>
                       <span style={{ fontSize: 13.5, color: plan.highlight ? "rgba(255,255,255,0.85)" : "#475569" }}>{f}</span>
+                    </div>
+                  ))}
+                  {/* Not Included items */}
+                  {plan.notIncluded.map(f => (
+                    <div key={f} style={{ display: "flex", alignItems: "flex-start", gap: 10, opacity: 0.5 }}>
+                      <div style={{ width: 18, height: 18, borderRadius: "50%", background: plan.highlight ? "rgba(255,255,255,0.08)" : "#F1F5F9", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1 }}>
+                        <X size={10} color={plan.highlight ? "rgba(255,255,255,0.4)" : "#94A3B8"} strokeWidth={3} />
+                      </div>
+                      <span style={{ fontSize: 13.5, color: plan.highlight ? "rgba(255,255,255,0.4)" : "#94A3B8", textDecoration: "line-through" }}>{f}</span>
+                    </div>
+                  ))}
+                  {/* Coming Later items */}
+                  {plan.comingLater.map(f => (
+                    <div key={f} style={{ display: "flex", alignItems: "flex-start", gap: 10, opacity: 0.7 }}>
+                      <div style={{ width: 18, height: 18, borderRadius: "50%", background: plan.highlight ? "rgba(255,255,255,0.1)" : "#F3E8FF", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1 }}>
+                        <Clock size={10} color={plan.highlight ? "rgba(255,255,255,0.6)" : "#7C3AED"} strokeWidth={2.5} />
+                      </div>
+                      <span style={{ fontSize: 13.5, color: plan.highlight ? "rgba(255,255,255,0.55)" : "#7C3AED", fontStyle: "italic" }}>{f}</span>
                     </div>
                   ))}
                 </div>

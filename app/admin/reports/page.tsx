@@ -18,7 +18,7 @@ export default function AdminReportsPage() {
     setReports(prev => prev.map(r => r.id === id ? { ...r, status } : r));
   }
 
-  const STATUS = { Pending: { bg: "#FEF9C3", tc: "#92400E" }, Reviewed: { bg: "#DCFCE7", tc: "#16A34A" }, Dismissed: { bg: "#334155", tc: "#94A3B8" } };
+  const STATUS = { Pending: { bg: "#EDE9FE", tc: "#7C3AED" }, Reviewed: { bg: "#DBEAFE", tc: "#2563EB" }, Dismissed: { bg: "#F1F5F9", tc: "#64748B" } };
   const filtered = reports.filter(r => filter === "All" || r.status === filter);
 
   return (
@@ -28,36 +28,36 @@ export default function AdminReportsPage() {
           <Flag size={14} color="#94A3B8" />
           <span style={{ fontSize: 12, fontWeight: 700, color: "#94A3B8", letterSpacing: "0.06em", textTransform: "uppercase" }}>Moderation</span>
         </div>
-        <h1 style={{ fontFamily: "Sora, sans-serif", fontWeight: 800, fontSize: 22, color: "white", letterSpacing: "-0.02em", marginBottom: 4 }}>Reports</h1>
+        <h1 style={{ fontFamily: "Sora, sans-serif", fontWeight: 800, fontSize: 22, color: "#0F172A", letterSpacing: "-0.02em", marginBottom: 4 }}>Reports</h1>
         <p style={{ fontSize: 14, color: "#64748B" }}>{reports.filter(r => r.status === "Pending").length} pending reports need review</p>
       </div>
 
       <div style={{ display: "flex", gap: 6, marginBottom: 20, flexWrap: "wrap" }}>
         {["All", "Pending", "Reviewed", "Dismissed"].map(f => (
-          <button key={f} onClick={() => setFilter(f)} style={{ padding: "7px 16px", borderRadius: 8, border: "1px solid", fontSize: 13, fontWeight: 600, cursor: "pointer", transition: "all 0.15s", background: filter === f ? "#2563EB" : "#1E293B", borderColor: filter === f ? "#2563EB" : "#334155", color: filter === f ? "white" : "#94A3B8" }}>
+          <button key={f} onClick={() => setFilter(f)} style={{ padding: "7px 16px", borderRadius: 8, border: "1px solid", fontSize: 13, fontWeight: 600, cursor: "pointer", transition: "all 0.15s", background: filter === f ? "#2563EB" : "white", borderColor: filter === f ? "#2563EB" : "#E2E8F0", color: filter === f ? "white" : "#64748B" }}>
             {f}
           </button>
         ))}
       </div>
 
-      <div style={{ background: "#1E293B", border: "1px solid #334155", borderRadius: 14, overflow: "hidden" }}>
+      <div style={{ background: "white", border: "1px solid #E2E8F0", borderRadius: 14, overflow: "hidden", boxShadow: "0 4px 20px rgba(37,99,235,0.05)" }}>
         <table className="data-table" style={{ width: "100%", borderCollapse: "collapse" }}>
           <thead>
-            <tr style={{ background: "#0F172A" }}>
+            <tr style={{ background: "#F8FAFF" }}>
               {["Reporter", "Target", "Reason", "Time", "Status", "Actions"].map(h => (
-                <th key={h} style={{ padding: "11px 16px", textAlign: "left", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#475569", borderBottom: "1px solid #334155" }}>{h}</th>
+                <th key={h} style={{ padding: "11px 16px", textAlign: "left", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#64748B", borderBottom: "1px solid #E2E8F0" }}>{h}</th>
               ))}
             </tr>
           </thead>
           <tbody>
             {filtered.map((r, i) => (
-              <tr key={r.id} style={{ borderBottom: i < filtered.length - 1 ? "1px solid #0F172A" : "none" }}
-                onMouseEnter={e => (e.currentTarget.style.background = "#162032")}
+              <tr key={r.id} style={{ borderBottom: i < filtered.length - 1 ? "1px solid #F1F5F9" : "none" }}
+                onMouseEnter={e => (e.currentTarget.style.background = "#FAFBFF")}
                 onMouseLeave={e => (e.currentTarget.style.background = "transparent")}>
                 <td style={{ padding: "14px 16px", fontSize: 13.5, color: "#60A5FA", fontWeight: 600 }}>{r.reporter}</td>
-                <td style={{ padding: "14px 16px", fontSize: 13.5, color: "#CBD5E1" }}>{r.target}</td>
+                <td style={{ padding: "14px 16px", fontSize: 13.5, color: "#334155" }}>{r.target}</td>
                 <td style={{ padding: "14px 16px" }}>
-                  <span style={{ background: "#FEF9C322", color: "#FCD34D", padding: "3px 10px", borderRadius: 999, fontSize: 11.5, fontWeight: 700 }}>{r.reason}</span>
+                  <span style={{ background: "#EDE9FE", color: "#7C3AED", padding: "3px 10px", borderRadius: 999, fontSize: 11.5, fontWeight: 700 }}>{r.reason}</span>
                 </td>
                 <td style={{ padding: "14px 16px", fontSize: 12.5, color: "#475569" }}>{r.time}</td>
                 <td style={{ padding: "14px 16px" }}>
@@ -71,7 +71,7 @@ export default function AdminReportsPage() {
                       <button onClick={() => update(r.id, "Reviewed")} style={{ display: "flex", alignItems: "center", gap: 4, padding: "5px 10px", border: "1px solid #16A34A44", borderRadius: 6, background: "#16A34A11", color: "#16A34A", fontSize: 12, fontWeight: 700, cursor: "pointer" }}>
                         <Check size={11} /> Resolve
                       </button>
-                      <button onClick={() => update(r.id, "Dismissed")} style={{ display: "flex", alignItems: "center", gap: 4, padding: "5px 10px", border: "1px solid #33415566", borderRadius: 6, background: "transparent", color: "#64748B", fontSize: 12, fontWeight: 600, cursor: "pointer" }}>
+                      <button onClick={() => update(r.id, "Dismissed")} style={{ display: "flex", alignItems: "center", gap: 4, padding: "5px 10px", border: "1px solid #DBEAFE", borderRadius: 6, background: "#F8FAFF", color: "#64748B", fontSize: 12, fontWeight: 600, cursor: "pointer" }}>
                         <X size={11} /> Dismiss
                       </button>
                     </div>

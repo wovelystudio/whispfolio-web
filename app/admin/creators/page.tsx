@@ -42,7 +42,7 @@ export default function AdminCreatorsPage() {
   }
 
   return (
-    <div style={{ padding: "32px 36px", color: "white" }}>
+    <div style={{ padding: "32px 36px" }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 24, flexWrap: "wrap", gap: 12 }}>
         <div>
           <h1 style={{ fontFamily: "Sora, sans-serif", fontWeight: 800, fontSize: 22, color: "#0F172A", letterSpacing: "-0.02em", marginBottom: 4 }}>Creators</h1>
@@ -61,7 +61,7 @@ export default function AdminCreatorsPage() {
         </div>
       </div>
 
-      <div style={{ background: "#1E293B", border: "1px solid #334155", borderRadius: 14, overflow: "hidden" }}>
+      <div style={{ background: "white", border: "1px solid #E2E8F0", borderRadius: 14, overflow: "hidden", boxShadow: "0 4px 20px rgba(37,99,235,0.05)" }}>
         <table className="data-table" style={{ width: "100%", borderCollapse: "collapse" }}>
           <thead>
             <tr style={{ background: "#F8FAFF" }}>

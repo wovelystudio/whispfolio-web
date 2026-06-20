@@ -8,10 +8,10 @@ const TEAM = [
 ];
 
 const VALUES = [
-  { icon: Heart, color: "#FFE4E6", ic: "#E11D48", title: "Built for creators", desc: "Every feature is designed with creators, developers, artists, and founders in mind — not enterprise teams." },
-  { icon: Zap, color: "#FEF9C3", ic: "#CA8A04", title: "Execution over perfection", desc: "We believe shipping imperfect work beats hoarding perfect drafts. Progress over polish, always." },
-  { icon: Globe, color: "#DCFCE7", ic: "#16A34A", title: "Build in public", desc: "Transparency builds trust. We encourage sharing the journey — the messy middle, not just the highlight reel." },
-  { icon: Users, color: "#EDE9FE", ic: "#7C3AED", title: "Community first", desc: "Your followers aren't just numbers. They're people rooting for your project. We help you connect meaningfully." },
+  { icon: Heart, color: "#DBEAFE", ic: "#2563EB", title: "Built for creators", desc: "Every feature is designed with creators, developers, artists, and founders in mind — not enterprise teams." },
+  { icon: Zap, color: "#EDE9FE", ic: "#7C3AED", title: "Execution over perfection", desc: "We believe shipping imperfect work beats hoarding perfect drafts. Progress over polish, always." },
+  { icon: Globe, color: "#E0E7FF", ic: "#4F46E5", title: "Build in public", desc: "Transparency builds trust. We encourage sharing the journey — the messy middle, not just the highlight reel." },
+  { icon: Users, color: "#F3E8FF", ic: "#9333EA", title: "Community first", desc: "Your followers aren't just numbers. They're people rooting for your project. We help you connect meaningfully." },
 ];
 
 export default function AboutPage() {
@@ -88,21 +88,16 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Stats */}
+      {/* Beta Status */}
       <section style={{ padding: "64px 24px", background: "#FFFFFF" }}>
-        <div style={{ maxWidth: 800, margin: "0 auto" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: 32, textAlign: "center" }}>
-            {[
-              { val: "2,000+", label: "Creators joined" },
-              { val: "1,400+", label: "Projects documented" },
-              { val: "18k+", label: "Updates shared" },
-              { val: "Beta", label: "Currently in" },
-            ].map((s) => (
-              <div key={s.label}>
-                <div style={{ fontFamily: "Sora, sans-serif", fontWeight: 800, fontSize: 34, color: "#2563EB", letterSpacing: "-0.02em" }}>{s.val}</div>
-                <div style={{ fontSize: 14, color: "#94A3B8", fontWeight: 500, marginTop: 4 }}>{s.label}</div>
-              </div>
-            ))}
+        <div style={{ maxWidth: 600, margin: "0 auto", textAlign: "center" }}>
+          <div style={{ background: "#F8FAFF", border: "1px solid #E2E8F0", borderRadius: 20, padding: "48px 36px" }}>
+            <h2 style={{ fontFamily: "Sora, sans-serif", fontWeight: 800, fontSize: "clamp(26px, 4vw, 34px)", color: "#2563EB", letterSpacing: "-0.02em", marginBottom: 14 }}>
+              Currently in Beta Testing
+            </h2>
+            <p style={{ fontSize: 16, color: "#64748B", lineHeight: 1.7 }}>
+              We&apos;re carefully onboarding early creators to help shape the platform. Join the waitlist to be part of the foundation.
+            </p>
           </div>
         </div>
       </section>
@@ -114,8 +109,8 @@ export default function AboutPage() {
             Come build with us
           </h2>
           <p style={{ fontSize: 16, color: "#64748B", marginBottom: 28, lineHeight: 1.7 }}>
-            Wispfolio is built in public, by a small team that cares deeply about creators.
-            We&apos;d love to have you along for the journey.
+            Wispfolio is currently in beta testing. We are shaping the product with early creators before a wider public launch.
+            We&apos;d love to have you help define what it becomes.
           </p>
           <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
             <Link href="/auth/signup" style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "12px 24px", background: "#2563EB", color: "white", borderRadius: 10, fontSize: 15, fontWeight: 700, textDecoration: "none" }}>
@@ -130,7 +125,7 @@ export default function AboutPage() {
 
       {/* Footer */}
       <footer style={{ background: "#0F172A", color: "white", padding: "32px 24px", textAlign: "center" }}>
-        <p style={{ fontSize: 13, color: "#475569" }}>© 2025 Wispfolio. All rights reserved.</p>
+        <p style={{ fontSize: 13, color: "#475569" }}>© 2026 Wispfolio. All rights reserved.</p>
       </footer>
     </div>
   );

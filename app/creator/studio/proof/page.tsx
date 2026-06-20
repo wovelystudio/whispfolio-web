@@ -1,8 +1,8 @@
 "use client";
 import { useState } from "react";
-import { Image as ImageIcon, Plus, X, Camera, FileText, CheckCircle, Sparkles, Heart, Share2 } from "lucide-react";
+import { Image as ImageIcon, Plus, X, Heart, Share2, Upload, ShieldAlert } from "lucide-react";
 
-type Entry = { id: number; type: "update" | "milestone" | "screenshot"; title: string; body: string; date: string; emoji: string; likes: number; liked: boolean; };
+type Entry = { id: number; type: "update" | "milestone" | "screenshot"; title: string; body: string; date: string; emoji: string; likes: number; liked: boolean; image?: string; };
 
 const INIT: Entry[] = [
   { id: 1, type: "milestone", title: "Reached 500 GitHub stars", body: "Never expected this to happen so fast. The community response has been incredible. Building in public really works.", date: "Jun 12, 2026", emoji: "⭐", likes: 34, liked: false },
@@ -14,15 +14,15 @@ const INIT: Entry[] = [
 
 const TYPE_META = {
   update: { label: "Update", color: "#DBEAFE", tc: "#1D4ED8", bg: "#EFF6FF" },
-  milestone: { label: "Milestone", color: "#DCFCE7", tc: "#16A34A", bg: "#F0FDF4" },
-  screenshot: { label: "Screenshot", color: "#EDE9FE", tc: "#7C3AED", bg: "#F5F3FF" },
+  milestone: { label: "Milestone", color: "#EDE9FE", tc: "#7C3AED", bg: "#F5F3FF" },
+  screenshot: { label: "Screenshot", color: "#E0E7FF", tc: "#4F46E5", bg: "#EEF2FF" },
 };
 
 export default function ProofWallPage() {
   const [entries, setEntries] = useState(INIT);
   const [showAdd, setShowAdd] = useState(false);
   const [filter, setFilter] = useState<"all" | "update" | "milestone" | "screenshot">("all");
-  const [form, setForm] = useState({ type: "update", title: "", body: "", emoji: "✦" });
+  const [form, setForm] = useState({ type: "update", title: "", body: "", emoji: "Update", image: "" });
 
   function add() {
     if (!form.title.trim()) return;
@@ -35,8 +35,9 @@ export default function ProofWallPage() {
       emoji: form.emoji,
       likes: 0,
       liked: false,
+      image: form.image,
     }, ...prev]);
-    setForm({ type: "update", title: "", body: "", emoji: "✦" });
+    setForm({ type: "update", title: "", body: "", emoji: "Update", image: "" });
     setShowAdd(false);
   }
 
@@ -52,10 +53,10 @@ export default function ProofWallPage() {
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 28, flexWrap: "wrap", gap: 16 }}>
         <div>
           <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
-            <div style={{ width: 34, height: 34, background: "#FFE4E6", borderRadius: 9, display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <ImageIcon size={17} color="#E11D48" />
+            <div style={{ width: 34, height: 34, background: "#E0E7FF", borderRadius: 9, display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <ImageIcon size={17} color="#4F46E5" />
             </div>
-            <span style={{ fontSize: 13, fontWeight: 700, color: "#E11D48", fontFamily: "Sora, sans-serif" }}>Proof Wall</span>
+            <span style={{ fontSize: 13, fontWeight: 700, color: "#4F46E5", fontFamily: "Sora, sans-serif" }}>Proof Wall</span>
           </div>
           <h1 style={{ fontFamily: "Sora, sans-serif", fontWeight: 800, fontSize: 24, color: "#0F172A", letterSpacing: "-0.02em", marginBottom: 4 }}>
             The real story
@@ -64,11 +65,18 @@ export default function ProofWallPage() {
             Every update, win, and lesson. Your journey, documented.
           </p>
         </div>
-        <button onClick={() => setShowAdd(true)} style={{ display: "flex", alignItems: "center", gap: 6, padding: "10px 18px", background: "#E11D48", color: "white", border: "none", borderRadius: 9, fontSize: 14, fontWeight: 700, cursor: "pointer", fontFamily: "Sora, sans-serif", transition: "background 0.15s" }}
-          onMouseEnter={e => (e.currentTarget.style.background = "#BE123C")}
-          onMouseLeave={e => (e.currentTarget.style.background = "#E11D48")}>
+        <button onClick={() => setShowAdd(true)} style={{ display: "flex", alignItems: "center", gap: 6, padding: "10px 18px", background: "#4F46E5", color: "white", border: "none", borderRadius: 9, fontSize: 14, fontWeight: 700, cursor: "pointer", fontFamily: "Sora, sans-serif", transition: "background 0.15s" }}
+          onMouseEnter={e => (e.currentTarget.style.background = "#4338CA")}
+          onMouseLeave={e => (e.currentTarget.style.background = "#4F46E5")}>
           <Plus size={14} /> Add to wall
         </button>
+      </div>
+
+      <div style={{ display: "flex", gap: 10, alignItems: "flex-start", background: "#EFF6FF", border: "1px solid #BFDBFE", borderRadius: 12, padding: "12px 14px", marginBottom: 18 }}>
+        <ShieldAlert size={16} color="#2563EB" style={{ flexShrink: 0, marginTop: 1 }} />
+        <p style={{ fontSize: 12.5, color: "#1D4ED8", lineHeight: 1.55 }}>
+          Upload only screenshots and images you have rights to share. Wispfolio does not claim ownership and cannot resolve copyright claims for user-uploaded proof.
+        </p>
       </div>
 
       {/* Stats */}
@@ -76,7 +84,7 @@ export default function ProofWallPage() {
         {[
           { label: "Updates", val: entries.filter(e => e.type === "update").length, color: "#EFF6FF", tc: "#2563EB" },
           { label: "Milestones", val: entries.filter(e => e.type === "milestone").length, color: "#F0FDF4", tc: "#16A34A" },
-          { label: "Total likes", val: entries.reduce((sum, e) => sum + e.likes, 0), color: "#FFF1F2", tc: "#E11D48" },
+          { label: "Total likes", val: entries.reduce((sum, e) => sum + e.likes, 0), color: "#EEF2FF", tc: "#4F46E5" },
         ].map(s => (
           <div key={s.label} style={{ background: s.color, border: "1px solid #E2E8F0", borderRadius: 10, padding: "14px 16px" }}>
             <div style={{ fontFamily: "Sora, sans-serif", fontWeight: 800, fontSize: 26, color: s.tc }}>{s.val}</div>
@@ -90,8 +98,8 @@ export default function ProofWallPage() {
         {[["all","All"],["update","Updates"],["milestone","Milestones"],["screenshot","Screenshots"]].map(([v,l]) => (
           <button key={v} onClick={() => setFilter(v as typeof filter)} style={{
             padding: "7px 14px", borderRadius: 8, border: "1.5px solid", fontSize: 12, fontWeight: 600, cursor: "pointer", transition: "all 0.15s",
-            background: filter === v ? "#E11D48" : "white",
-            borderColor: filter === v ? "#E11D48" : "#E2E8F0",
+            background: filter === v ? "#4F46E5" : "white",
+            borderColor: filter === v ? "#4F46E5" : "#E2E8F0",
             color: filter === v ? "white" : "#64748B",
           }}>
             {l}
@@ -126,6 +134,9 @@ export default function ProofWallPage() {
                     <span style={{ fontSize: 12, color: "#94A3B8", whiteSpace: "nowrap", marginLeft: 12 }}>{entry.date}</span>
                   </div>
                   <p style={{ fontSize: 13.5, color: "#475569", lineHeight: 1.65, marginBottom: 14 }}>{entry.body}</p>
+                  {entry.image && (
+                    <img src={entry.image} alt="" style={{ width: "100%", maxHeight: 220, objectFit: "cover", borderRadius: 12, border: "1px solid #E2E8F0", marginBottom: 14 }} />
+                  )}
                   <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                     <button onClick={() => toggleLike(entry.id)} style={{ display: "flex", alignItems: "center", gap: 5, background: "none", border: "none", cursor: "pointer", color: entry.liked ? "#E11D48" : "#94A3B8", fontSize: 13, fontWeight: 600, padding: 0, transition: "all 0.15s" }}>
                       <Heart size={14} fill={entry.liked ? "#E11D48" : "none"} strokeWidth={entry.liked ? 0 : 1.5} />
@@ -192,7 +203,7 @@ export default function ProofWallPage() {
               <label style={{ display: "block", fontSize: 13, fontWeight: 600, color: "#374151", marginBottom: 6 }}>Title *</label>
               <input value={form.title} onChange={e => setForm(p => ({ ...p, title: e.target.value }))} placeholder="What happened?"
                 style={{ width: "100%", padding: "10px 14px", border: "1.5px solid #E2E8F0", borderRadius: 9, fontSize: 14, outline: "none", boxSizing: "border-box" }}
-                onFocus={e => (e.target.style.borderColor = "#E11D48")}
+                onFocus={e => (e.target.style.borderColor = "#4F46E5")}
                 onBlur={e => (e.target.style.borderColor = "#E2E8F0")} />
             </div>
             <div style={{ marginBottom: 20 }}>
@@ -203,9 +214,18 @@ export default function ProofWallPage() {
                 onFocus={e => (e.target.style.borderColor = "#E11D48")}
                 onBlur={e => (e.target.style.borderColor = "#E2E8F0")} />
             </div>
+            <label style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, width: "100%", padding: "12px", border: "1.5px dashed #93C5FD", borderRadius: 10, background: "#EFF6FF", color: "#2563EB", fontSize: 13, fontWeight: 800, cursor: "pointer", marginBottom: 12 }}>
+              <Upload size={14} /> Upload screenshot or image
+              <input type="file" accept="image/*" style={{ display: "none" }} onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (!file) return;
+                setForm(p => ({ ...p, type: "screenshot", image: URL.createObjectURL(file) }));
+              }} />
+            </label>
+            {form.image && <img src={form.image} alt="" style={{ width: "100%", height: 120, objectFit: "cover", borderRadius: 10, border: "1px solid #E2E8F0", marginBottom: 14 }} />}
             <div style={{ display: "flex", gap: 10 }}>
               <button onClick={() => setShowAdd(false)} style={{ flex: 1, padding: "11px", border: "1.5px solid #E2E8F0", borderRadius: 9, background: "white", fontSize: 14, fontWeight: 600, color: "#64748B", cursor: "pointer" }}>Cancel</button>
-              <button onClick={add} style={{ flex: 1, padding: "11px", border: "none", borderRadius: 9, background: "#E11D48", color: "white", fontSize: 14, fontWeight: 700, cursor: "pointer", fontFamily: "Sora, sans-serif" }}>Add to wall</button>
+              <button onClick={add} style={{ flex: 1, padding: "11px", border: "none", borderRadius: 9, background: "#4F46E5", color: "white", fontSize: 14, fontWeight: 700, cursor: "pointer", fontFamily: "Sora, sans-serif" }}>Add to wall</button>
             </div>
           </div>
         </div>

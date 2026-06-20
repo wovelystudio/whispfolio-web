@@ -1,20 +1,26 @@
 "use client";
 import Link from "next/link";
-import { Plus, TrendingUp, CheckSquare, Image as ImageIcon, Lightbulb, HardDrive, Globe, Zap, Cloud, ArrowRight, Sparkles, CheckCircle2 } from "lucide-react";
+import { Plus, TrendingUp, CheckSquare, Image as ImageIcon, Lightbulb, HardDrive, Globe, Cloud, ArrowRight, Sparkles, FolderOpen } from "lucide-react";
 
 const TOOLS = [
-  { icon: Lightbulb, label: "Inspiration Hub", href: "/creator/studio/inspiration", color: "#FEF9C3", ic: "#92400E", desc: "Collect references & ideas", count: "6 saved" },
+  { icon: Lightbulb, label: "Inspiration Hub", href: "/creator/studio/inspiration", color: "#DBEAFE", ic: "#2563EB", desc: "Collect references & ideas", count: "6 saved" },
   { icon: TrendingUp, label: "Progress Tracker", href: "/creator/studio/progress", color: "#DBEAFE", ic: "#1D4ED8", desc: "Milestones & activity", count: "68% done" },
   { icon: CheckSquare, label: "Checklist", href: "/creator/studio/checklist", color: "#EDE9FE", ic: "#7C3AED", desc: "Tasks & milestones", count: "5 open" },
   { icon: HardDrive, label: "Asset Library", href: "/creator/studio/assets", color: "#F3E8FF", ic: "#9333EA", desc: "Files & cloud storage", count: "6 files" },
-  { icon: ImageIcon, label: "Proof Wall", href: "/creator/studio/proof", color: "#FFE4E6", ic: "#E11D48", desc: "Updates & screenshots", count: "5 entries" },
-  { icon: Globe, label: "Share Page", href: "/creator/studio/share", color: "#DCFCE7", ic: "#166534", desc: "Your public project page", count: "128 followers" },
+  { icon: ImageIcon, label: "Proof Wall", href: "/creator/studio/proof", color: "#E0E7FF", ic: "#4F46E5", desc: "Updates & screenshots", count: "5 entries" },
+  { icon: Globe, label: "Share Page", href: "/creator/studio/share", color: "#EFF6FF", ic: "#1D4ED8", desc: "Your public project page", count: "128 followers" },
 ];
 
 const RECENT_UPDATES = [
   { emoji: "🌙", text: "Shipped dark mode", time: "2h ago" },
   { emoji: "⭐", text: "Reached 500 stars", time: "Yesterday" },
   { emoji: "🐛", text: "Fixed onboarding bug", time: "Jun 5" },
+];
+
+const PROJECTS = [
+  { name: "Mobile App MVP", stage: "Beta", progress: 68, followers: 128, accent: "#2563EB" },
+  { name: "Design System Kit", stage: "Building", progress: 42, followers: 61, accent: "#7C3AED" },
+  { name: "Open Source CLI", stage: "Ideation", progress: 18, followers: 24, accent: "#4F46E5" },
 ];
 
 export default function CreatorStudioPage() {
@@ -38,6 +44,28 @@ export default function CreatorStudioPage() {
           onMouseLeave={e => (e.currentTarget.style.background = "#2563EB")}>
           <Plus size={14} /> New project
         </Link>
+      </div>
+
+      {/* Project switcher */}
+      <div style={{ marginBottom: 28 }}>
+        <h2 style={{ fontFamily: "Sora, sans-serif", fontWeight: 700, fontSize: 15, color: "#0F172A", marginBottom: 14 }}>Your projects</h2>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 14 }}>
+          {PROJECTS.map((p, i) => (
+            <div key={p.name} style={{ background: "white", border: i === 0 ? "1.5px solid #93C5FD" : "1px solid #E2E8F0", borderRadius: 12, padding: 16, boxShadow: i === 0 ? "0 8px 24px rgba(37,99,235,0.10)" : "none" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
+                <div style={{ width: 34, height: 34, borderRadius: 9, background: `${p.accent}15`, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <FolderOpen size={16} color={p.accent} />
+                </div>
+                <span style={{ background: i === 0 ? "#EFF6FF" : "#F8FAFF", color: i === 0 ? "#2563EB" : "#64748B", border: "1px solid #E2E8F0", borderRadius: 999, padding: "3px 9px", fontSize: 11, fontWeight: 800 }}>{i === 0 ? "Selected" : p.stage}</span>
+              </div>
+              <div style={{ fontSize: 14, fontWeight: 800, color: "#0F172A", marginBottom: 5 }}>{p.name}</div>
+              <div style={{ fontSize: 12, color: "#64748B", marginBottom: 12 }}>{p.followers} followers - {p.stage}</div>
+              <div style={{ height: 6, background: "#F1F5F9", borderRadius: 999, overflow: "hidden" }}>
+                <div style={{ height: "100%", width: `${p.progress}%`, background: `linear-gradient(90deg, ${p.accent}, #7C3AED)`, borderRadius: 999 }} />
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* Stats */}

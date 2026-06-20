@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { HardDrive, Cloud, FolderOpen, File, Image, FileText, Link2, ExternalLink, Plus, Search, Grid, List, X } from "lucide-react";
+import { HardDrive, Cloud, File, Image, FileText, ExternalLink, Search, Grid, List, Upload, ShieldAlert } from "lucide-react";
 
 const ASSETS = [
   { id: 1, name: "Brand kit v3.fig", type: "figma", size: "8.2 MB", folder: "Design", updated: "Today", color: "#EDE9FE", ic: "#7C3AED" },
@@ -16,13 +16,14 @@ const FOLDERS = ["All", "Design", "Docs", "Media"];
 const TYPE_ICON: Record<string, typeof File> = { figma: FileText, image: Image, pdf: FileText, doc: FileText, video: FileText, archive: File };
 
 export default function AssetsPage() {
+  const [assets, setAssets] = useState(ASSETS);
   const [connected, setConnected] = useState<string[]>([]);
   const [activeFolder, setActiveFolder] = useState("All");
   const [search, setSearch] = useState("");
   const [view, setView] = useState<"grid" | "list">("list");
   const [showConnect, setShowConnect] = useState(false);
 
-  const filtered = ASSETS.filter(a =>
+  const filtered = assets.filter(a =>
     (activeFolder === "All" || a.folder === activeFolder) &&
     a.name.toLowerCase().includes(search.toLowerCase())
   );
@@ -50,6 +51,13 @@ export default function AssetsPage() {
         <button onClick={() => setShowConnect(true)} style={{ display: "flex", alignItems: "center", gap: 6, padding: "10px 18px", background: isConnected ? "white" : "#7C3AED", color: isConnected ? "#7C3AED" : "white", border: isConnected ? "1.5px solid #EDE9FE" : "none", borderRadius: 9, fontSize: 14, fontWeight: 700, cursor: "pointer", fontFamily: "Sora, sans-serif", transition: "all 0.15s" }}>
           <Cloud size={14} /> {isConnected ? "Manage storage" : "Connect storage"}
         </button>
+      </div>
+
+      <div style={{ display: "flex", gap: 10, alignItems: "flex-start", background: "#F5F3FF", border: "1px solid #C4B5FD", borderRadius: 12, padding: "12px 14px", marginBottom: 18 }}>
+        <ShieldAlert size={16} color="#7C3AED" style={{ flexShrink: 0, marginTop: 1 }} />
+        <p style={{ fontSize: 12.5, color: "#6D28D9", lineHeight: 1.55 }}>
+          Uploaded files and image licenses remain your responsibility. Wispfolio helps organize assets; it does not verify ownership or clear copyright claims.
+        </p>
       </div>
 
       {/* Connect prompt if not connected */}
@@ -100,6 +108,23 @@ export default function AssetsPage() {
                 </button>
               ))}
             </div>
+            <label style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "8px 14px", borderRadius: 8, border: "1.5px dashed #C4B5FD", color: "#7C3AED", background: "white", fontSize: 12, fontWeight: 800, cursor: "pointer" }}>
+              <Upload size={13} /> Upload asset
+              <input type="file" accept="image/*,.pdf,.zip,.md,.mp4" style={{ display: "none" }} onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (!file) return;
+                setAssets(prev => [{
+                  id: Date.now(),
+                  name: file.name,
+                  type: file.type.startsWith("image/") ? "image" : "doc",
+                  size: `${Math.max(1, Math.round(file.size / 1024))} KB`,
+                  folder: "Design",
+                  updated: "Just now",
+                  color: "#EDE9FE",
+                  ic: "#7C3AED",
+                }, ...prev]);
+              }} />
+            </label>
             <div style={{ display: "flex", gap: 3, background: "#F1F5F9", borderRadius: 8, padding: 3, marginLeft: "auto" }}>
               {[["grid", Grid], ["list", List]].map(([v, Icon]) => (
                 <button key={v as string} onClick={() => setView(v as "grid" | "list")} style={{ padding: "5px 8px", borderRadius: 6, border: "none", cursor: "pointer", background: view === v ? "white" : "transparent", color: view === v ? "#0F172A" : "#94A3B8", transition: "all 0.15s" }}>
