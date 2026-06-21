@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import RevealObserver from "@/components/ui/RevealObserver";
 
 export const metadata: Metadata = {
   title: "Wispfolio — From Idea to Launch",
@@ -14,7 +15,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        {children}
+        <RevealObserver />
+      </body>
     </html>
   );
 }

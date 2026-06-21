@@ -51,7 +51,7 @@ export default function ChecklistPage() {
   const visibleTasks = tasks.filter(t => filter === "all" ? true : filter === "done" ? t.done : !t.done);
 
   return (
-    <div style={{ padding: "32px 36px", maxWidth: 820 }}>
+    <div style={{ padding: "32px 40px", width: "100%" }}>
       {/* Header */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 28, flexWrap: "wrap", gap: 16 }}>
         <div>

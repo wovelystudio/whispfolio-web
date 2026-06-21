@@ -22,15 +22,20 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", fn);
   }, []);
 
+  // Close mobile menu on route change
+  useEffect(() => { setMobileOpen(false); }, [pathname]);
+
   return (
     <header style={{
       position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
       transition: "all 0.25s cubic-bezier(0.16,1,0.3,1)",
-      background: scrolled ? "rgba(255,255,255,0.94)" : "transparent",
-      backdropFilter: scrolled ? "blur(16px)" : "none",
-      borderBottom: scrolled ? "1px solid #E2E8F0" : "none",
+      background: mobileOpen
+        ? "white"
+        : scrolled ? "rgba(255,255,255,0.94)" : "transparent",
+      backdropFilter: scrolled && !mobileOpen ? "blur(16px)" : "none",
+      borderBottom: (scrolled || mobileOpen) ? "1px solid #E2E8F0" : "none",
     }}>
-      <div style={{ maxWidth: 1160, margin: "0 auto", padding: "0 24px", height: 66, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+      <div style={{ maxWidth: 1160, margin: "0 auto", padding: "0 20px", height: 66, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
 
         {/* Logo */}
         <Link href="/" style={{ display: "flex", alignItems: "center", gap: 9, textDecoration: "none", flexShrink: 0 }}>
@@ -49,7 +54,7 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop nav */}
-        <nav style={{ display: "flex", alignItems: "center", gap: 2 }} className="hide-mobile">
+        <nav className="nav-desktop" style={{ display: "flex", alignItems: "center", gap: 2 }}>
           {LINKS.map((l) => (
             <Link
               key={l.label}
@@ -61,8 +66,8 @@ export default function Navbar() {
           ))}
         </nav>
 
-        {/* CTA */}
-        <div style={{ display: "flex", alignItems: "center", gap: 8 }} className="hide-mobile">
+        {/* Desktop CTA */}
+        <div className="nav-desktop" style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <Link href="/auth/signin" style={{ padding: "8px 16px", fontSize: 14, fontWeight: 600, color: "#334155", textDecoration: "none", borderRadius: 8, transition: "color 0.15s" }}
             onMouseEnter={e => (e.currentTarget.style.color = "#2563EB")}
             onMouseLeave={e => (e.currentTarget.style.color = "#334155")}>
@@ -73,33 +78,61 @@ export default function Navbar() {
           </Link>
         </div>
 
-        {/* Mobile toggle */}
-        <button onClick={() => setMobileOpen(!mobileOpen)} className="show-mobile"
-          style={{ background: "none", border: "none", cursor: "pointer", padding: 6, color: "#0F172A", display: "none" }}>
+        {/* Mobile hamburger */}
+        <button
+          onClick={() => setMobileOpen(!mobileOpen)}
+          className="nav-mobile-toggle"
+          aria-label="Toggle navigation"
+          aria-expanded={mobileOpen}
+          style={{
+            background: "none", border: "none", cursor: "pointer",
+            padding: "8px", color: "#0F172A", borderRadius: 8,
+            display: "none", alignItems: "center", justifyContent: "center",
+            transition: "background 0.15s",
+          }}>
           {mobileOpen ? <X size={22} /> : <Menu size={22} />}
         </button>
       </div>
 
       {/* Mobile drawer */}
-      {mobileOpen && (
-        <div style={{ background: "white", borderTop: "1px solid #E2E8F0", padding: "16px 24px 24px" }}>
+      <div style={{
+        background: "white",
+        maxHeight: mobileOpen ? "600px" : "0px",
+        overflow: "hidden",
+        transition: "max-height 0.35s cubic-bezier(0.16,1,0.3,1)",
+        borderTop: mobileOpen ? "1px solid #F1F5F9" : "none",
+      }}>
+        <div style={{ padding: "8px 20px 24px" }}>
           {LINKS.map((l, i) => (
             <Link key={l.label} href={l.href} onClick={() => setMobileOpen(false)}
-              style={{ display: "block", padding: "13px 0", fontSize: 15, fontWeight: 500, color: "#334155", textDecoration: "none", borderBottom: i < LINKS.length - 1 ? "1px solid #F1F5F9" : "none" }}>
+              style={{
+                display: "flex", alignItems: "center", padding: "14px 4px",
+                fontSize: 16, fontWeight: 600, color: pathname === l.href ? "#2563EB" : "#0F172A",
+                textDecoration: "none",
+                borderBottom: i < LINKS.length - 1 ? "1px solid #F8FAFF" : "none",
+                gap: 8,
+                transition: "color 0.15s",
+              }}>
               {l.label}
             </Link>
           ))}
           <div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 20 }}>
-            <Link href="/auth/signin" style={{ textAlign: "center", padding: "11px", fontSize: 14, fontWeight: 600, color: "#2563EB", border: "1.5px solid #BFDBFE", borderRadius: 9, textDecoration: "none" }}>Sign in</Link>
-            <Link href="/auth/signup" style={{ textAlign: "center", padding: "11px", fontSize: 14, fontWeight: 700, color: "white", background: "#2563EB", borderRadius: 9, textDecoration: "none" }}>Get started</Link>
+            <Link href="/auth/signin" onClick={() => setMobileOpen(false)}
+              style={{ textAlign: "center", padding: "13px", fontSize: 15, fontWeight: 600, color: "#2563EB", border: "1.5px solid #BFDBFE", borderRadius: 10, textDecoration: "none" }}>
+              Sign in
+            </Link>
+            <Link href="/auth/signup" onClick={() => setMobileOpen(false)}
+              style={{ textAlign: "center", padding: "13px", fontSize: 15, fontWeight: 700, color: "white", background: "linear-gradient(135deg, #2563EB, #7C3AED)", borderRadius: 10, textDecoration: "none" }}>
+              Get started free
+            </Link>
           </div>
         </div>
-      )}
+      </div>
 
       <style>{`
         @media (max-width: 768px) {
-          .hide-mobile { display: none !important; }
-          .show-mobile { display: flex !important; }
+          .nav-desktop { display: none !important; }
+          .nav-mobile-toggle { display: flex !important; }
         }
       `}</style>
     </header>

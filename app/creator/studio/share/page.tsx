@@ -23,7 +23,7 @@ export default function SharePage() {
   const shareUrl = `wispfolio.com/p/${settings.customSlug}`;
 
   return (
-    <div style={{ padding: "32px 36px", maxWidth: 960 }}>
+    <div style={{ padding: "32px 40px", width: "100%" }}>
       {/* Header */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 28, flexWrap: "wrap", gap: 16 }}>
         <div>

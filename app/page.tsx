@@ -226,18 +226,19 @@ const PRICING = [
     includes: ["Everything in Free", "Up to 10 Active Projects", "Inspiration Hub", "Asset Library", "Unlimited Proof Wall Updates", "Custom Project Banner", "Project Analytics"],
     notIncluded: [] as string[],
     comingLater: ["Inspiration Collections", "Project Templates", "Launch Countdown", "Milestone Celebrations"],
-    cta: "Unlock Creator tools", href: "/auth/signup?plan=creator", highlight: true,
+    cta: "Start creating", href: "/auth/signup", highlight: true,
   },
   {
     name: "Studio", price: "$12", period: "/month",
     desc: "For serious creators and startups.",
     includes: ["Everything in Creator", "Unlimited Projects", "Advanced Analytics", "Private Projects", "Custom Domain", "Remove Wispfolio Branding", "Early Access Features"],
     notIncluded: [] as string[],
-    comingLater: ["Team Members", "Team Roles & Permissions", "Shared Asset Libraries", "Shared Inspiration Boards", "Collaboration Workspace"],
-    cta: "Go Studio", href: "/auth/signup?plan=studio", highlight: false,
+    comingLater: ["Team Members", "Team Roles & Permissions", "Shared Asset Libraries", "Collaboration Workspace"],
+    cta: "Go Studio", href: "/auth/signup", highlight: false,
   },
 ];
 
+/* ─── Landing Page ─── */
 export default function LandingPage() {
   const [activeFeature, setActiveFeature] = useState(0);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -255,27 +256,17 @@ export default function LandingPage() {
           HERO
       ══════════════════════════════════ */}
       <section style={{ paddingTop: 100, paddingBottom: 0, background: "linear-gradient(180deg, #F8FAFF 0%, #FFFFFF 60%)", overflow: "hidden", position: "relative" }}>
-        {/* Background wisp orbs */}
         <div style={{ position: "absolute", top: -60, right: "10%", width: 400, height: 400, borderRadius: "50%", background: "radial-gradient(circle, #DBEAFE55, transparent 70%)", pointerEvents: "none" }} />
         <div style={{ position: "absolute", top: 80, left: "5%", width: 300, height: 300, borderRadius: "50%", background: "radial-gradient(circle, #EDE9FE44, transparent 70%)", pointerEvents: "none" }} />
 
-        <div className="container" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 40, alignItems: "center", padding: "0 24px" }}>
-          {/* Left: copy */}
-          <div style={{ paddingTop: 40, paddingBottom: 60 }}>
-            {/* Beta pill */}
+        <div className="container hero-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 40, alignItems: "center", padding: "0 24px" }}>
+          <div className="hero-left" style={{ paddingTop: 40, paddingBottom: 60 }}>
             <div className="animate-fadeup" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "white", border: "1px solid #E2E8F0", borderRadius: 999, padding: "6px 14px 6px 8px", marginBottom: 32, boxShadow: "0 2px 8px rgba(0,0,0,0.06)" }}>
               <span style={{ background: "linear-gradient(135deg, #2563EB, #7C3AED)", color: "white", fontSize: 11, fontWeight: 700, padding: "2px 8px", borderRadius: 999 }}>BETA</span>
               <span style={{ fontSize: 13, color: "#64748B", fontWeight: 500 }}>Everyone can create free</span>
             </div>
 
-            <h1 className="animate-fadeup delay-100 font-display" style={{
-              fontSize: "clamp(38px, 5vw, 62px)",
-              fontWeight: 800,
-              lineHeight: 1.08,
-              color: "#0F172A",
-              letterSpacing: "-0.035em",
-              marginBottom: 22,
-            }}>
+            <h1 className="animate-fadeup delay-100 font-display" style={{ fontSize: "clamp(38px, 5vw, 62px)", fontWeight: 800, lineHeight: 1.08, color: "#0F172A", letterSpacing: "-0.035em", marginBottom: 22 }}>
               Every project<br />
               has a story.<br />
               <span style={{ background: "linear-gradient(135deg, #2563EB, #7C3AED)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
@@ -297,7 +288,6 @@ export default function LandingPage() {
               </Link>
             </div>
 
-            {/* Trust row */}
             <div className="animate-fadeup delay-400" style={{ display: "flex", alignItems: "center", gap: 24, paddingTop: 28, borderTop: "1px solid #F1F5F9", flexWrap: "wrap" }}>
               <div style={{ display: "flex", gap: -6 }}>
                 {["#2563EB","#7C3AED","#4F46E5","#6D28D9","#1D4ED8"].map((c, i) => (
@@ -310,8 +300,7 @@ export default function LandingPage() {
             </div>
           </div>
 
-          {/* Right: Journey scene */}
-          <div className="animate-scalein delay-200">
+          <div className="hero-wisp-scene animate-scalein delay-200">
             <WispScene />
           </div>
         </div>
@@ -322,9 +311,9 @@ export default function LandingPage() {
       ══════════════════════════════════ */}
       <section id="explore" className="section" style={{ background: "#FFF" }}>
         <div className="container-sm" style={{ textAlign: "center", padding: "0 24px" }}>
-          <div style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "#EFF6FF", border: "1px solid #BFDBFE", padding: "5px 14px", borderRadius: 999, marginBottom: 20 }}>
+          <div className="reveal" style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "#EFF6FF", border: "1px solid #BFDBFE", padding: "5px 14px", borderRadius: 999, marginBottom: 20 }}>
             <Sparkles size={13} color="#2563EB" />
-            <span style={{ fontSize: 13, fontWeight: 600, color: "#2563EB" }}>What's a Wispfolio?</span>
+            <span style={{ fontSize: 13, fontWeight: 600, color: "#2563EB" }}>What&apos;s a Wispfolio?</span>
           </div>
           <h2 className="font-display" style={{ fontSize: "clamp(28px, 4vw, 44px)", fontWeight: 800, color: "#0F172A", letterSpacing: "-0.03em", marginBottom: 20, lineHeight: 1.1 }}>
             Your project,<br />fully alive.
@@ -335,7 +324,7 @@ export default function LandingPage() {
             a living document of your creative journey that you can share with the world.
           </p>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }}>
+          <div className="grid-mobile-1" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }}>
             {[
               { icon: "✦", label: "Inspiration", color: "#DBEAFE", tc: "#1D4ED8", desc: "Collect what moves you. References, ideas, links — your creative fuel in one place." },
               { icon: "◈", label: "Growth", color: "#EDE9FE", tc: "#7C3AED", desc: "Track progress, manage tasks, organise assets. The engine room of your project." },
@@ -357,7 +346,7 @@ export default function LandingPage() {
       <section id="features" className="section" style={{ background: "#F8FAFF" }}>
         <div className="container" style={{ padding: "0 24px" }}>
           <div style={{ textAlign: "center", marginBottom: 52 }}>
-            <div style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "white", border: "1px solid #E2E8F0", padding: "5px 14px", borderRadius: 999, marginBottom: 20, boxShadow: "0 1px 4px rgba(0,0,0,0.04)" }}>
+            <div className="reveal" style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "white", border: "1px solid #E2E8F0", padding: "5px 14px", borderRadius: 999, marginBottom: 20, boxShadow: "0 1px 4px rgba(0,0,0,0.04)" }}>
               <Layers size={13} color="#7C3AED" />
               <span style={{ fontSize: 13, fontWeight: 600, color: "#7C3AED" }}>Inside the Project Passport</span>
             </div>
@@ -369,8 +358,7 @@ export default function LandingPage() {
             </p>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "280px 1fr", gap: 24, alignItems: "start" }}>
-            {/* Tab list */}
+          <div className="features-grid" style={{ display: "grid", gridTemplateColumns: "280px 1fr", gap: 24, alignItems: "start" }}>
             <div style={{ display: "flex", flexDirection: "column", gap: 3 }}>
               {FEATURES.map((f, i) => (
                 <button key={f.label} onClick={() => { setActiveFeature(i); if (intervalRef.current) clearInterval(intervalRef.current); }}
@@ -378,7 +366,7 @@ export default function LandingPage() {
                     background: activeFeature === i ? "white" : "transparent",
                     boxShadow: activeFeature === i ? "0 2px 12px rgba(0,0,0,0.06)" : "none",
                   }}>
-                  <div style={{ width: 36, height: 36, background: f.color, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, transition: "transform 0.15s" }}>
+                  <div style={{ width: 36, height: 36, background: f.color, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
                     <f.icon size={17} color={f.ic} />
                   </div>
                   <span style={{ fontSize: 14, fontWeight: activeFeature === i ? 700 : 500, color: activeFeature === i ? "#0F172A" : "#64748B" }}>{f.label}</span>
@@ -387,7 +375,6 @@ export default function LandingPage() {
               ))}
             </div>
 
-            {/* Feature display */}
             <div key={activeFeature} className="animate-fadein" style={{ background: "white", border: "1px solid #E2E8F0", borderRadius: 20, padding: "40px 36px", boxShadow: "0 4px 24px rgba(0,0,0,0.05)", minHeight: 320 }}>
               <div style={{ width: 56, height: 56, background: FEATURES[activeFeature].color, borderRadius: 16, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 24 }}>
                 {(() => { const F = FEATURES[activeFeature].icon; return <F size={26} color={FEATURES[activeFeature].ic} />; })()}
@@ -411,6 +398,7 @@ export default function LandingPage() {
       {/* ══════════════════════════════════
           CREATOR CALL-OUT
       ══════════════════════════════════ */}
+
       <section className="section" style={{ background: "#FFF" }}>
         <div className="container-md" style={{ padding: "0 24px" }}>
           <div style={{ background: "linear-gradient(135deg, #0F172A 0%, #1E3A8A 60%, #312E81 100%)", borderRadius: 24, padding: "56px 48px", position: "relative", overflow: "hidden" }}>
@@ -418,24 +406,23 @@ export default function LandingPage() {
             <div style={{ position: "absolute", top: -40, right: -40, width: 300, height: 300, borderRadius: "50%", background: "radial-gradient(circle, rgba(124,58,237,0.25), transparent 70%)", pointerEvents: "none" }} />
             <div style={{ position: "absolute", bottom: -60, left: 0, width: 250, height: 250, borderRadius: "50%", background: "radial-gradient(circle, rgba(37,99,235,0.2), transparent 70%)", pointerEvents: "none" }} />
 
-            <div style={{ position: "relative", display: "grid", gridTemplateColumns: "1fr auto", gap: 40, alignItems: "center" }}>
+            <div className="grid-mobile-1" style={{ position: "relative", display: "grid", gridTemplateColumns: "1fr auto", gap: 40, alignItems: "center" }}>
               <div>
                 <div style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.15)", padding: "5px 14px", borderRadius: 999, marginBottom: 20 }}>
                   <Zap size={13} color="#A78BFA" />
-                  <span style={{ fontSize: 13, fontWeight: 600, color: "#A78BFA" }}>Creator Studio</span>
+                  <span style={{ fontSize: 13, fontWeight: 600, color: "#A78BFA" }}>Build for free</span>
                 </div>
                 <h2 className="font-display" style={{ fontSize: "clamp(24px, 3vw, 38px)", fontWeight: 800, color: "white", letterSpacing: "-0.03em", marginBottom: 14, lineHeight: 1.15 }}>
-                  Everyone can create.<br />Start free, grow at your pace.
+                  Everyone can create.<br />Start today for free.
                 </h2>
                 <p style={{ fontSize: 16, color: "rgba(255,255,255,0.65)", lineHeight: 1.7, maxWidth: 480 }}>
-                  Every account can become a creator and start sharing a project for free.
-                  When you&apos;re ready for more, unlock the Inspiration Hub, Asset Library, Analytics,
-                  and advanced features that power the most ambitious builders.
+                  Jump in and launch your first project without any cost. When your creative
+                  needs grow, upgrade to Creator or Studio to access our professional toolkit.
                 </p>
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: 12, flexShrink: 0 }}>
                 <Link href="/auth/signup" className="btn-primary" style={{ fontSize: 15, padding: "13px 28px", background: "white", color: "#0F172A" }}>
-                  Start creating <ArrowRight size={15} />
+                  Start for free <ArrowRight size={15} />
                 </Link>
                 <Link href="/explore" style={{ fontSize: 14, color: "rgba(255,255,255,0.6)", textDecoration: "none", textAlign: "center", transition: "color 0.15s" }}
                   onMouseEnter={e => (e.currentTarget.style.color = "white")}
@@ -453,14 +440,14 @@ export default function LandingPage() {
       ══════════════════════════════════ */}
       <section id="pricing" className="section" style={{ background: "#F8FAFF" }}>
         <div className="container-md" style={{ padding: "0 24px" }}>
-          <div style={{ textAlign: "center", marginBottom: 52 }}>
+          <div className="reveal" style={{ textAlign: "center", marginBottom: 52 }}>
             <h2 className="font-display" style={{ fontSize: "clamp(28px, 4vw, 42px)", fontWeight: 800, color: "#0F172A", letterSpacing: "-0.03em", marginBottom: 12 }}>
-              Simple pricing.<br />Honest forever.
+              Flexible pricing for<br />every creator.
             </h2>
-            <p style={{ fontSize: 17, color: "#64748B" }}>Start free. Upgrade when you&apos;re ready.</p>
+            <p style={{ fontSize: 17, color: "#64748B" }}>Built to help you grow from first idea to scale.</p>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }}>
+          <div className="pricing-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }}>
             {PRICING.map(plan => (
               <div key={plan.name} style={{
                 background: plan.highlight ? "linear-gradient(135deg, #1E3A8A, #312E81)" : "white",
@@ -557,7 +544,7 @@ export default function LandingPage() {
       <footer style={{ background: "#0F172A", color: "white", paddingTop: 64, paddingBottom: 40 }}>
         <div className="container" style={{ padding: "0 24px" }}>
           {/* Top */}
-          <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr 1fr", gap: 40, marginBottom: 56, paddingBottom: 48, borderBottom: "1px solid #1E293B" }}>
+          <div className="footer-grid" style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr 1fr", gap: 40, marginBottom: 56, paddingBottom: 48, borderBottom: "1px solid #1E293B" }}>
             {/* Brand */}
             <div>
               <Link href="/" style={{ display: "flex", alignItems: "center", gap: 9, textDecoration: "none", marginBottom: 16 }}>

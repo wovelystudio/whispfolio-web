@@ -1,14 +1,15 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Users, Zap, Shield, Settings, Activity, Flag } from "lucide-react";
+import { LayoutDashboard, Users, Zap, Shield, Settings, Activity, Flag, FolderOpen, BadgeCheck } from "lucide-react";
 
 const NAV = [
   { icon: LayoutDashboard, label: "Overview", href: "/admin" },
   { icon: Zap, label: "Creators", href: "/admin/creators" },
   { icon: Users, label: "Users", href: "/admin/users" },
+  { icon: FolderOpen, label: "Projects", href: "/admin/projects" },
+  { icon: BadgeCheck, label: "Verifications", href: "/admin/verifications" },
   { icon: Flag, label: "Reports", href: "/admin/reports" },
-  { icon: Activity, label: "Activity", href: "/admin/activity" },
   { icon: Settings, label: "Settings", href: "/admin/settings" },
 ];
 

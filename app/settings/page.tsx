@@ -146,14 +146,14 @@ export default function UserSettingsPage() {
                 </div>
 
                 <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-                  <Link href="/auth/signup?role=creator"
+                  <Link href="/creator/verification"
                     style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "13px 28px", background: "#7C3AED", color: "white", borderRadius: 10, fontSize: 15, fontWeight: 800, textDecoration: "none", fontFamily: "Sora, sans-serif", transition: "background 0.15s" }}
                     onMouseEnter={e => (e.currentTarget.style.background = "#6D28D9")}
                     onMouseLeave={e => (e.currentTarget.style.background = "#7C3AED")}>
-                    Become a Creator — $9/mo <ArrowRight size={15} />
+                    Become a Creator — Free <ArrowRight size={15} />
                   </Link>
                 </div>
-                <p style={{ marginTop: 14, fontSize: 12, color: "#94A3B8" }}>Cancel anytime. No hidden fees.</p>
+                <p style={{ marginTop: 14, fontSize: 12, color: "#94A3B8" }}>Free to start. Upgrade your plan later for more tools.</p>
               </div>
 
               {/* Compare table */}

@@ -26,6 +26,7 @@ export default function CreatorSidebar() {
 
   return (
     <aside
+      className="creator-sidebar-mobile"
       style={{
         width: collapsed ? 60 : 220,
         minHeight: "100vh",
@@ -78,7 +79,7 @@ export default function CreatorSidebar() {
             <option>Design System Kit</option>
             <option>Open Source CLI</option>
           </select>
-          <Link href="/creator/studio/projects" style={{ display: "flex", alignItems: "center", gap: 5, marginTop: 8, color: "#7C3AED", fontSize: 12, fontWeight: 700, textDecoration: "none" }}>
+          <Link href="/creator/studio/projects/new" style={{ display: "flex", alignItems: "center", gap: 5, marginTop: 8, color: "#7C3AED", fontSize: 12, fontWeight: 700, textDecoration: "none" }}>
             <Plus size={12} /> New project
           </Link>
         </div>

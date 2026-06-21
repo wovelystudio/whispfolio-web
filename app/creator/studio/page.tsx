@@ -25,7 +25,7 @@ const PROJECTS = [
 
 export default function CreatorStudioPage() {
   return (
-    <div style={{ padding: "32px 36px", maxWidth: 1060 }}>
+    <div style={{ padding: "32px 40px", width: "100%" }}>
       {/* Header */}
       <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 32, flexWrap: "wrap", gap: 16 }}>
         <div>
@@ -38,7 +38,7 @@ export default function CreatorStudioPage() {
           </h1>
           <p style={{ fontSize: 14, color: "#64748B" }}>Your projects are alive. Keep building.</p>
         </div>
-        <Link href="/creator/studio/projects"
+        <Link href="/creator/studio/projects/new"
           style={{ display: "inline-flex", alignItems: "center", gap: 7, padding: "10px 20px", background: "#2563EB", color: "white", borderRadius: 9, fontSize: 14, fontWeight: 700, textDecoration: "none", transition: "background 0.15s", fontFamily: "Sora, sans-serif" }}
           onMouseEnter={e => (e.currentTarget.style.background = "#1D4ED8")}
           onMouseLeave={e => (e.currentTarget.style.background = "#2563EB")}>

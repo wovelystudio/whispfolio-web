@@ -31,7 +31,7 @@ export default function AssetsPage() {
   const isConnected = connected.length > 0;
 
   return (
-    <div style={{ padding: "32px 36px", maxWidth: 1000 }}>
+    <div style={{ padding: "32px 40px", width: "100%" }}>
       {/* Header */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 28, flexWrap: "wrap", gap: 16 }}>
         <div>
