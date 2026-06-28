@@ -31,7 +31,7 @@ export default function AssetsPage() {
   const isConnected = connected.length > 0;
 
   return (
-    <div style={{ padding: "32px 40px", width: "100%" }}>
+    <div className="creator-page" style={{ padding: "32px 40px", width: "100%" }}>
       {/* Header */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 28, flexWrap: "wrap", gap: 16 }}>
         <div>
@@ -96,12 +96,12 @@ export default function AssetsPage() {
           </div>
 
           {/* Toolbar */}
-          <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 18, flexWrap: "wrap" }}>
+          <div className="creator-toolbar" style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 18, flexWrap: "wrap" }}>
             <div style={{ position: "relative", flex: 1, maxWidth: 280 }}>
               <Search size={13} color="#94A3B8" style={{ position: "absolute", left: 11, top: "50%", transform: "translateY(-50%)" }} />
               <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search files..." style={{ width: "100%", padding: "8px 12px 8px 32px", border: "1.5px solid #E2E8F0", borderRadius: 8, fontSize: 13, outline: "none", boxSizing: "border-box" }} />
             </div>
-            <div style={{ display: "flex", gap: 5 }}>
+            <div className="creator-chip-row" style={{ display: "flex", gap: 5 }}>
               {FOLDERS.map(f => (
                 <button key={f} onClick={() => setActiveFolder(f)} style={{ padding: "7px 13px", borderRadius: 8, border: "1.5px solid", fontSize: 12, fontWeight: 600, cursor: "pointer", transition: "all 0.15s", background: activeFolder === f ? "#7C3AED" : "white", borderColor: activeFolder === f ? "#7C3AED" : "#E2E8F0", color: activeFolder === f ? "white" : "#64748B" }}>
                   {f}
@@ -125,7 +125,7 @@ export default function AssetsPage() {
                 }, ...prev]);
               }} />
             </label>
-            <div style={{ display: "flex", gap: 3, background: "#F1F5F9", borderRadius: 8, padding: 3, marginLeft: "auto" }}>
+            <div className="creator-view-toggle" style={{ display: "flex", gap: 3, background: "#F1F5F9", borderRadius: 8, padding: 3, marginLeft: "auto" }}>
               {[["grid", Grid], ["list", List]].map(([v, Icon]) => (
                 <button key={v as string} onClick={() => setView(v as "grid" | "list")} style={{ padding: "5px 8px", borderRadius: 6, border: "none", cursor: "pointer", background: view === v ? "white" : "transparent", color: view === v ? "#0F172A" : "#94A3B8", transition: "all 0.15s" }}>
                   <Icon size={14} />
@@ -136,8 +136,8 @@ export default function AssetsPage() {
 
           {/* File list */}
           {view === "list" && (
-            <div style={{ background: "white", border: "1px solid #E2E8F0", borderRadius: 14, overflow: "hidden" }}>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 80px 80px 80px 40px", padding: "10px 16px", background: "#F8FAFF", borderBottom: "1px solid #E2E8F0" }}>
+            <div className="creator-file-list" style={{ background: "white", border: "1px solid #E2E8F0", borderRadius: 14, overflow: "hidden" }}>
+              <div className="creator-file-list-head" style={{ display: "grid", gridTemplateColumns: "1fr 80px 80px 80px 40px", padding: "10px 16px", background: "#F8FAFF", borderBottom: "1px solid #E2E8F0" }}>
                 {["Name", "Folder", "Size", "Updated", ""].map(h => (
                   <div key={h} style={{ fontSize: 11, fontWeight: 700, color: "#94A3B8", textTransform: "uppercase", letterSpacing: "0.05em" }}>{h}</div>
                 ))}
@@ -145,7 +145,7 @@ export default function AssetsPage() {
               {filtered.map((a, i) => {
                 const IconComp = TYPE_ICON[a.type] || File;
                 return (
-                  <div key={a.id} style={{ display: "grid", gridTemplateColumns: "1fr 80px 80px 80px 40px", padding: "13px 16px", borderBottom: i < filtered.length - 1 ? "1px solid #F8FAFF" : "none", alignItems: "center", transition: "background 0.1s" }}
+                  <div className="creator-file-row" key={a.id} style={{ display: "grid", gridTemplateColumns: "1fr 80px 80px 80px 40px", padding: "13px 16px", borderBottom: i < filtered.length - 1 ? "1px solid #F8FAFF" : "none", alignItems: "center", transition: "background 0.1s" }}
                     onMouseEnter={e => (e.currentTarget as HTMLElement).style.background = "#FAFBFF"}
                     onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = "transparent"}>
                     <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
@@ -170,7 +170,7 @@ export default function AssetsPage() {
 
           {/* Grid view */}
           {view === "grid" && (
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))", gap: 12 }}>
+            <div className="creator-card-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))", gap: 12 }}>
               {filtered.map(a => {
                 const IconComp = TYPE_ICON[a.type] || File;
                 return (

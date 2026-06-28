@@ -326,11 +326,11 @@ export default function LandingPage() {
 
           <div className="grid-mobile-1" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }}>
             {[
-              { icon: "✦", label: "Inspiration", color: "#DBEAFE", tc: "#1D4ED8", desc: "Collect what moves you. References, ideas, links — your creative fuel in one place." },
-              { icon: "◈", label: "Growth", color: "#EDE9FE", tc: "#7C3AED", desc: "Track progress, manage tasks, organise assets. The engine room of your project." },
-              { icon: "◎", label: "Sharing", color: "#E0E7FF", tc: "#4F46E5", desc: "Publish your journey. Build an audience before you launch. Let people root for you." },
+              { icon: "✦", label: "Inspiration", color: "#DBEAFE", tc: "#1D4ED8", desc: "Collect what moves you. References, ideas, links — your creative fuel in one place.", dir: "reveal-left" },
+              { icon: "◈", label: "Growth", color: "#EDE9FE", tc: "#7C3AED", desc: "Track progress, manage tasks, organise assets. The engine room of your project.", dir: "reveal" },
+              { icon: "◎", label: "Sharing", color: "#E0E7FF", tc: "#4F46E5", desc: "Publish your journey. Build an audience before you launch. Let people root for you.", dir: "reveal-right" },
             ].map((s) => (
-              <div key={s.label} className="card" style={{ textAlign: "left", padding: "28px 24px" }}>
+              <div key={s.label} className={`card ${s.dir}`} style={{ textAlign: "left", padding: "28px 24px" }}>
                 <div style={{ fontSize: 28, marginBottom: 14 }}>{s.icon}</div>
                 <h3 className="font-display" style={{ fontWeight: 700, fontSize: 18, color: "#0F172A", marginBottom: 8 }}>{s.label}</h3>
                 <p style={{ fontSize: 14, color: "#64748B", lineHeight: 1.65 }}>{s.desc}</p>

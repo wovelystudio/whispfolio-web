@@ -376,16 +376,73 @@ body {
 }
 
 /* ══════════════════════════════════════
-   SCROLL REVEAL
+   SCROLL REVEAL  — richer fade system
 ══════════════════════════════════════ */
+
+/* Base — fade up (default) */
 .reveal {
   opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.65s cubic-bezier(0.16,1,0.3,1), transform 0.65s cubic-bezier(0.16,1,0.3,1);
+  transform: translateY(32px);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
 }
-.reveal.visible {
+
+/* Reveal from left */
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-32px);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+/* Reveal from right */
+.reveal-right {
+  opacity: 0;
+  transform: translateX(32px);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+/* Scale in */
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.94) translateY(16px);
+  transition:
+    opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+/* Visible state — all variants */
+.reveal.visible,
+.reveal-left.visible,
+.reveal-right.visible,
+.reveal-scale.visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: none;
+}
+
+/* Stagger delay utilities */
+.delay-1 { transition-delay: 80ms !important; }
+.delay-2 { transition-delay: 160ms !important; }
+.delay-3 { transition-delay: 240ms !important; }
+.delay-4 { transition-delay: 320ms !important; }
+.delay-5 { transition-delay: 400ms !important; }
+.delay-6 { transition-delay: 480ms !important; }
+
+/* Disable animations for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .reveal, .reveal-left, .reveal-right, .reveal-scale {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
 }
 
 /* ══════════════════════════════════════
@@ -394,51 +451,84 @@ body {
 
 /* Tablet: ≤1024px */
 @media (max-width: 1024px) {
-  .container { padding: 0 20px !important; }
-  .container-md { padding: 0 20px !important; }
-  .container-sm { padding: 0 20px !important; }
+  .container { padding: 0 24px !important; }
+  .container-md { padding: 0 24px !important; }
+  .container-sm { padding: 0 24px !important; }
+
+  /* Hero: two cols but smaller */
+  .hero-grid { gap: 24px !important; }
 }
 
-/* Mobile: ≤768px */
+/* ── Mobile: ≤768px ── */
 @media (max-width: 768px) {
-  /* Section spacing */
-  .section { padding: 56px 16px !important; }
-  .section-sm { padding: 36px 16px !important; }
 
-  /* Typography scale-down */
-  h1, .hero-heading { font-size: clamp(28px, 8vw, 44px) !important; }
+  /* ── Section spacing ── */
+  .section { padding: 52px 16px !important; }
+  .section-sm { padding: 32px 16px !important; }
 
-  /* Grids → single column */
+  /* ── Grids ── */
   .grid-mobile-1 { grid-template-columns: 1fr !important; }
 
-  /* Hide/show helpers */
+  /* ── Visibility helpers ── */
   .hide-mobile { display: none !important; }
   .show-mobile { display: flex !important; }
   .show-mobile-block { display: block !important; }
 
-  /* Page layout overrides */
-  .creator-studio-layout {
-    flex-direction: column !important;
-  }
-  .creator-sidebar-mobile {
-    width: 100% !important;
-    min-height: unset !important;
-    position: relative !important;
-    height: auto !important;
-    overflow: visible !important;
-    border-right: none !important;
-    border-bottom: 1px solid #E2E8F0 !important;
-  }
+  /* ── Navbar ── */
+  .nav-desktop { display: none !important; }
+  .nav-mobile-toggle { display: flex !important; }
 
-  /* Landing page hero */
+  /* ─────────────────────────────────────
+     LANDING PAGE HERO
+  ───────────────────────────────────── */
   .hero-grid {
     grid-template-columns: 1fr !important;
+    gap: 0 !important;
     padding: 0 16px !important;
   }
+  /* Hide the decorative WispScene on mobile — too big, not needed */
   .hero-wisp-scene { display: none !important; }
-  .hero-left { padding-top: 24px !important; padding-bottom: 40px !important; }
 
-  /* Features section */
+  .hero-left {
+    padding-top: 20px !important;
+    padding-bottom: 48px !important;
+    text-align: center !important;
+  }
+  /* Center the trust row & badge on mobile */
+  .hero-left > * { justify-content: center !important; }
+  .hero-left h1 {
+    font-size: clamp(32px, 10vw, 48px) !important;
+    text-align: center !important;
+  }
+  .hero-left p { text-align: center !important; margin-left: auto !important; margin-right: auto !important; }
+
+  /* CTA buttons: stack vertically, full-width */
+  .hero-left > div[style*="display: flex"][style*="gap: 12"] {
+    flex-direction: column !important;
+    width: 100% !important;
+  }
+  .hero-left .btn-primary,
+  .hero-left .btn-ghost {
+    width: 100% !important;
+    justify-content: center !important;
+    font-size: 16px !important;
+    padding: 15px 24px !important;
+  }
+
+  /* Avatar trust row */
+  .hero-left > div[style*="border-top"] {
+    justify-content: center !important;
+    flex-wrap: wrap !important;
+  }
+
+  /* ─────────────────────────────────────
+     LANDING — WHAT / FEATURES / PRICING
+  ───────────────────────────────────── */
+
+  /* 3-card "What is Wispfolio" grid */
+  .grid-mobile-1 { grid-template-columns: 1fr !important; }
+
+  /* Features tab list */
   .features-grid {
     grid-template-columns: 1fr !important;
   }
@@ -451,11 +541,9 @@ body {
     scrollbar-width: none !important;
   }
   .features-grid > div:first-child::-webkit-scrollbar { display: none !important; }
-  .features-grid > div:first-child button {
-    flex-shrink: 0 !important;
-  }
+  .features-grid > div:first-child button { flex-shrink: 0 !important; }
 
-  /* Pricing grid */
+  /* Pricing: single column */
   .pricing-grid {
     grid-template-columns: 1fr !important;
     gap: 16px !important;
@@ -467,16 +555,46 @@ body {
     gap: 28px !important;
   }
 
-  /* Project cards grid */
-  .project-grid-3 { grid-template-columns: 1fr !important; }
-  .project-grid-2 { grid-template-columns: 1fr !important; }
+  /* ─────────────────────────────────────
+     CREATOR STUDIO
+  ───────────────────────────────────── */
 
-  /* Studio layout */
+  /* Hide the desktop sidebar completely */
+  .creator-sidebar-desktop { display: none !important; }
+  /* Show the mobile UI (top bar + drawer + bottom tabs) */
+  .creator-mobile-ui { display: block !important; }
+
+  .creator-studio-layout,
+  .creator-studio-layout > main {
+    display: block !important;
+  }
+
+  /* Studio pages: padding for top bar (56px) + bottom tab bar (64px) */
+  .studio-main-content {
+    padding-top: 56px !important;
+    padding-bottom: 80px !important;
+  }
+
+  /* Studio page inner containers */
   .studio-page { padding: 16px !important; }
   .studio-stats-grid { grid-template-columns: 1fr 1fr !important; }
-  .studio-tools-grid { grid-template-columns: 1fr !important; }
+  .studio-tools-grid { grid-template-columns: 1fr 1fr !important; }
 
-  /* Public project page */
+  /* Share page stats: 2×2 on mobile */
+  .share-stats-grid { grid-template-columns: 1fr 1fr !important; gap: 10px !important; }
+
+  /* Studio page first div (the padding container) */
+  .creator-studio-layout main > div > div,
+  .studio-main-content > div > div {
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* ─────────────────────────────────────
+     PUBLIC / PROFILE PAGES
+  ───────────────────────────────────── */
+
+  /* Project page 2-col → 1-col */
   .project-page-layout {
     grid-template-columns: 1fr !important;
   }
@@ -484,10 +602,18 @@ body {
     order: -1 !important;
   }
 
-  /* Settings page */
-  .settings-layout {
-    grid-template-columns: 1fr !important;
-  }
+  /* Profile page */
+  .profile-grid { grid-template-columns: 1fr !important; }
+
+  /* Stats row on project page */
+  .stats-row { flex-wrap: wrap !important; }
+  .stats-row > div { flex: 1 1 40% !important; border-left: none !important; border-bottom: 1px solid #F1F5F9 !important; padding: 12px 8px !important; }
+
+  /* ─────────────────────────────────────
+     SETTINGS / AUTH / OTHER
+  ───────────────────────────────────── */
+
+  .settings-layout { grid-template-columns: 1fr !important; }
   .settings-nav {
     display: flex !important;
     flex-direction: row !important;
@@ -497,37 +623,272 @@ body {
     margin-bottom: 20px !important;
   }
 
-  /* Auth pages */
   .auth-left-panel { display: none !important; }
   .auth-right-panel { padding: 32px 20px !important; }
 
-  /* Profile page */
-  .profile-grid { grid-template-columns: 1fr !important; }
-  .profile-header { flex-direction: column !important; align-items: flex-start !important; }
+  /* Project cards */
+  .project-grid-3 { grid-template-columns: 1fr !important; }
+  .project-grid-2 { grid-template-columns: 1fr !important; }
 
-  /* Input/button responsive */
+  /* Buttons */
   .btn-primary { padding: 12px 20px !important; font-size: 14px !important; }
   .btn-ghost { padding: 12px 20px !important; font-size: 14px !important; }
-
-  /* Navbar */
-  .nav-desktop { display: none !important; }
-  .nav-mobile-toggle { display: flex !important; }
 
   /* Cards */
   .card { padding: 20px 16px !important; }
 }
 
-/* Small mobile: ≤480px */
+/* ── Small mobile: ≤480px ── */
 @media (max-width: 480px) {
   .section { padding: 40px 12px !important; }
-  .hero-cta-group { flex-direction: column !important; }
+
+  /* Hero CTAs: definitely stacked */
+  .btn-primary, .btn-ghost {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+
   .auth-panel { padding: 24px 16px !important; }
+
+  /* Studio stats: 1 col on very small screens */
   .studio-stats-grid { grid-template-columns: 1fr !important; }
+  .studio-tools-grid { grid-template-columns: 1fr !important; }
+
+  /* Pricing cards: full width */
+  .pricing-grid { grid-template-columns: 1fr !important; }
 }
 
-/* ── Studio pages fill full width ── */
-/* All studio page content fills the full available area — no cramped left-aligned maxWidth */
+/* ── Very small: ≤360px ── */
+@media (max-width: 360px) {
+  .hero-left h1 { font-size: 28px !important; }
+  .section { padding: 32px 12px !important; }
+}
+
+/* ── Studio pages fill full width (desktop) ── */
 .creator-studio-layout main > div > div {
   width: 100%;
   box-sizing: border-box;
+}
+
+/* Creator Studio mobile fixes */
+@media (max-width: 768px) {
+  .creator-page {
+    width: 100% !important;
+    max-width: none !important;
+    padding: 18px 14px !important;
+    overflow-x: hidden !important;
+  }
+
+  .creator-page h1 {
+    font-size: 22px !important;
+    line-height: 1.18 !important;
+  }
+
+  .creator-page > div:first-child {
+    gap: 12px !important;
+  }
+
+  .creator-page > div:first-child > a,
+  .creator-page > div:first-child > button,
+  .creator-header-actions,
+  .creator-button-row {
+    width: 100% !important;
+  }
+
+  .creator-header-actions,
+  .creator-button-row {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 10px !important;
+  }
+
+  .creator-header-actions > *,
+  .creator-button-row > *,
+  .creator-page > div:first-child > a,
+  .creator-page > div:first-child > button {
+    width: 100% !important;
+    justify-content: center !important;
+    text-align: center !important;
+  }
+
+  .creator-project-grid,
+  .creator-stats-grid,
+  .creator-two-column,
+  .creator-tools-grid,
+  .creator-form-grid,
+  .share-stats-grid,
+  .creator-settings-layout,
+  .creator-card-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .creator-toolbar {
+    align-items: stretch !important;
+  }
+
+  .creator-toolbar > div:first-child {
+    max-width: none !important;
+    min-width: 100% !important;
+  }
+
+  .creator-chip-row {
+    width: 100% !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    padding-bottom: 4px !important;
+    scrollbar-width: none !important;
+  }
+
+  .creator-chip-row::-webkit-scrollbar,
+  .creator-settings-tabs::-webkit-scrollbar,
+  .creator-stepper::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .creator-chip-row > * {
+    flex: 0 0 auto !important;
+  }
+
+  .creator-view-toggle {
+    margin-left: 0 !important;
+    align-self: flex-start !important;
+  }
+
+  .creator-list > div {
+    flex-wrap: wrap !important;
+    gap: 10px !important;
+    align-items: flex-start !important;
+  }
+
+  .creator-list > div > div:nth-child(3) {
+    width: 100% !important;
+    flex-wrap: wrap !important;
+  }
+
+  .creator-file-list-head {
+    display: none !important;
+  }
+
+  .creator-file-row {
+    display: grid !important;
+    grid-template-columns: 1fr auto !important;
+    row-gap: 6px !important;
+    column-gap: 10px !important;
+    padding: 14px !important;
+    align-items: flex-start !important;
+  }
+
+  .creator-file-row > span {
+    font-size: 11px !important;
+  }
+
+  .creator-file-row > span:nth-of-type(1),
+  .creator-file-row > span:nth-of-type(2),
+  .creator-file-row > span:nth-of-type(3) {
+    grid-column: 1 / -1 !important;
+  }
+
+  .creator-file-row > a {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+    align-self: center !important;
+  }
+
+  .creator-share-preview-hero,
+  .creator-share-preview-actions,
+  .creator-brand-row,
+  .creator-setting-row,
+  .creator-project-card-main,
+  .creator-project-actions,
+  .creator-project-stats-row {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+
+  .creator-share-preview-actions > button,
+  .creator-project-actions > a,
+  .creator-setting-row > button {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+
+  .creator-project-stats-row > div {
+    border-left: none !important;
+    padding-left: 0 !important;
+    padding-top: 12px !important;
+    flex-basis: 100% !important;
+  }
+
+  .creator-settings-page {
+    max-width: none !important;
+  }
+
+  .creator-settings-tabs {
+    flex-direction: row !important;
+    overflow-x: auto !important;
+    padding-bottom: 8px !important;
+    scrollbar-width: none !important;
+  }
+
+  .creator-settings-tabs > button {
+    flex: 0 0 auto !important;
+    border-left: none !important;
+    border-bottom: 2.5px solid transparent !important;
+    white-space: nowrap !important;
+  }
+
+  .creator-project-settings-layout {
+    flex-direction: column !important;
+    gap: 20px !important;
+  }
+
+  .creator-project-settings-sidebar {
+    width: 100% !important;
+  }
+
+  .creator-stepper {
+    overflow-x: auto !important;
+    padding-bottom: 12px !important;
+    scrollbar-width: none !important;
+  }
+
+  .creator-stepper > div {
+    min-width: 88px !important;
+  }
+
+  .creator-benefit-row {
+    flex-direction: column !important;
+    gap: 16px !important;
+  }
+
+  .creator-link-input-row {
+    flex-direction: column !important;
+  }
+
+  .creator-modal-backdrop {
+    z-index: 500 !important;
+    align-items: flex-end !important;
+    padding: 16px !important;
+  }
+
+  .creator-modal {
+    width: 100% !important;
+    max-width: none !important;
+    max-height: calc(100vh - 96px) !important;
+    overflow-y: auto !important;
+    padding: 22px !important;
+    border-radius: 18px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .creator-page {
+    padding: 16px 12px !important;
+  }
+
+  .creator-stats-grid,
+  .share-stats-grid {
+    grid-template-columns: 1fr !important;
+  }
 }

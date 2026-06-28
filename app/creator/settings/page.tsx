@@ -29,15 +29,15 @@ export default function CreatorSettingsPage() {
   };
 
   return (
-    <div style={{ padding: "32px 36px", maxWidth: 860 }}>
+    <div className="creator-page creator-settings-page" style={{ padding: "32px 36px", maxWidth: 860 }}>
       <div style={{ marginBottom: 28 }}>
         <h1 style={{ fontFamily: "Sora, sans-serif", fontWeight: 800, fontSize: 24, color: "#0F172A", letterSpacing: "-0.02em", marginBottom: 4 }}>Settings</h1>
         <p style={{ fontSize: 14, color: "#64748B" }}>Manage your Creator Studio preferences and integrations.</p>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "180px 1fr", gap: 28 }}>
+      <div className="creator-settings-layout" style={{ display: "grid", gridTemplateColumns: "180px 1fr", gap: 28 }}>
         {/* Sidebar tabs */}
-        <nav style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+        <nav className="creator-settings-tabs" style={{ display: "flex", flexDirection: "column", gap: 2 }}>
           {TABS.map(t => (
             <button key={t.key} onClick={() => setTab(t.key)}
               style={{ display: "flex", alignItems: "center", gap: 9, padding: "10px 12px", borderRadius: 9, border: "none", cursor: "pointer", textAlign: "left", fontSize: 13.5, fontWeight: tab === t.key ? 700 : 500, color: tab === t.key ? "#2563EB" : "#64748B", background: tab === t.key ? "#EFF6FF" : "transparent", transition: "all 0.15s", borderLeft: tab === t.key ? "2.5px solid #2563EB" : "2.5px solid transparent" }}>
@@ -63,7 +63,7 @@ export default function CreatorSettingsPage() {
                   <p style={{ fontSize: 12, color: "#94A3B8", marginTop: 4 }}>JPG or PNG, max 2MB</p>
                 </div>
               </div>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 14 }}>
+              <div className="creator-form-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 14 }}>
                 {[{ label: "Display name", placeholder: "Your Name" }, { label: "Username", placeholder: "@yourhandle" }].map(f => (
                   <div key={f.label}>
                     <label style={{ display: "block", fontSize: 13, fontWeight: 600, color: "#374151", marginBottom: 6 }}>{f.label}</label>
@@ -106,7 +106,7 @@ export default function CreatorSettingsPage() {
                 { name: "Google Drive", sub: "Browse and link Drive folders", logo: "G", logoColor: "#EA4335", connected: connectedDrive, toggle: () => setConnectedDrive(!connectedDrive) },
                 { name: "Microsoft OneDrive", sub: "Connect your OneDrive workspace", logo: "OD", logoColor: "#0078D4", connected: connectedOneDrive, toggle: () => setConnectedOneDrive(!connectedOneDrive) },
               ].map(s => (
-                <div key={s.name} style={{ background: "white", border: "1px solid #E2E8F0", borderRadius: 14, padding: "20px 22px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16 }}>
+                <div className="creator-setting-row" key={s.name} style={{ background: "white", border: "1px solid #E2E8F0", borderRadius: 14, padding: "20px 22px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16 }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
                     <div style={{ width: 44, height: 44, borderRadius: 11, background: `${s.logoColor}12`, border: `1px solid ${s.logoColor}25`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 13, fontWeight: 900, color: s.logoColor }}>
                       {s.logo}
@@ -208,7 +208,7 @@ export default function CreatorSettingsPage() {
               <div style={{ background: "white", border: "1px solid #E2E8F0", borderRadius: 14, padding: "24px" }}>
                 <h3 style={{ fontFamily: "Sora, sans-serif", fontWeight: 700, fontSize: 15, color: "#0F172A", marginBottom: 6 }}>Upgrade to Creator Pro</h3>
                 <p style={{ fontSize: 13, color: "#64748B", marginBottom: 18 }}>Unlock unlimited projects, multiple cloud storages, a custom domain, and more.</p>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 20 }}>
+                <div className="creator-form-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 20 }}>
                   {["Unlimited projects", "Multiple cloud storages", "Custom domain", "Advanced analytics", "Priority support", "Pro badge + early access"].map(f => (
                     <div key={f} style={{ display: "flex", alignItems: "center", gap: 8 }}>
                       <div style={{ width: 18, height: 18, borderRadius: "50%", background: "#EDE9FE", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>

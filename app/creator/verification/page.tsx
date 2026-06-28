@@ -19,7 +19,7 @@ export default function VerificationPage() {
 
   if (submitted) {
     return (
-      <div style={{ padding: "80px 36px", maxWidth: 560, margin: "0 auto", textAlign: "center" }}>
+      <div className="creator-page" style={{ padding: "80px 36px", maxWidth: 560, margin: "0 auto", textAlign: "center" }}>
         <div style={{ width: 80, height: 80, background: "#EDE9FE", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 28px" }}>
           <CheckCircle size={38} color="#7C3AED" />
         </div>
@@ -47,7 +47,7 @@ export default function VerificationPage() {
   }
 
   return (
-    <div style={{ padding: "32px 36px", maxWidth: 680 }}>
+    <div className="creator-page" style={{ padding: "32px 36px", maxWidth: 680 }}>
       {/* Header */}
       <div style={{ marginBottom: 36 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
@@ -64,7 +64,7 @@ export default function VerificationPage() {
       </div>
 
       {/* What you get */}
-      <div style={{ background: "linear-gradient(135deg, rgba(37,99,235,0.04), rgba(124,58,237,0.04))", border: "1px solid rgba(124,58,237,0.15)", borderRadius: 14, padding: "20px 24px", marginBottom: 32, display: "flex", gap: 24, flexWrap: "wrap" }}>
+      <div className="creator-benefit-row" style={{ background: "linear-gradient(135deg, rgba(37,99,235,0.04), rgba(124,58,237,0.04))", border: "1px solid rgba(124,58,237,0.15)", borderRadius: 14, padding: "20px 24px", marginBottom: 32, display: "flex", gap: 24, flexWrap: "wrap" }}>
         {[
           { icon: "✓", title: "Verified badge", desc: "On your profile and all projects" },
           { icon: "✦", title: "Higher trust", desc: "Builds community confidence" },
@@ -86,7 +86,7 @@ export default function VerificationPage() {
 
         <div style={{ display: "flex", flexDirection: "column", gap: 22 }}>
           {/* Full Name + Email */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+          <div className="creator-form-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
             <div>
               <label style={{ display: "block", fontSize: 13, fontWeight: 600, color: "#334155", marginBottom: 8 }}>Full Name *</label>
               <input className="input" placeholder="Alex Doe" value={form.fullName} onChange={e => set("fullName", e.target.value)} />
@@ -115,7 +115,7 @@ export default function VerificationPage() {
           </div>
 
           {/* Website + Social */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+          <div className="creator-form-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
             <div>
               <label style={{ display: "block", fontSize: 13, fontWeight: 600, color: "#334155", marginBottom: 8 }}>Website / Portfolio</label>
               <input className="input" placeholder="https://yoursite.com" value={form.website} onChange={e => set("website", e.target.value)} />

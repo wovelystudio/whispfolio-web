@@ -28,7 +28,7 @@ const PROJECTS = [
 
 export default function ProjectsListPage() {
   return (
-    <div style={{ padding: "36px 40px", width: "100%" }}>
+    <div className="creator-page" style={{ padding: "36px 40px", width: "100%" }}>
       {/* Header */}
       <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 36, flexWrap: "wrap", gap: 16 }}>
         <div>
@@ -65,7 +65,7 @@ export default function ProjectsListPage() {
 
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 16 }}>
               {/* Left: info */}
-              <div style={{ display: "flex", gap: 16, alignItems: "flex-start", flex: 1 }}>
+              <div className="creator-project-card-main" style={{ display: "flex", gap: 16, alignItems: "flex-start", flex: 1 }}>
                 <div style={{ width: 52, height: 52, borderRadius: 14, background: `linear-gradient(135deg, ${p.accent}, ${p.accent}99)`, display: "flex", alignItems: "center", justifyContent: "center", color: "white", fontWeight: 900, fontSize: 20, flexShrink: 0, fontFamily: "Sora, sans-serif" }}>
                   {p.name[0]}
                 </div>
@@ -83,7 +83,7 @@ export default function ProjectsListPage() {
               </div>
 
               {/* Right: Actions */}
-              <div style={{ display: "flex", gap: 8, flexShrink: 0 }}>
+              <div className="creator-project-actions" style={{ display: "flex", gap: 8, flexShrink: 0 }}>
                 <Link href={`/p/${p.name.toLowerCase().replace(/\s+/g, "-")}`}
                   style={{ display: "flex", alignItems: "center", gap: 6, padding: "8px 14px", border: "1.5px solid #E2E8F0", borderRadius: 9, fontSize: 13, fontWeight: 600, color: "#64748B", textDecoration: "none", transition: "all 0.15s" }}
                   onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.borderColor = "#2563EB"; (e.currentTarget as HTMLAnchorElement).style.color = "#2563EB"; }}
@@ -100,7 +100,7 @@ export default function ProjectsListPage() {
             </div>
 
             {/* Stats row */}
-            <div style={{ display: "flex", gap: 0, marginTop: 20, paddingTop: 20, borderTop: "1px solid #F1F5F9", flexWrap: "wrap" }}>
+            <div className="creator-project-stats-row" style={{ display: "flex", gap: 0, marginTop: 20, paddingTop: 20, borderTop: "1px solid #F1F5F9", flexWrap: "wrap" }}>
               {[
                 { icon: <Users size={13} color={p.accent} />, label: "Followers", val: p.followers },
                 { icon: <Sparkles size={13} color={p.accent} />, label: "Updates", val: p.updates },

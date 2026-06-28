@@ -3,10 +3,13 @@ import { useEffect } from "react";
 
 /**
  * Global scroll reveal observer.
- * Any element with className="reveal" will fade+slide up when it enters the viewport.
+ * Watches for .reveal, .reveal-left, .reveal-right, .reveal-scale
+ * and adds .visible when they enter the viewport.
  */
 export default function RevealObserver() {
   useEffect(() => {
+    const SELECTORS = ".reveal, .reveal-left, .reveal-right, .reveal-scale";
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -16,12 +19,11 @@ export default function RevealObserver() {
           }
         });
       },
-      { threshold: 0.07, rootMargin: "0px 0px -48px 0px" }
+      { threshold: 0.06, rootMargin: "0px 0px -40px 0px" }
     );
 
-    // Observe all existing .reveal elements
     const observe = () => {
-      document.querySelectorAll(".reveal").forEach((el) => {
+      document.querySelectorAll(SELECTORS).forEach((el) => {
         if (!el.classList.contains("visible")) {
           observer.observe(el);
         }
@@ -30,7 +32,7 @@ export default function RevealObserver() {
 
     observe();
 
-    // Also observe elements added dynamically (e.g. React re-renders)
+    // Also pick up dynamically added elements (React route changes, etc.)
     const mutation = new MutationObserver(observe);
     mutation.observe(document.body, { childList: true, subtree: true });
 

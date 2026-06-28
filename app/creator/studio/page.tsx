@@ -25,7 +25,7 @@ const PROJECTS = [
 
 export default function CreatorStudioPage() {
   return (
-    <div style={{ padding: "32px 40px", width: "100%" }}>
+    <div className="creator-page" style={{ padding: "32px 40px", width: "100%" }}>
       {/* Header */}
       <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 32, flexWrap: "wrap", gap: 16 }}>
         <div>
@@ -49,7 +49,7 @@ export default function CreatorStudioPage() {
       {/* Project switcher */}
       <div style={{ marginBottom: 28 }}>
         <h2 style={{ fontFamily: "Sora, sans-serif", fontWeight: 700, fontSize: 15, color: "#0F172A", marginBottom: 14 }}>Your projects</h2>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 14 }}>
+        <div className="creator-project-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 14 }}>
           {PROJECTS.map((p, i) => (
             <div key={p.name} style={{ background: "white", border: i === 0 ? "1.5px solid #93C5FD" : "1px solid #E2E8F0", borderRadius: 12, padding: 16, boxShadow: i === 0 ? "0 8px 24px rgba(37,99,235,0.10)" : "none" }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
@@ -69,7 +69,7 @@ export default function CreatorStudioPage() {
       </div>
 
       {/* Stats */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 14, marginBottom: 32 }}>
+      <div className="creator-stats-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 14, marginBottom: 32 }}>
         {[
           { label: "Projects", val: "3", sub: "2 active", color: "#EFF6FF", tc: "#2563EB" },
           { label: "Tasks done", val: "24", sub: "this month", color: "#EDE9FE", tc: "#7C3AED" },
@@ -86,11 +86,11 @@ export default function CreatorStudioPage() {
         ))}
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 320px", gap: 24 }}>
+      <div className="creator-two-column" style={{ display: "grid", gridTemplateColumns: "1fr 320px", gap: 24 }}>
         {/* Tools grid */}
         <div>
           <h2 style={{ fontFamily: "Sora, sans-serif", fontWeight: 700, fontSize: 15, color: "#0F172A", marginBottom: 14 }}>Studio tools</h2>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+          <div className="creator-tools-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
             {TOOLS.map(t => (
               <Link key={t.label} href={t.href}
                 style={{ background: "white", border: "1.5px solid #E2E8F0", borderRadius: 14, padding: "18px 16px", textDecoration: "none", display: "block", transition: "all 0.2s" }}

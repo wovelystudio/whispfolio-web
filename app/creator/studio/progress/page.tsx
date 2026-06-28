@@ -48,7 +48,7 @@ export default function ProgressPage() {
   }
 
   return (
-    <div style={{ padding: "32px 40px", width: "100%" }}>
+    <div className="creator-page" style={{ padding: "32px 40px", width: "100%" }}>
       {/* Header */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 28, flexWrap: "wrap", gap: 16 }}>
         <div>
@@ -99,7 +99,7 @@ export default function ProgressPage() {
         </div>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
+      <div className="creator-two-column" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
         {/* Milestones */}
         <div>
           <h2 style={{ fontFamily: "Sora, sans-serif", fontWeight: 700, fontSize: 16, color: "#0F172A", marginBottom: 14 }}>Milestones</h2>
@@ -160,8 +160,8 @@ export default function ProgressPage() {
 
       {/* Add milestone modal */}
       {showAdd && (
-        <div style={{ position: "fixed", inset: 0, background: "rgba(15,23,42,0.5)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 100, backdropFilter: "blur(6px)" }}>
-          <div style={{ background: "white", borderRadius: 20, padding: "32px", width: "100%", maxWidth: 420, boxShadow: "0 28px 80px rgba(0,0,0,0.22)" }}>
+        <div className="creator-modal-backdrop" style={{ position: "fixed", inset: 0, background: "rgba(15,23,42,0.5)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 100, backdropFilter: "blur(6px)" }}>
+          <div className="creator-modal" style={{ background: "white", borderRadius: 20, padding: "32px", width: "100%", maxWidth: 420, boxShadow: "0 28px 80px rgba(0,0,0,0.22)" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24 }}>
               <h3 style={{ fontFamily: "Sora, sans-serif", fontWeight: 800, fontSize: 18, color: "#0F172A" }}>Add milestone</h3>
               <button onClick={() => setShowAdd(false)} style={{ background: "none", border: "none", cursor: "pointer", color: "#94A3B8" }}><X size={18} /></button>

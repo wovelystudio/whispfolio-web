@@ -5,8 +5,8 @@ export default function CreatorLayout({ children }: { children: React.ReactNode 
     <div className="creator-studio-layout" style={{ display: "flex", minHeight: "100vh", background: "#F8FAFF" }}>
       <CreatorSidebar />
       <main style={{ flex: 1, minWidth: 0, overflowY: "auto" }}>
-        {/* Content wrapper — makes sure all studio pages fill the full available width */}
-        <div style={{ width: "100%", minHeight: "100vh" }}>
+        {/* On mobile: paddingTop pushes content below the fixed top bar, paddingBottom clears the bottom tab bar */}
+        <div className="studio-main-content" style={{ width: "100%", minHeight: "100vh" }}>
           {children}
         </div>
       </main>

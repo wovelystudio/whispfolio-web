@@ -42,7 +42,7 @@ export default function InspirationPage() {
   );
 
   return (
-    <div style={{ padding: "32px 40px", width: "100%" }}>
+    <div className="creator-page" style={{ padding: "32px 40px", width: "100%" }}>
       {/* Header */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 28, flexWrap: "wrap", gap: 16 }}>
         <div>
@@ -72,12 +72,12 @@ export default function InspirationPage() {
       </div>
 
       {/* Filters */}
-      <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 24, flexWrap: "wrap" }}>
+      <div className="creator-toolbar" style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 24, flexWrap: "wrap" }}>
         <div style={{ position: "relative", flex: 1, maxWidth: 280 }}>
           <Search size={13} color="#94A3B8" style={{ position: "absolute", left: 11, top: "50%", transform: "translateY(-50%)" }} />
           <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search references..." style={{ width: "100%", padding: "8px 12px 8px 32px", border: "1.5px solid #E2E8F0", borderRadius: 8, fontSize: 13, outline: "none", background: "white", boxSizing: "border-box" }} />
         </div>
-        <div style={{ display: "flex", gap: 5, flexWrap: "wrap" }}>
+        <div className="creator-chip-row" style={{ display: "flex", gap: 5, flexWrap: "wrap" }}>
           {ALL_TAGS.map(t => (
             <button key={t} onClick={() => setActiveTag(t)} style={{
               padding: "6px 13px", borderRadius: 999, border: "1.5px solid", fontSize: 12, fontWeight: 600, cursor: "pointer", transition: "all 0.15s",
@@ -107,7 +107,7 @@ export default function InspirationPage() {
             }, ...prev]);
           }} />
         </label>
-        <div style={{ display: "flex", gap: 4, background: "#F1F5F9", borderRadius: 8, padding: 3, marginLeft: "auto" }}>
+        <div className="creator-view-toggle" style={{ display: "flex", gap: 4, background: "#F1F5F9", borderRadius: 8, padding: 3, marginLeft: "auto" }}>
           {[["grid", Grid], ["list", List]].map(([v, Icon]) => (
             <button key={v as string} onClick={() => setView(v as "grid" | "list")} style={{ padding: "5px 8px", borderRadius: 6, border: "none", cursor: "pointer", background: view === v ? "white" : "transparent", color: view === v ? "#0F172A" : "#94A3B8", boxShadow: view === v ? "0 1px 4px rgba(0,0,0,0.08)" : "none", transition: "all 0.15s" }}>
               <Icon size={14} />
@@ -118,7 +118,7 @@ export default function InspirationPage() {
 
       {/* Grid view */}
       {view === "grid" && (
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))", gap: 14 }}>
+        <div className="creator-card-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))", gap: 14 }}>
           {filtered.map(item => (
             <div key={item.id} style={{ background: "white", border: "1px solid #E2E8F0", borderRadius: 14, overflow: "hidden", transition: "all 0.2s", cursor: "default" }}
               onMouseEnter={e => { (e.currentTarget as HTMLElement).style.boxShadow = "0 8px 28px rgba(0,0,0,0.08)"; (e.currentTarget as HTMLElement).style.transform = "translateY(-2px)"; (e.currentTarget as HTMLElement).style.borderColor = "#BFDBFE"; }}
@@ -162,7 +162,7 @@ export default function InspirationPage() {
 
       {/* List view */}
       {view === "list" && (
-        <div style={{ background: "white", border: "1px solid #E2E8F0", borderRadius: 14, overflow: "hidden" }}>
+        <div className="creator-list" style={{ background: "white", border: "1px solid #E2E8F0", borderRadius: 14, overflow: "hidden" }}>
           {filtered.map((item, i) => (
             <div key={item.id} style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 18px", borderBottom: i < filtered.length - 1 ? "1px solid #F8FAFF" : "none", transition: "background 0.1s" }}
               onMouseEnter={e => (e.currentTarget as HTMLElement).style.background = "#F8FAFF"}
@@ -202,8 +202,8 @@ export default function InspirationPage() {
 
       {/* Add modal */}
       {showAdd && (
-        <div style={{ position: "fixed", inset: 0, background: "rgba(15,23,42,0.5)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 100, backdropFilter: "blur(6px)" }}>
-          <div style={{ background: "white", borderRadius: 20, padding: "32px", width: "100%", maxWidth: 440, boxShadow: "0 28px 80px rgba(0,0,0,0.22)", animation: "fadeUp 0.25s ease" }}>
+        <div className="creator-modal-backdrop" style={{ position: "fixed", inset: 0, background: "rgba(15,23,42,0.5)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 100, backdropFilter: "blur(6px)" }}>
+          <div className="creator-modal" style={{ background: "white", borderRadius: 20, padding: "32px", width: "100%", maxWidth: 440, boxShadow: "0 28px 80px rgba(0,0,0,0.22)", animation: "fadeUp 0.25s ease" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24 }}>
               <h3 style={{ fontFamily: "Sora, sans-serif", fontWeight: 800, fontSize: 18, color: "#0F172A" }}>Add reference</h3>
               <button onClick={() => setShowAdd(false)} style={{ background: "none", border: "none", cursor: "pointer", color: "#94A3B8", padding: 4 }}><X size={18} /></button>

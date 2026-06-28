@@ -34,7 +34,7 @@ export default function NewProjectPage() {
 
   if (created) {
     return (
-      <div style={{ padding: "80px 36px", maxWidth: 560, margin: "0 auto", textAlign: "center" }}>
+      <div className="creator-page" style={{ padding: "80px 36px", maxWidth: 560, margin: "0 auto", textAlign: "center" }}>
         <div style={{ fontSize: 64, marginBottom: 24 }}>✦</div>
         <h1 style={{ fontFamily: "Sora, sans-serif", fontWeight: 800, fontSize: 30, color: "#0F172A", letterSpacing: "-0.025em", marginBottom: 12 }}>
           {form.name} is live!
@@ -42,7 +42,7 @@ export default function NewProjectPage() {
         <p style={{ fontSize: 16, color: "#64748B", lineHeight: 1.7, marginBottom: 36 }}>
           Your project passport has been created. Start adding updates, tracking progress, and building your audience.
         </p>
-        <div style={{ display: "flex", gap: 12, justifyContent: "center" }}>
+        <div className="creator-button-row" style={{ display: "flex", gap: 12, justifyContent: "center" }}>
           <Link href="/creator/studio" className="btn-primary" style={{ gap: 8 }}>
             Open Studio <ArrowRight size={16} />
           </Link>
@@ -56,7 +56,7 @@ export default function NewProjectPage() {
   }
 
   return (
-    <div style={{ padding: "32px 40px", width: "100%" }}>
+    <div className="creator-page" style={{ padding: "32px 40px", width: "100%" }}>
       {/* Header */}
       <div style={{ marginBottom: 36 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
@@ -69,7 +69,7 @@ export default function NewProjectPage() {
       </div>
 
       {/* Step Indicator */}
-      <div style={{ display: "flex", alignItems: "center", marginBottom: 40 }}>
+      <div className="creator-stepper" style={{ display: "flex", alignItems: "center", marginBottom: 40 }}>
         {STEPS.map((s, i) => (
           <div key={s.n} style={{ display: "flex", alignItems: "center", flex: i < STEPS.length - 1 ? 1 : "unset" }}>
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
@@ -99,7 +99,7 @@ export default function NewProjectPage() {
 
         {/* Step 1: Basic Details */}
         {step === 1 && (
-          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+          <div className="creator-form-stack" style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             <div>
               <h2 style={{ fontFamily: "Sora, sans-serif", fontWeight: 700, fontSize: 20, color: "#0F172A", marginBottom: 6 }}>Basic Details</h2>
               <p style={{ fontSize: 14, color: "#64748B" }}>Give your project a name and help people understand what it's about.</p>
@@ -152,7 +152,7 @@ export default function NewProjectPage() {
             {/* PFP */}
             <div>
               <label style={{ display: "block", fontSize: 13, fontWeight: 600, color: "#334155", marginBottom: 10 }}>Project Profile Picture</label>
-              <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
+              <div className="creator-brand-row" style={{ display: "flex", alignItems: "center", gap: 20 }}>
                 <div style={{ width: 84, height: 84, borderRadius: 20, border: "2px dashed #E2E8F0", background: "#F8FAFF", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", cursor: "pointer", transition: "border-color 0.15s", gap: 4 }}
                   onMouseEnter={e => (e.currentTarget.style.borderColor = "#7C3AED")}
                   onMouseLeave={e => (e.currentTarget.style.borderColor = "#E2E8F0")}
@@ -172,7 +172,7 @@ export default function NewProjectPage() {
 
         {/* Step 3: Links */}
         {step === 3 && (
-          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            <div className="creator-form-stack" style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             <div>
               <h2 style={{ fontFamily: "Sora, sans-serif", fontWeight: 700, fontSize: 20, color: "#0F172A", marginBottom: 6 }}>Links <span style={{ fontSize: 14, fontWeight: 500, color: "#94A3B8" }}>(Optional)</span></h2>
               <p style={{ fontSize: 14, color: "#64748B" }}>Add relevant links so your audience can follow the project across the web.</p>
@@ -193,7 +193,7 @@ export default function NewProjectPage() {
 
         {/* Step 4: Visibility */}
         {step === 4 && (
-          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+        <div className="creator-form-stack" style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             <div>
               <h2 style={{ fontFamily: "Sora, sans-serif", fontWeight: 700, fontSize: 20, color: "#0F172A", marginBottom: 6 }}>Visibility</h2>
               <p style={{ fontSize: 14, color: "#64748B" }}>Choose who can see your project.</p>
@@ -253,7 +253,7 @@ export default function NewProjectPage() {
       </div>
 
       {/* Navigation */}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+      <div className="creator-button-row" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <button onClick={back} disabled={step === 1}
           className="btn-ghost" style={{ opacity: step === 1 ? 0 : 1, pointerEvents: step === 1 ? "none" : "auto" }}>
           <ArrowLeft size={16} /> Back

@@ -48,7 +48,7 @@ export default function ProofWallPage() {
   const filtered = entries.filter(e => filter === "all" || e.type === filter);
 
   return (
-    <div style={{ padding: "32px 40px", width: "100%" }}>
+    <div className="creator-page" style={{ padding: "32px 40px", width: "100%" }}>
       {/* Header */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 28, flexWrap: "wrap", gap: 16 }}>
         <div>
@@ -80,7 +80,7 @@ export default function ProofWallPage() {
       </div>
 
       {/* Stats */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12, marginBottom: 24 }}>
+      <div className="creator-stats-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12, marginBottom: 24 }}>
         {[
           { label: "Updates", val: entries.filter(e => e.type === "update").length, color: "#EFF6FF", tc: "#2563EB" },
           { label: "Milestones", val: entries.filter(e => e.type === "milestone").length, color: "#F0FDF4", tc: "#16A34A" },
@@ -166,8 +166,8 @@ export default function ProofWallPage() {
 
       {/* Add modal */}
       {showAdd && (
-        <div style={{ position: "fixed", inset: 0, background: "rgba(15,23,42,0.5)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 100, backdropFilter: "blur(6px)" }}>
-          <div style={{ background: "white", borderRadius: 20, padding: "32px", width: "100%", maxWidth: 460, boxShadow: "0 28px 80px rgba(0,0,0,0.22)" }}>
+        <div className="creator-modal-backdrop" style={{ position: "fixed", inset: 0, background: "rgba(15,23,42,0.5)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 100, backdropFilter: "blur(6px)" }}>
+          <div className="creator-modal" style={{ background: "white", borderRadius: 20, padding: "32px", width: "100%", maxWidth: 460, boxShadow: "0 28px 80px rgba(0,0,0,0.22)" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24 }}>
               <h3 style={{ fontFamily: "Sora, sans-serif", fontWeight: 800, fontSize: 18, color: "#0F172A" }}>Add to wall</h3>
               <button onClick={() => setShowAdd(false)} style={{ background: "none", border: "none", cursor: "pointer", color: "#94A3B8" }}><X size={18} /></button>
@@ -176,7 +176,7 @@ export default function ProofWallPage() {
             {/* Type selector */}
             <div style={{ marginBottom: 16 }}>
               <label style={{ display: "block", fontSize: 13, fontWeight: 600, color: "#374151", marginBottom: 8 }}>Type</label>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 8 }}>
+              <div className="creator-form-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 8 }}>
                 {Object.entries(TYPE_META).map(([k, v]) => (
                   <button key={k} onClick={() => setForm(p => ({ ...p, type: k }))}
                     style={{ padding: "10px 8px", borderRadius: 9, border: `2px solid ${form.type === k ? v.tc : "#E2E8F0"}`, background: form.type === k ? v.bg : "white", color: form.type === k ? v.tc : "#64748B", fontSize: 13, fontWeight: 700, cursor: "pointer", transition: "all 0.15s" }}>
